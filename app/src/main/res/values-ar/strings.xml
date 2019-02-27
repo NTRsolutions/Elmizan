@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">الميزان</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="createnewaccont">إنشاء حساب جديد</string>
+    <string name="createaccont">إنشاء حساب</string>
+    <!--buttom menu-->
+    <string name="main">الرئيسية</string>
+    <string name="arithmetic">حسابي</string>
+    <string name="directoryoflawyers">دليل المحامين</string>
+    <string name="thelibrary">المكتبة </string>
+    <string name="opinionsandarticles">أراء ومقالات</string>
+    <!--createaccont-->
+    <string name="fullname">الإسم بالكامل</string>
+    <string name="Emailaddress">الإيميل</string>
+    <string name="password">كلمة السر</string>
+    <string name="telephonenumber">رقم الهاتف</string>
+    <string name="state">الدولة</string>
+    <string name="createyouraccount">أنشئ حسابك</string>
+    <!--login-->
+    <string name="welcome">مرحباً بك،</string>
+    <string name="signin">قم بتسجيل الدخول</string>
+    <string name="forgotpassword">هل نسيت كلمة السر؟</string>
+    <string name="newusercreat">مستخدم جديد؟ إنشئ حسابك</string>
+
+    <!--Mainscreen-->
+        <string name="balance_title">الميزان</string>
+    <!--siedmenuwithout_sign-->
+    <string name="whatbalance">ما هو الميزان</string>
+    <string name="registration">تسجيل المحامين</string>
+    <string name="callus">إتصل بنا</string>
+
+    <!--siedmenuwith_sign-->
+    <string name="name">نجوان محمد</string>
+    <string name="appealattorney">محامي إستئناف</string>
+    <string name="myarticles">مقالاتي</string>
+    <string name="alerts">التنبيهات</string>
+    <string name="signoutaccount">الخروج من الحساب</string>
+</resources>

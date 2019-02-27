@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Almizan</string>
+    <string name="login">login</string>
+    <string name="createnewaccont">create New Account</string>
+    <string name="createaccont">Create an account</string>
+    <!--buttom menu-->
+    <string name="main">Main</string>
+    <string name="arithmetic">Arithmetic</string>
+    <string name="directoryoflawyers">Directory of lawyers</string>
+    <string name="thelibrary">the library</string>
+    <string name="opinionsandarticles">Opinions and articles</string>
+
+    <!--createaccont-->
+    <string name="fullname">full name</string>
+    <string name="Emailaddress">Email Address</string>
+    <string name="password">password</string>
+    <string name="telephonenumber">Telephone number</string>
+    <string name="state">The state</string>
+    <string name="createyouraccount">Create your account</string>
+    <!--login-->
+    <string name="welcome">welcome,</string>
+    <string name="signin">Sign in</string>
+    <string name="forgotpassword">Forgot your password?</string>
+    <string name="newusercreat">New user? Create your account</string>
+
+    <!--Mainscreen-->
+    <string name="balance_title">Balance</string>
+    <!--siedmenuwithout_sign-->
+    <string name="whatbalance">What is the balance</string>
+    <string name="registration">Registration of lawyers</string>
+    <string name="callus">call us</string>
+
+    <!--siedmenuwith_sign-->
+    <string name="name">Najwan Mohammed</string>
+    <string name="appealattorney">Appeal Attorney</string>
+    <string name="myarticles">My Articles</string>
+    <string name="alerts">Alerts</string>
+    <string name="signoutaccount">Sign out of account</string>
+</resources>
