@@ -54,9 +54,9 @@ public class Splash_screen extends AppCompatActivity {
 
 
                 Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
-                Bundle b=new Bundle();
-                b.putString("screen","Login");
-                i.putExtras(b);
+                //Bundle b=new Bundle();
+                i.putExtra("screen","Login");
+                //i.putExtras(b);
                 startActivity(i);
 
             }

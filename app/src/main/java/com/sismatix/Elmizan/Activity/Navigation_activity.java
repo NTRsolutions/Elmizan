@@ -1,5 +1,6 @@
 package com.sismatix.Elmizan.Activity;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Home_freg;
+import com.sismatix.Elmizan.Fregment.Library_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
 import com.sismatix.Elmizan.Fregment.Video_freg;
@@ -57,6 +59,8 @@ public class Navigation_activity extends AppCompatActivity
         AllocateMemory();
         setSupportActionBar(toolbar);
         SET_FONT_STYLE();
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -95,20 +99,6 @@ public class Navigation_activity extends AppCompatActivity
         Bootom_Navigation_view();
 
 
-         b=new Bundle();
-        if(b!=null)
-        {
-            Screen=getIntent().getExtras().getString("screen");
-
-            Log.e("lofin",""+Screen);
-            if(Screen.equalsIgnoreCase("Login")==true){
-                pushFragment(new Login_freg(),"Login");
-            }else if(Screen.equalsIgnoreCase("register")==true){
-                pushFragment(new Register_freg(),"register");
-            }
-
-
-        }
 
 
 
@@ -151,7 +141,30 @@ public class Navigation_activity extends AppCompatActivity
 //        BottomNavigationViewHelper.disableShiftMode(bottom_navigation);
 
         Menu menu = bottom_navigation.getMenu();
-        selectFragment(menu.getItem(0));
+        Intent intent = getIntent();
+        if (null != intent) { //Null Checking
+
+            Screen=intent.getStringExtra("screen");
+
+            Log.e("lofin",""+Screen);
+
+        }
+
+        if(intent==null)
+        {
+            selectFragment(menu.getItem(0));
+
+        }
+        if (Screen == "" || Screen == null || Screen == "null" || Screen.equalsIgnoreCase(null)
+                || Screen.equalsIgnoreCase("null")) {
+            selectFragment(menu.getItem(0));
+            Log.e("countt", "" + Screen);
+        }
+        else if(Screen.equalsIgnoreCase("Login")==true){
+            pushFragment(new Login_freg(),"Login");
+        }else if(Screen.equalsIgnoreCase("register")==true){
+            pushFragment(new Register_freg(),"register");
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -185,9 +198,12 @@ public class Navigation_activity extends AppCompatActivity
                     break;
                 }*/
             case R.id.bottom_nav_library:
-                pushFragment(new Video_freg(),"Cart");
+                pushFragment(new Library_freg(),"library");
                 break;
             case R.id.bottom_nav_myaccount:
+                pushFragment(new Video_freg(),"video");
+                break;
+
             /*    if (loginflagmain.equalsIgnoreCase("1") || loginflagmain == "1") {
                     pushFragment(new AccountTabs(),"My Account");
                     viewPager.setCurrentItem(4);

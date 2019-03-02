@@ -18,6 +18,8 @@ import com.sismatix.Elmizan.Adapter.Home_News_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,43 +74,45 @@ public class Home_freg extends Fragment {
     }
 
     private void CALL_Home_News_API() {
-        for(int i=0;i<10;i++)
-        {
-            news_model.add(new News_Model("22 من آلاف ,2019","من آلاف الناشرين والمج","أخبار Google عبارة عن أداة تجميع أخبار وتطبيق تم تطويرهما بواسطة Google. يقدم تدفق مستمر وقابل للتخصيص من المقالات المنظمة من آلاف الناشرين والمج"));
-           // news_adapter.notifyDataSetChanged();
-          // news_adapter.notifyItemChanged(i);
-        }
-/*
-        progressBar.setVisibility(View.VISIBLE);
+
+        progressBar_home.setVisibility(View.VISIBLE);
 
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> categorylist = api.categorylist("all");
+        Call<ResponseBody> News_list = api.get_News_list();
 
-        categorylist.enqueue(new Callback<ResponseBody>() {
+        News_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("response", "" + response.body().toString());
-                progressBar.setVisibility(View.GONE);
+                Log.e("response_news", "" + response.body().toString());
+                progressBar_home.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
                     Log.e("status_prod_cat",""+status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message",""+message);
                     if (status.equalsIgnoreCase("success")){
-                        String category=jsonObject.getString("category");
-                        Log.e("catttt_prod_cat",""+category);
-                        JSONArray jsonArray=jsonObject.getJSONArray("category");
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                         JSONArray data_array=jsonObject.getJSONArray("data");
+
+                         for (int i = 0; i < data_array.length(); i++) {
 
                             try {
-                                JSONObject vac_object = jsonArray.getJSONObject(i);
-                                Log.e("Name",""+vac_object.getString("name"));
-                                product_model.add(new Product_Category_model(vac_object.getString("name"),vac_object.getString("value")));
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                Log.e("Name",""+news_object.getString("news_title"));
+                                news_model.add(new News_Model(news_object.getString("news_id"),
+                                        news_object.getString("news_title"),
+                                        news_object.getString("news_description"),
+                                        news_object.getString("news_media"),
+                                        news_object.getString("news_status"),
+                                        news_object.getString("news_status"),
+                                        news_object.getString("news_created_at")
+                                ));
 
                             } catch (Exception e) {
                                 Log.e("Exception", "" + e);
                             } finally {
-                                product_category_adapter.notifyItemChanged(i);
+                                news_adapter.notifyItemChanged(i);
                             }
 
                         }
@@ -124,7 +128,7 @@ public class Home_freg extends Fragment {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
     }
 
     private void Allocate_Memory(View view) {

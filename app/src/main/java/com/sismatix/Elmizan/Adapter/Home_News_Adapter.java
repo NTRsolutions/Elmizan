@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,9 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
     @Override
     public void onBindViewHolder(final Home_News_Adapter.MyViewHolder holder, final int position) {
         final News_Model product_model = models.get(position);
-        holder.tv_date_news.setText(product_model.getNews_date());
-        holder.tv_title_news.setText(product_model.getNews_title());
-        holder.tv_detail_news.setText(product_model.getNews_detail());
+        holder.tv_date_news.setText(Html.fromHtml(product_model.getNews_date()));
+        holder.tv_title_news.setText(Html.fromHtml(product_model.getNews_title()));
+        holder.tv_detail_news.setText(Html.fromHtml(product_model.getNews_description()));
 
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
         if(position %2 == 1)

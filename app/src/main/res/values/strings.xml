@@ -62,8 +62,7 @@
 
     <string name="date">10 july,2019</string>
     <string name="news_title">News Title</string>
-    <string name="news_detail">أخبار Google عبارة عن أداة تجميع أخبار وتطبيق تم تطويرهما بواسطة Google. يقدم تدفق مستمر وقابل للتخصيص من المقالات المنظمة من آلاف الناشرين والمجلات
-</string>
+    <string name="news_detail">The organization of thousands of publishers from the organization of thousands of publishersOf the organization of thousands of publishers and magazines organized by thousands of publishersOf the organization of </string>
 
     <string name="single_news_page">Single News Page</string>
     <string name="add_comment">Add Comment</string>
@@ -86,8 +85,7 @@
     <string name="sign_in_google">Sign in with Google Account</string>
     <string name="sign_in_email">Sign in by email</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="international_law">International Law</string>
 
 
 </resources>
