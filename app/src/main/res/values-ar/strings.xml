@@ -4,11 +4,11 @@
     <string name="createnewaccont">إنشاء حساب جديد</string>
     <string name="createaccont">إنشاء حساب</string>
     <!--buttom menu-->
-    <string name="main">الرئيسية</string>
-    <string name="arithmetic">حسابي</string>
-    <string name="directoryoflawyers">دليل المحامين</string>
-    <string name="thelibrary">المكتبة </string>
-    <string name="opinionsandarticles">أراء ومقالات</string>
+    <string name="home">الرئيسية</string>
+    <string name="directory">دليل المحامين</string>
+    <string name="library">المكتبة</string>
+    <string name="articles">أراء  ومقالات</string>
+    <string name="videos">الفيديو</string>
     <!--createaccont-->
     <string name="fullname">الإسم بالكامل</string>
     <string name="Emailaddress">الإيميل</string>
@@ -25,9 +25,8 @@
     <!--Mainscreen-->
         <string name="balance_title">الميزان</string>
     <!--siedmenuwithout_sign-->
-    <string name="whatbalance">ما هو الميزان</string>
     <string name="registration">تسجيل المحامين</string>
-    <string name="callus">إتصل بنا</string>
+    <string name="callus">اتصل بنا</string>
 
     <!--siedmenuwith_sign-->
     <string name="name">نجوان محمد</string>
@@ -35,4 +34,40 @@
     <string name="myarticles">مقالاتي</string>
     <string name="alerts">التنبيهات</string>
     <string name="signoutaccount">الخروج من الحساب</string>
+    <string name="about_us">ما هو الميزان</string>
+    <string name="my_account">حسابي</string>
+    <string name="my_articles">مقالاتي</string>
+    <string name="notification">التنبيهات</string>
+    <string name="logout">الخروج من الحساب</string>
+
+    <string name="SKIP">تخطى</string>
+
+
+    <!--home news-->
+    <string name="date">10 يوليو ، 2019</string>
+    <string name="news_title">عنوان الخبر</string>
+    <string name="news_detail">أخبار Google عبارة عن أداة تجميع أخبار وتطبيق تم تطويرهما بواسطة Google. يقدم تدفق مستمر وقابل للتخصيص من المقالات المنظمة من آلاف الناشرين والمجلات</string>
+
+    <!--News detail-->
+    <string name="single_news_page">صفحة أخبار واحدة</string>
+    <string name="add_comment">أضف تعليق</string>
+    <string name="send">إرسال</string>
+
+    <!--directory-->
+    <string name="search">بحث</string>
+    <string name="call">مكالمة</string>
+    <string name="chat">محادثة</string>
+    <string name="send_message">ارسال رسالة</string>
+    <string name="more">المزيد</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="offline">غير متصل على الانترنت</string>
+    <string name="bullet">\u2022</string>
+
+    <!--Creataccount_sign-->
+    <string name="sign_name">الاسم بالكام</string>
+    <string name="email">الايميل</string>
+    <string name="phone">الهاتف</string>
+    <string name="sign_in_google">تسجيل الدخول بحساب جوجل</string>
+    <string name="sign_in_email">تسجيل الدخول بالبريد الالكتروني</string>
+
 </resources>

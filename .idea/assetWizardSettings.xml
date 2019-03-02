@@ -20,8 +20,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$PROJECT_DIR$/../elmizan/Group 25.png" />
-                                      <entry key="outputName" value="ic_logo" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/google.png" />
+                                      <entry key="outputName" value="ic_google" />
                                     </map>
                                   </option>
                                 </PersistentState>

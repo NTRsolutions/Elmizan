@@ -6,8 +6,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:listDivider">@color/line_color</item>
     </style>
-    <style name="AppTheme.NoActionBar" >
+
+    <style name="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -19,9 +23,21 @@
     </style>
 
     //Edittext underline color
+
     <style name="MyEditTextStyle2" parent="Widget.AppCompat.EditText">
         <item name="colorControlActivated">@color/edittextline</item>
         <item name="colorControlNormal">@color/edittextline</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+///chnage navigation text size
+    <style name="NavigationViewStyle">
+        <item name="android:textSize">18sp</item> <!-- menu item text size-->
+        <item name="android:listPreferredItemHeightSmall">45dp</item><!-- menu item height-->
+    </style>
+
+
 
 </resources>

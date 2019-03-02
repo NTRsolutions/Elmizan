@@ -4,11 +4,11 @@
     <string name="createnewaccont">create New Account</string>
     <string name="createaccont">Create an account</string>
     <!--buttom menu-->
-    <string name="main">Main</string>
-    <string name="arithmetic">Arithmetic</string>
-    <string name="directoryoflawyers">Directory of lawyers</string>
-    <string name="thelibrary">the library</string>
-    <string name="opinionsandarticles">Opinions and articles</string>
+    <string name="home">Home</string>
+    <string name="directory">Directory</string>
+    <string name="library">Library</string>
+    <string name="articles">Articles</string>
+    <string name="videos">Videos</string>
 
     <!--createaccont-->
     <string name="fullname">full name</string>
@@ -25,15 +25,69 @@
 
     <!--Mainscreen-->
     <string name="balance_title">Balance</string>
-    <!--siedmenuwithout_sign-->
+    <!--siedmenu_without_sign-->
     <string name="whatbalance">What is the balance</string>
     <string name="registration">Registration of lawyers</string>
-    <string name="callus">call us</string>
+    <string name="callus">Contact Us</string>
 
-    <!--siedmenuwith_sign-->
+    <!--siedmenu_with_sign-->
     <string name="name">Najwan Mohammed</string>
     <string name="appealattorney">Appeal Attorney</string>
     <string name="myarticles">My Articles</string>
     <string name="alerts">Alerts</string>
     <string name="signoutaccount">Sign out of account</string>
+    <string name="about_us">About us</string>
+    <string name="my_account">My account</string>
+    <string name="my_articles">My articles</string>
+    <string name="notification">Notifications</string>
+    <string name="logout">Log out</string>
+    <string name="SKIP">SKIP</string>
+
+    <string-array name="theme_array">
+
+        <item>select</item>
+
+        <item>Black</item>
+
+        <item>White</item>
+
+    </string-array>
+    <string name="title_activity_navigation_activity">Navigation_activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="date">10 july,2019</string>
+    <string name="news_title">News Title</string>
+    <string name="news_detail">أخبار Google عبارة عن أداة تجميع أخبار وتطبيق تم تطويرهما بواسطة Google. يقدم تدفق مستمر وقابل للتخصيص من المقالات المنظمة من آلاف الناشرين والمجلات
+</string>
+
+    <string name="single_news_page">Single News Page</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="send">Send</string>
+
+
+    <string name="search">Search</string>
+    <string name="call">Call</string>
+    <string name="chat">Chat</string>
+    <string name="send_message">Send Message</string>
+    <string name="more">More</string>
+    <string name="user_name">User Name</string>
+    <string name="offline">Offline</string>
+    <string name="bullet">\u2022</string>
+
+    <!--Creataccount_sign-->
+    <string name="sign_name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="sign_in_google">Sign in with Google Account</string>
+    <string name="sign_in_email">Sign in by email</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

@@ -3,8 +3,16 @@
     <color name="colorPrimary">#191919</color>
     <color name="colorPrimaryDark">#191919</color>
     <color name="colorAccent">#191919</color>
+    <color name="bottom_icon">#959595</color>
+
     <color name="white">#FFFFFF</color>
     <color name="edittextline">#929292</color>
     <color name="black">#000000</color>
     <color name="button">#191919</color>
+    <color name="line_color">#5e5e5e</color>
+    <color name="background">#f2f2f2</color>
+    <color name="date_color">#919191</color>
+    <color name="green">#47a85c</color>
+    <color name="red">#da3838</color>
+    <color name="boder">#b7b7b7</color>
 </resources>

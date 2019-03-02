@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/grpid1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/about_us"
+            android:title="@string/about_us" />
+        <item
+            android:id="@+id/nav_my_account"
+            android:icon="@drawable/nav_my_account"
+            android:title="@string/my_account" />
+        <item
+            android:id="@+id/nav_my_article"
+            android:icon="@drawable/my_articles"
+            android:title="@string/my_articles" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/notification"
+            android:title="@string/notification" />
+
+        //visible if user not login
+
+        <item
+            android:id="@+id/nav_register"
+            android:icon="@drawable/nav_my_account"
+            android:title="@string/registration" />
+        <item
+            android:id="@+id/nav_contactus"
+            android:icon="@drawable/contactus"
+            android:title="@string/callus" />
+    </group>
+
+  <!--  <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"/>
+
+    </FrameLayout>
+-->
+    <group
+        android:id="@+id/grpid2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="@string/logout" />
+        <item
+            android:id="@+id/nav_signin"
+            android:icon="@drawable/signin"
+            android:title="@string/signin" />
+    </group>
+
+
+</menu>
