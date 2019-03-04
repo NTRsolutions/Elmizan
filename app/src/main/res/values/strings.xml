@@ -87,5 +87,17 @@
 
     <string name="international_law">International Law</string>
 
+    <string name="phone_no">+123-1234-123-123</string>
+    <string name="address">Address :</string>
+    <string name="address_static">EmpireBusiness hub,Surat</string>
+    <string name="phonee">Phone :</string>
+    <string name="emaill">Email :</string>
+    <string name="email_static">abc@gmail.com</string>
+    <string name="site">Site :</string>
+    <string name="site_static">google.com</string>
+    <string name="media">Media</string>
+    <string name="photos"><![CDATA[Videos &Photos]]></string>
+    <string name="posted_by">Posted By :</string>
+
 
 </resources>

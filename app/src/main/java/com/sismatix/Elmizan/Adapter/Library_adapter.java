@@ -1,6 +1,8 @@
 package com.sismatix.Elmizan.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,10 +38,18 @@ import java.util.List;
         @Override
         public void onBindViewHolder(final Library_adapter.MyViewHolder holder, final int position) {
             final Library_model product_model = models.get(position);
-           /* holder.tv_date_news.setText(product_model.getNews_date());
-            holder.tv_title_news.setText(product_model.getNews_title());
-            holder.tv_detail_news.setText(product_model.getNews_detail());
-*/
+            holder.tv_library_date.setText(product_model.getLibrary_date());
+            holder.tv_library_link.setText(product_model.getLibrary_link());
+            holder.tv_library_title.setText(product_model.getLibrary_title());
+            holder.tv_library_link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(product_model.getLibrary_link()));
+                    context.startActivity(browserIntent);
+                }
+            });
+
             //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 
             /*holder.lv_news.setOnClickListener(new View.OnClickListener() {
@@ -73,16 +83,16 @@ import java.util.List;
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView tv_date_news, tv_title_news, tv_detail_news;
-            LinearLayout lv_news;
+            TextView tv_library_date, tv_library_title, tv_library_link,tv_more;
+            LinearLayout lv_library;
 
             public MyViewHolder(View view) {
                 super(view);
-              /*  tv_title_news = (TextView) view.findViewById(R.id.tv_title_news);
-                tv_detail_news = (TextView) view.findViewById(R.id.tv_detail_news);
-                tv_date_news = (TextView) view.findViewById(R.id.tv_date_news);
-                lv_news = (LinearLayout) view.findViewById(R.id.lv_news);
-*/
+                tv_library_date = (TextView) view.findViewById(R.id.tv_library_date);
+                tv_library_title = (TextView) view.findViewById(R.id.tv_library_title);
+                tv_library_link = (TextView) view.findViewById(R.id.tv_library_link);
+                tv_more = (TextView) view.findViewById(R.id.tv_more);
+                lv_library = (LinearLayout) view.findViewById(R.id.lv_library);
 
 
             }

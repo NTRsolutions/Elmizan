@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Library_adapter;
 import com.sismatix.Elmizan.Adapter.Video_Adapter;
@@ -21,20 +23,31 @@ import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Library_model;
 import com.sismatix.Elmizan.Model.Video_Model;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Dynamic_Library_freg extends Fragment {
 
-    RecyclerView recycler_library;
-    private List<Library_model> library_models = new ArrayList<Library_model>();
-    private Library_adapter library_adapter;
+   public static RecyclerView recycler_library;
+    public static List<Library_model> library_models = new ArrayList<Library_model>();
+    public static Library_adapter library_adapter;
 
-    ProgressBar progressBar_library;
+  public static   ProgressBar progressBar_library;
+  public static Context context=null;
     public Dynamic_Library_freg() {
         // Required empty public constructor
     }
@@ -47,8 +60,9 @@ public class Dynamic_Library_freg extends Fragment {
         return fragment;
     }
 
-    int val;
+    int val,tab_position;
     TextView c;
+  public  static   String category_id;
     View view;
 
     @Override
@@ -57,8 +71,16 @@ public class Dynamic_Library_freg extends Fragment {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_dynamic_library_freg, container, false);
         val = getArguments().getInt("someInt", 0);
+        tab_position=Library_freg.position;
+        category_id=Home_freg.category_id.get(val);
+        Log.e("tab_position_61",""+tab_position);
+        Log.e("category_id_64",""+category_id);
+        Log.e("val",""+val);
+
+        context=getActivity();
         c = view.findViewById(R.id.textView);
         c.setText("" + val);
+
 
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
@@ -67,7 +89,7 @@ public class Dynamic_Library_freg extends Fragment {
         AllocateMemory(view);
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
-            Call_Library_API();
+            Call_Library_API(category_id);
         } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -83,44 +105,49 @@ public class Dynamic_Library_freg extends Fragment {
         return view;
 
     }
-    private void Call_Library_API() {
-        for(int i=0;i<10;i++)
-        {
-            library_models.add(new Library_model("","",""));
-            // news_adapter.notifyDataSetChanged();
-            // news_adapter.notifyItemChanged(i);
-        }
-/*
-        progressBar.setVisibility(View.VISIBLE);
+    public static void Call_Library_API(String cat_id) {
+
+        Log.e("category_id_108", "" + cat_id);
+
+        library_models.clear();
+        //progressBar.setVisibility(View.VISIBLE);
 
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> categorylist = api.categorylist("all");
+        Call<ResponseBody> get_library_list = api.get_library_list(ApiClient.PAGE,ApiClient.PER_PAGE,cat_id);
 
-        categorylist.enqueue(new Callback<ResponseBody>() {
+
+        get_library_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response", "" + response.body().toString());
-                progressBar.setVisibility(View.GONE);
+                //  progressBar.setVisibility(View.GONE);
+
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
-                    Log.e("status_prod_cat",""+status);
+                    Log.e("status_news_detail",""+status);
                     if (status.equalsIgnoreCase("success")){
-                        String category=jsonObject.getString("category");
-                        Log.e("catttt_prod_cat",""+category);
-                        JSONArray jsonArray=jsonObject.getJSONArray("category");
-                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONArray data_array=jsonObject.getJSONArray("data");
+                        Log.e("data_array",""+data_array);
+
+
+                        for (int i = 0; i < data_array.length(); i++) {
 
                             try {
-                                JSONObject vac_object = jsonArray.getJSONObject(i);
-                                Log.e("Name",""+vac_object.getString("name"));
-                                product_model.add(new Product_Category_model(vac_object.getString("name"),vac_object.getString("value")));
+                                JSONObject data_object = data_array.getJSONObject(i);
+                                library_models.add(new Library_model(data_object.getString("library_id")
+                                        ,data_object.getString("library_title"),
+                                        data_object.getString("library_link"),
+                                        data_object.getString("category_id"),
+                                        data_object.getString("library_created_at"),
+                                        data_object.getString("library_status")));
 
                             } catch (Exception e) {
                                 Log.e("Exception", "" + e);
                             } finally {
-                                product_category_adapter.notifyItemChanged(i);
+                                   library_adapter.notifyItemChanged(i);
                             }
 
                         }
@@ -134,9 +161,10 @@ public class Dynamic_Library_freg extends Fragment {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+
     }
 
     private void AllocateMemory(View view) {

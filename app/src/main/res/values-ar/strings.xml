@@ -73,5 +73,21 @@
     <string name="international_law">القانون الدولي</string>
 
 
+<!--
+    //premimum lawyer
+-->
+    <string name="phone_no">+123-1234-123-123</string>
+    <string name="address">عنوان :</string>
+    <string name="address_static">مركز EmpireBusiness ، سورة</string>
+    <string name="phonee">هاتف :</string>
+    <string name="emaill">البريد الإلكتروني :</string>
+    <string name="email_static">abc@gmail.com</string>
+    <string name="site">موقع :</string>
+    <string name="site_static">google.com</string>
+    <string name="media">وسائل الإعلام
+</string>
+    <string name="photos"><![CDATA[فيديوهات وصور]]></string>
+    <string name="posted_by">منشور من طرف :</string>
+
 
 </resources>

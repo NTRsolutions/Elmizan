@@ -2,11 +2,13 @@ package com.sismatix.Elmizan.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,10 @@ import com.sismatix.Elmizan.Fregment.News_Detail_freg;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.MyViewHolder>
@@ -39,10 +45,25 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
 
     @Override
     public void onBindViewHolder(final Home_News_Adapter.MyViewHolder holder, final int position) {
-        final News_Model product_model = models.get(position);
-        holder.tv_date_news.setText(Html.fromHtml(product_model.getNews_date()));
-        holder.tv_title_news.setText(Html.fromHtml(product_model.getNews_title()));
-        holder.tv_detail_news.setText(Html.fromHtml(product_model.getNews_description()));
+        final News_Model model = models.get(position);
+
+        /*String dateee=model.getNews_date();
+        DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = null;
+        try {
+            date1 = inputFormatter1.parse(dateee);
+            Log.e("date_news",""+date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        DateFormat outputFormatter1 = new SimpleDateFormat("dd MMM, yyyy");
+        String output1 = outputFormatter1.format(date1);
+        Log.e("date_news_61",""+output1);
+*/
+        holder.tv_date_news.setText(Html.fromHtml(model.getNews_date()));
+        holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
+        holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
 
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
         if(position %2 == 1)
@@ -60,13 +81,13 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                       /* Bundle b=new Bundle();
-                        b.putString("cat_id",product_model.getValue());
-                        b.putString("name",product_model.getCategory_name());
-                        Log.e("categotyidd",""+product_model.getValue());
-                     */   AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        Bundle b=new Bundle();
+                        b.putString("news_id",model.getNews_id());
+                       // b.putString("name",product_model.getCategory_name());
+                        Log.e("news_id",""+model.getNews_id());
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         Fragment myFragment = new News_Detail_freg();
-                        //myFragment.setArguments(b);
+                        myFragment.setArguments(b);
                         activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
                     }
                 }, 1000);

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sismatix.Elmizan.Fregment.News_Detail_freg;
+import com.sismatix.Elmizan.Fregment.Premimum_Lawyer_freg;
 import com.sismatix.Elmizan.Model.Directory_Model;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.R;
@@ -46,24 +47,24 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 */
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 
-            /*holder.lv_news.setOnClickListener(new View.OnClickListener() {
+            holder.lv_directory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                       *//* Bundle b=new Bundle();
+                        /*Bundle b=new Bundle();
                         b.putString("cat_id",product_model.getValue());
                         b.putString("name",product_model.getCategory_name());
-                        Log.e("categotyidd",""+product_model.getValue());
-                     *//*   AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                            Fragment myFragment = new News_Detail_freg();
+                        *///Log.e("categotyidd",""+product_model.getValue());
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                            Fragment myFragment = new Premimum_Lawyer_freg();
                             //myFragment.setArguments(b);
                             activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
                         }
                     }, 1000);
                 }
-            });*/
+            });
 
 
     }
@@ -78,14 +79,15 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_date_news, tv_title_news, tv_detail_news;
-        LinearLayout lv_news;
+        LinearLayout lv_directory;
 
         public MyViewHolder(View view) {
             super(view);
+            lv_directory = (LinearLayout) view.findViewById(R.id.lv_directory);
+
               /*  tv_title_news = (TextView) view.findViewById(R.id.tv_title_news);
                 tv_detail_news = (TextView) view.findViewById(R.id.tv_detail_news);
                 tv_date_news = (TextView) view.findViewById(R.id.tv_date_news);
-                lv_news = (LinearLayout) view.findViewById(R.id.lv_news);
 */
 
 

@@ -14,14 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
+import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Articles_Adapter;
-import com.sismatix.Elmizan.Adapter.Video_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Article_model;
-import com.sismatix.Elmizan.Model.News_Model;
-import com.sismatix.Elmizan.Model.Video_Model;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -40,15 +37,14 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Article_freg extends Fragment {
-    View view;
-    RecyclerView recycler_article;
+public class Premimum_Lawyer_freg extends Fragment {
+    RecyclerView recycler_pre_lawyer_article;
+    ProgressBar progressBar_article_lawyer;
     private List<Article_model> article_models = new ArrayList<Article_model>();
     private Articles_Adapter articles_adapter;
-
-    ProgressBar progressBar_article;
-
-    public Article_freg() {
+    IndefinitePagerIndicator indicater;
+    View view;
+    public Premimum_Lawyer_freg() {
         // Required empty public constructor
     }
 
@@ -57,10 +53,10 @@ public class Article_freg extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_article_freg, container, false);
+        view= inflater.inflate(R.layout.fragment_premimum_lawyer_freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
-        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.directory));
 
         AllocateMemory(view);
 
@@ -72,17 +68,18 @@ public class Article_freg extends Fragment {
 
 
         articles_adapter = new Articles_Adapter(getActivity(), article_models);
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-
-        recycler_article.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recycler_article.setItemAnimator(new DefaultItemAnimator());
+         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        ///new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false)
+        recycler_pre_lawyer_article.setLayoutManager(mLayoutManager);
+        recycler_pre_lawyer_article.setItemAnimator(new DefaultItemAnimator());
         // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        recycler_article.setAdapter(articles_adapter);
+        recycler_pre_lawyer_article.setAdapter(articles_adapter);
+
+
         return view;
     }
-
     private void CALL_Article_API() {
-        progressBar_article.setVisibility(View.VISIBLE);
+        progressBar_article_lawyer.setVisibility(View.VISIBLE);
 
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> article_list = api.get_article_list();
@@ -91,7 +88,7 @@ public class Article_freg extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("responsearticle", "" + response.body().toString());
-                progressBar_article.setVisibility(View.GONE);
+                progressBar_article_lawyer.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
@@ -146,13 +143,13 @@ public class Article_freg extends Fragment {
             }
         });
 
-}
-
-    private void AllocateMemory(View view) {
-        recycler_article = (RecyclerView) view.findViewById(R.id.recycler_article);
-        progressBar_article = view.findViewById(R.id.progressBar_article);
-
     }
 
+    private void AllocateMemory(View view) {
+        recycler_pre_lawyer_article = (RecyclerView) view.findViewById(R.id.recycler_pre_lawyer_article);
+        progressBar_article_lawyer = view.findViewById(R.id.progressBar_article_lawyer);
+        indicater =view.findViewById(R.id.recyclerview_pager_indicator);
+        indicater.attachToRecyclerView(recycler_pre_lawyer_article);
+    }
 
 }

@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Model.Article_model;
 import com.sismatix.Elmizan.Model.Video_Model;
 import com.sismatix.Elmizan.R;
@@ -35,24 +37,25 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
 
     @Override
     public void onBindViewHolder(final Articles_Adapter.MyViewHolder holder, final int position) {
-        final Article_model product_model = models.get(position);
-           /* holder.tv_date_news.setText(product_model.getNews_date());
-            holder.tv_title_news.setText(product_model.getNews_title());
-            holder.tv_detail_news.setText(product_model.getNews_detail());
-*/
-        //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
+        final Article_model article_model = models.get(position);
+            holder.tv_article_description.setText(article_model.getArticle_description());
+            holder.tv_article_title.setText(article_model.getArticle_title());
+            holder.tv_article_date.setText(article_model.getArticle_date());
+        Glide.with(context).load(article_model.getImage()).into(holder.iv_article_image);
 
-            /*holder.lv_news.setOnClickListener(new View.OnClickListener() {
+        //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
+/*
+            holder.lv_news.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                       *//* Bundle b=new Bundle();
+                        Bundle b=new Bundle();
                         b.putString("cat_id",product_model.getValue());
                         b.putString("name",product_model.getCategory_name());
                         Log.e("categotyidd",""+product_model.getValue());
-                     *//*   AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
                             Fragment myFragment = new News_Detail_freg();
                             //myFragment.setArguments(b);
                             activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
@@ -73,16 +76,17 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_date_news, tv_title_news, tv_detail_news;
-        LinearLayout lv_news;
+        TextView tv_article_description, tv_article_title, tv_article_date;
+        LinearLayout lv_article_click;
+        ImageView iv_article_image;
 
         public MyViewHolder(View view) {
             super(view);
-              /*  tv_title_news = (TextView) view.findViewById(R.id.tv_title_news);
-                tv_detail_news = (TextView) view.findViewById(R.id.tv_detail_news);
-                tv_date_news = (TextView) view.findViewById(R.id.tv_date_news);
-                lv_news = (LinearLayout) view.findViewById(R.id.lv_news);
-*/
+            tv_article_description = (TextView) view.findViewById(R.id.tv_article_description);
+            tv_article_title = (TextView) view.findViewById(R.id.tv_article_title);
+            tv_article_date = (TextView) view.findViewById(R.id.tv_article_date);
+            lv_article_click = (LinearLayout) view.findViewById(R.id.lv_article_click);
+            iv_article_image = (ImageView) view.findViewById(R.id.iv_article_image);
 
 
         }

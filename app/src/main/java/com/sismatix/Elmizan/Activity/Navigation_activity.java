@@ -32,6 +32,7 @@ import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Home_freg;
 import com.sismatix.Elmizan.Fregment.Library_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
+import com.sismatix.Elmizan.Fregment.Premimum_Lawyer_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
 import com.sismatix.Elmizan.Fregment.Video_freg;
 import com.sismatix.Elmizan.R;
@@ -269,6 +270,7 @@ public class Navigation_activity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_about_us) {
+            pushFragment(new Premimum_Lawyer_freg(),"lawer");
             // Handle the camera action
         } else if (id == R.id.nav_contactus) {
 
