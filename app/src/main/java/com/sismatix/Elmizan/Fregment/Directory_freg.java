@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,19 @@ import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Directory_Model;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,59 +75,79 @@ public class Directory_freg extends Fragment {
         return view;
     }
     private void CALL_Directory_API() {
-        for(int i=0;i<10;i++)
+        /*for(int i=0;i<10;i++)
         {
             directory_model.add(new Directory_Model(""));
             // news_adapter.notifyDataSetChanged();
             // news_adapter.notifyItemChanged(i);
-        }
-/*
-        progressBar.setVisibility(View.VISIBLE);
+        }*/
 
+        progressBar_directory.setVisibility(View.VISIBLE);
+        directory_model.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> categorylist = api.categorylist("all");
+        Call<ResponseBody> user_list = api.get_User_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_type,ApiClient.user_status);
 
-        categorylist.enqueue(new Callback<ResponseBody>() {
+        user_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("response", "" + response.body().toString());
-                progressBar.setVisibility(View.GONE);
+                Log.e("response_user", "" + response.body().toString());
+                progressBar_directory.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
-                    Log.e("status_prod_cat",""+status);
-                    if (status.equalsIgnoreCase("success")){
-                        String category=jsonObject.getString("category");
-                        Log.e("catttt_prod_cat",""+category);
-                        JSONArray jsonArray=jsonObject.getJSONArray("category");
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                    Log.e("status_prod_cat", "" + status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message", "" + message);
+                    if (status.equalsIgnoreCase("success")) {
+                        JSONArray data_array = jsonObject.getJSONArray("data");
+
+                        for (int i = 0; i < data_array.length(); i++) {
 
                             try {
-                                JSONObject vac_object = jsonArray.getJSONObject(i);
-                                Log.e("Name",""+vac_object.getString("name"));
-                                product_model.add(new Product_Category_model(vac_object.getString("name"),vac_object.getString("value")));
-
+                                JSONObject user_object = data_array.getJSONObject(i);
+                                Log.e("Name", "" + user_object.getString("user_id"));
+                                directory_model.add(new Directory_Model(user_object.getString("user_id"),
+                                        user_object.getString("user_name"),
+                                        user_object.getString("user_email"),
+                                        user_object.getString("user_phone"),
+                                        user_object.getString("user_address"),
+                                        user_object.getString("user_firstname"),
+                                        user_object.getString("user_lastname"),
+                                        user_object.getString("user_avatar"),
+                                        user_object.getString("user_type"),
+                                        user_object.getString("user_website"),
+                                        user_object.getString("basic_premium"),
+                                        user_object.getString("user_status"),
+                                        user_object.getString("is_online")
+                                        ,user_object.getString("user_updated_at"),
+                                        user_object.getString("user_verify_token")
+                                        ,user_object.getString("user_created_at"),
+                                        user_object.getString("user_avatar_url")));
                             } catch (Exception e) {
                                 Log.e("Exception", "" + e);
                             } finally {
-                                product_category_adapter.notifyItemChanged(i);
+                                 directory_adapter.notifyItemChanged(i);
+
                             }
 
                         }
 
-                    }else if (status.equalsIgnoreCase("error")){
+                    } else if (status.equalsIgnoreCase("error")) {
                     }
 
-                }catch (Exception e){
-                    Log.e("",""+e);
+                } catch (Exception e) {
+                    Log.e("", "" + e);
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
+
+
     }
 
     private void AllocateMemory(View view) {

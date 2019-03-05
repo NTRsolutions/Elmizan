@@ -56,7 +56,7 @@ public class Premimum_Lawyer_freg extends Fragment {
         view= inflater.inflate(R.layout.fragment_premimum_lawyer_freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
-        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.directory));
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.premimum_lawyer));
 
         AllocateMemory(view);
 
@@ -80,9 +80,9 @@ public class Premimum_Lawyer_freg extends Fragment {
     }
     private void CALL_Article_API() {
         progressBar_article_lawyer.setVisibility(View.VISIBLE);
-
+        article_models.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> article_list = api.get_article_list();
+        Call<ResponseBody> article_list = api.get_article_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_status);
 
         article_list.enqueue(new Callback<ResponseBody>() {
             @Override

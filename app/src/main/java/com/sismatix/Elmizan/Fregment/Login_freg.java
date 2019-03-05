@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.Activity.Navigation_activity;
@@ -31,11 +32,11 @@ import retrofit2.Response;
 public class Login_freg extends Fragment implements View.OnClickListener {
     EditText et_Email_login,et_password_login;
     Button btn_create_account_login;
+    TextView tv_register;
 
     public Login_freg() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +53,7 @@ public class Login_freg extends Fragment implements View.OnClickListener {
         et_Email_login=(EditText)v.findViewById(R.id.et_Email_login);
         et_password_login=(EditText)v.findViewById(R.id.et_password_login);
         btn_create_account_login=(Button)v.findViewById(R.id.btn_create_account_login);
+        tv_register=(TextView) v.findViewById(R.id.tv_register);
     }
 
     @Override

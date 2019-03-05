@@ -61,7 +61,7 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
         String output1 = outputFormatter1.format(date1);
         Log.e("date_news_61",""+output1);
 */
-        holder.tv_date_news.setText(Html.fromHtml(model.getNews_date()));
+        holder.tv_date_news.setText(Html.fromHtml(model.getNews_day()+" "+model.getNews_month()+", "+model.getNews_year()));
         holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
         holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
 

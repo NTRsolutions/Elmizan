@@ -58,14 +58,15 @@ public class Library_freg extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }*/
+        initViews();
+        return view;
+    }
 
+    private void initViews(){
 
-       for (int i=0;i<Home_freg.category_title.size();i++)
-       {
-           tabLayout.addTab(tabLayout.newTab().setText(Home_freg.category_title.get(i)));
-       }
-
-
+        Set_Dybamic_TAB_VIEW();
+        viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewpager.setOffscreenPageLimit(1);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -74,7 +75,7 @@ public class Library_freg extends Fragment {
                 Log.e("tab_position", "" + position);
                 String cattid=Home_freg.category_id.get(position);
                 Log.e("tab_cattid_78", "" + cattid);
-               // Dynamic_Library_freg.Call_Library_API(cattid);
+                // Dynamic_Library_freg.Call_Library_API(cattid);
 
                 viewpager.setCurrentItem(tab.getPosition());
             }
@@ -90,20 +91,27 @@ public class Library_freg extends Fragment {
             }
         });
 
-
-        PlansPagerAdapter adapter = new PlansPagerAdapter
-                (getFragmentManager(), tabLayout.getTabCount());
-        viewpager.setAdapter(adapter);
-        viewpager.setOffscreenPageLimit(1);
-        viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//Bonus Code : If your tab layout has more than 2 tabs then tab will scroll other wise they will take whole width of the screen
         if (tabLayout.getTabCount() == 2) {
             tabLayout.setTabMode(TabLayout.MODE_FIXED);
         } else {
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }
 
-        return view;
+
+
+
+    }
+
+    private void Set_Dybamic_TAB_VIEW() {
+        for (int i=0;i<Home_freg.category_title.size();i++)
+        {
+            tabLayout.addTab(tabLayout.newTab().setText(Home_freg.category_title.get(i)));
+            PlansPagerAdapter adapter = new PlansPagerAdapter
+                    (getChildFragmentManager(), tabLayout.getTabCount());
+            viewpager.setAdapter(adapter);
+            viewpager.setCurrentItem(0);
+        }
+
     }
 
 /*

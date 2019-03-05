@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Home_freg;
+import com.sismatix.Elmizan.Fregment.Library_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
 import com.sismatix.Elmizan.Fregment.Video_freg;
@@ -204,9 +205,12 @@ public class Navigation_activity extends AppCompatActivity
                     break;
                 }*/
             case R.id.bottom_nav_library:
-                pushFragment(new Video_freg(),"Cart");
+                pushFragment(new Library_freg(),"Cart");
+
                 break;
             case R.id.bottom_nav_myaccount:
+                pushFragment(new Video_freg(),"Cart");
+
             /*    if (loginflagmain.equalsIgnoreCase("1") || loginflagmain == "1") {
                     pushFragment(new AccountTabs(),"My Account");
                     viewPager.setCurrentItem(4);

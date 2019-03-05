@@ -18,21 +18,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
        >
-
+        <ProgressBar
+            android:id="@+id/progressBar_library"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/custom_progress"
+            android:visibility="gone" />
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recycler_library"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar_library"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            android:indeterminateDrawable="@drawable/custom_progress"
-            android:visibility="gone" />
+
 
     </LinearLayout>
 </LinearLayout>

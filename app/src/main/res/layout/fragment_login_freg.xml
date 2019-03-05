@@ -89,7 +89,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
-                        android:inputType="textPassword"
+                        android:inputType="textEmailAddress"
                         android:layout_marginTop="10dp"
                         android:textColorHint="@color/edittextline"
                         android:textColor="@color/black"  />
@@ -137,6 +137,7 @@
                     android:text="@string/createaccont"
                     android:textColor="@color/white"/>
                 <TextView
+                    android:id="@+id/tv_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

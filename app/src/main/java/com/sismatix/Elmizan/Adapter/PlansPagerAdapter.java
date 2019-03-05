@@ -1,5 +1,6 @@
 package com.sismatix.Elmizan.Adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -15,7 +16,11 @@ public class PlansPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return Dynamic_Library_freg.newInstance(position);
+        Bundle b = new Bundle();
+        b.putInt("position", position);
+        Fragment frag = Dynamic_Library_freg.newInstance();
+        frag.setArguments(b);
+        return frag;
     }
 
     @Override

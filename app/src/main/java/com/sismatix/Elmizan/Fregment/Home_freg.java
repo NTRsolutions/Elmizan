@@ -84,7 +84,6 @@ public class Home_freg extends Fragment {
 
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> category_list = api.get_category_list();
-
         category_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -133,9 +132,9 @@ public class Home_freg extends Fragment {
     private void CALL_Home_News_API() {
 
         progressBar_home.setVisibility(View.VISIBLE);
-
+        news_model.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> News_list = api.get_News_list();
+        Call<ResponseBody> News_list = api.get_News_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_status);
 
         News_list.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -163,7 +162,10 @@ public class Home_freg extends Fragment {
                                         news_object.getString("news_media"),
                                         news_object.getString("news_status"),
                                         news_object.getString("news_status"),
-                                        news_object.getString("news_created_at_format")
+                                        news_object.getString("news_created_at_format"),
+                                        news_object.getString("news_created_at_format_day"),
+                                        news_object.getString("news_created_at_format_month"),
+                                        news_object.getString("news_created_at_format_year")
                                 ));
 
                             } catch (Exception e) {

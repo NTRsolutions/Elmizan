@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_gravity="center|top"
+    android:gravity="top|center"
     android:id="@+id/lv_directory">
 
     <LinearLayout
@@ -21,7 +23,7 @@
             android:layout_weight="2.2">
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/iv_profile_image"
+                android:id="@+id/iv_directory_profile_image"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="top"
@@ -35,6 +37,7 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="1.3">
             <TextView
+                android:id="@+id/tv_directory_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -46,6 +49,7 @@
                 android:text="@string/user_name"/>
 
             <TextView
+                android:id="@+id/tv_directory_appeal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -62,6 +66,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_directory_offline_onnline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/green"
@@ -72,6 +77,7 @@
                     android:textStyle="bold"
                     android:text="@string/offline"/>
                 <TextView
+                    android:id="@+id/tv_directory_circle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/green"
@@ -92,6 +98,7 @@
             android:layout_marginLeft="3dp"
             android:padding="2dp">
             <ImageView
+                android:id="@+id/iv_directory_premimum_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/menu_img"/>
@@ -101,14 +108,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_gravity="center|top"
+            android:gravity="center|top"
             android:layout_weight="2.1">
             <LinearLayout
+                android:id="@+id/lv_directory_call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_round_grey">
                 <TextView
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -120,6 +129,7 @@
                     android:text="@string/call"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/lv_directory_chat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -137,6 +147,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lv_directory_article"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -154,6 +165,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lv_directory_send_msg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -170,6 +182,7 @@
                     android:text="@string/send_message"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/lv_directory_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
