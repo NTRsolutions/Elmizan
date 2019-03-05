@@ -32,13 +32,10 @@ public class Directory_freg extends Fragment {
     private Directory_Adapter directory_adapter;
 
     ProgressBar progressBar_directory;
-
     View view;
     public Directory_freg() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,7 +61,6 @@ public class Directory_freg extends Fragment {
         recycler_directory.setItemAnimator(new DefaultItemAnimator());
         // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler_directory.setAdapter(directory_adapter);
-
         return view;
     }
     private void CALL_Directory_API() {

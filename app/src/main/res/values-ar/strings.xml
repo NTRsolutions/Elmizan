@@ -46,7 +46,7 @@
     <!--home news-->
     <string name="date">10 يوليو ، 2019</string>
     <string name="news_title">عنوان الخبر</string>
-    <string name="news_detail">   المنظمة من آلاف الناشرينالمنظمة من المنظمة من آلاف الناشرينالمنظمة من المنظمة من آلاف الناشرينالمنظمة من آلاف الناشرين والمجلات</string>
+    <string name="news_detail">أخبار Google عبارة عن أداة تجميع أخبار وتطبيق تم تطويرهما بواسطة Google. يقدم تدفق مستمر وقابل للتخصيص من المقالات المنظمة من آلاف الناشرين والمجلات</string>
 
     <!--News detail-->
     <string name="single_news_page">صفحة أخبار واحدة</string>
@@ -70,12 +70,20 @@
     <string name="sign_in_google">تسجيل الدخول بحساب جوجل</string>
     <string name="sign_in_email">تسجيل الدخول بالبريد الالكتروني</string>
 
-    <string name="international_law">القانون الدولي</string>
+
+    <!-- Directory of lawyers -->
+    <string name="free_name">نجوان محمد محمد سالم</string>
+    <string name="shortdicription">محامي إستئناف ومجلس دولة</string>
+    <string name="phone_direct">رقم الهاتف:</string>
+    <string name="Address">العنوان:</string>
+    <string name="email_direct">الإيميل:</string>
+    <string name="sitee">الموقع:</string>
 
 
-<!--
+
+    <!--
     //premimum lawyer
--->
+    -->
     <string name="phone_no">+123-1234-123-123</string>
     <string name="address">عنوان :</string>
     <string name="address_static">مركز EmpireBusiness ، سورة</string>
@@ -84,10 +92,9 @@
     <string name="email_static">abc@gmail.com</string>
     <string name="site">موقع :</string>
     <string name="site_static">google.com</string>
-    <string name="media">وسائل الإعلام
-</string>
+    <string name="media">وسائل الإعلام</string>
     <string name="photos"><![CDATA[فيديوهات وصور]]></string>
     <string name="posted_by">منشور من طرف :</string>
-
+    <string name="premimum_lawyer">المحامي المميز</string>
 
 </resources>

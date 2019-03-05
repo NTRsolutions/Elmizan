@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.sismatix.Elmizan.Fregment.Login_freg;
+import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 
@@ -36,32 +37,26 @@ public class Splash_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getApplicationContext().setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-       //-----convert english to arabic----
         lang_arbi();
-
         setContentView(R.layout.activity_splash_screen);
-
         if(getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
+        if (Login_preference.getLogin_flag(this).equalsIgnoreCase("1")){
+            Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
+            startActivity(i);
+        }
         AllocateMemory();
-
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
                 //Bundle b=new Bundle();
                 i.putExtra("screen","Login");
                 //i.putExtras(b);
                 startActivity(i);
-
             }
         });
-
         btn_create_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,11 +65,8 @@ public class Splash_screen extends AppCompatActivity {
                 b.putString("screen","register");
                 i.putExtras(b);
                 startActivity(i);
-
             }
         });
-
-
         lv_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,17 +74,10 @@ public class Splash_screen extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
-
         String[] countries=getResources().getStringArray(R.array.theme_array);
-
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.spinner_layout,R.id.text, countries);
-
         spinner_theme.setAdapter(adapter);
         spinner_theme.setSelection(2,true);
-
-
         spinner_theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -103,9 +88,6 @@ public class Splash_screen extends AppCompatActivity {
                 }else {
                     My_Preference.settheme(Splash_screen.this,"0");
                 }
-
-
-
                 if(My_Preference.gettheme(Splash_screen.this).equalsIgnoreCase("1")==true)
                 {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -116,36 +98,23 @@ public class Splash_screen extends AppCompatActivity {
 
                         btn_login.setTextColor(getResources().getColor(R.color.black));
                         btn_create_account.setTextColor(getResources().getColor(R.color.black));
-
-
                     }
-
                 }else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-
                         btn_create_account.setBackground(ContextCompat.getDrawable(Splash_screen.this, R.drawable.round_btn_corner_black));
                         btn_login.setBackground(ContextCompat.getDrawable(Splash_screen.this, R.drawable.round_btn_corner_black));
-
                         lv_splash.setBackground(ContextCompat.getDrawable(Splash_screen.this, R.drawable.splashdefolt_bg));
-
                         btn_login.setTextColor(getResources().getColor(R.color.white));
                         btn_create_account.setTextColor(getResources().getColor(R.color.white));
 
                     }
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
-
-
-
-
     }
-
     private void pushFragment(Fragment fragment, String add_to_backstack) {
         if (fragment == null)
             return;
@@ -159,7 +128,6 @@ public class Splash_screen extends AppCompatActivity {
             }
         }
     }
-
     private void AllocateMemory() {
         btn_create_account=(Button)findViewById(R.id.btn_create_account);
         btn_login=(Button)findViewById(R.id.btn_login);
@@ -168,7 +136,7 @@ public class Splash_screen extends AppCompatActivity {
         iv_splash_icon=(ImageView) findViewById(R.id.iv_splash_icon);
         spinner_theme=(Spinner) findViewById(R.id.spinner_theme);
     }
-
+    //-----convert english to arabic----
     public void lang_arbi() {
             String languageToLoad = "ar";
             Locale locale = new Locale(languageToLoad);
@@ -177,5 +145,4 @@ public class Splash_screen extends AppCompatActivity {
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
-
 }

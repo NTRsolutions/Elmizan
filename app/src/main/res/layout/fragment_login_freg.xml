@@ -85,7 +85,7 @@
                     android:layout_below="@+id/google"
                     android:textColorHint="@color/edittextline">
                     <EditText
-                        android:id="@+id/editTextPasswordd"
+                        android:id="@+id/et_Email_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
@@ -107,7 +107,7 @@
                     android:layout_marginBottom="20dp">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/etPassword"
+                        android:id="@+id/et_password_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/password"
@@ -124,7 +124,7 @@
                         android:text="@string/forgotpassword"/>
                 </LinearLayout>
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btn_create_account_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -142,7 +142,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:layout_below="@+id/button"
+                    android:layout_below="@+id/btn_create_account_login"
                     android:text="@string/newusercreat"/>
             </RelativeLayout>
         </LinearLayout>
