@@ -1,7 +1,12 @@
 package com.sismatix.Elmizan.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.Fregment.News_Detail_freg;
 import com.sismatix.Elmizan.Model.Article_model;
 import com.sismatix.Elmizan.Model.Video_Model;
 import com.sismatix.Elmizan.R;
@@ -38,31 +45,34 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
     @Override
     public void onBindViewHolder(final Articles_Adapter.MyViewHolder holder, final int position) {
         final Article_model article_model = models.get(position);
-            holder.tv_article_description.setText(article_model.getArticle_description());
-            holder.tv_article_title.setText(article_model.getArticle_title());
-            holder.tv_article_date.setText(article_model.getArticle_date());
+
+        Navigation_activity.Check_String_NULL_Value(holder.tv_article_description,article_model.getArticle_description());
+        Navigation_activity.Check_String_NULL_Value(holder.tv_article_title,article_model.getArticle_title());
+
+       // holder.tv_article_description.setText(article_model.getArticle_description());
+            //holder.tv_article_title.setText(article_model.getArticle_title());
+          //  holder.tv_article_date.setText(article_model.getArticle_date());
         Glide.with(context).load(article_model.getImage()).into(holder.iv_article_image);
 
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
-/*
-            holder.lv_news.setOnClickListener(new View.OnClickListener() {
+            holder.lv_article_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                        Bundle b=new Bundle();
-                        b.putString("cat_id",product_model.getValue());
-                        b.putString("name",product_model.getCategory_name());
-                        Log.e("categotyidd",""+product_model.getValue());
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                            Bundle b=new Bundle();
+                            b.putString("article_id",article_model.getArticle_id());
+                            // b.putString("name",product_model.getCategory_name());
+                            Log.e("article_id",""+article_model.getArticle_id());
+                            AppCompatActivity activity = (AppCompatActivity) view.getContext();
                             Fragment myFragment = new News_Detail_freg();
-                            //myFragment.setArguments(b);
+                            myFragment.setArguments(b);
                             activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
                         }
                     }, 1000);
                 }
-            });*/
+            });
 
 
     }

@@ -4,6 +4,8 @@ package com.sismatix.Elmizan.Fregment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +47,7 @@ public class Login_freg extends Fragment implements View.OnClickListener {
         View v=inflater.inflate(R.layout.fragment_login_freg, container, false);
         AllocateMemory(v);
         btn_create_account_login.setOnClickListener(this);
+        tv_register.setOnClickListener(this);
 
         return v;
     }
@@ -72,6 +75,23 @@ public class Login_freg extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
             } else {
                  Createaccount_Api(signup_emailid,signup_passwordd);
+            }
+        }else if(view==tv_register)
+        {
+            pushFragment(new Register_freg(),"register");
+        }
+    }
+
+    private void pushFragment(Fragment fragment, String add_to_backstack) {
+        if (fragment == null)
+            return;
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null) {
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            if (ft != null) {
+                ft.replace(R.id.main_fram_layout, fragment);
+                ft.addToBackStack(add_to_backstack);
+                ft.commit();
             }
         }
     }

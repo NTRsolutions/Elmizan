@@ -1,9 +1,15 @@
 package com.sismatix.Elmizan.Activity;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
@@ -13,7 +19,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,9 +37,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sismatix.Elmizan.Adapter.Country_Adapter;
+import com.sismatix.Elmizan.Adapter.Home_News_Adapter;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Home_freg;
@@ -35,10 +51,24 @@ import com.sismatix.Elmizan.Fregment.Library_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
 import com.sismatix.Elmizan.Fregment.Video_freg;
+import com.sismatix.Elmizan.Model.Country_model;
+import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Navigation_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,14 +77,24 @@ public class Navigation_activity extends AppCompatActivity
     DrawerLayout drawer;
     public static Toolbar toolbar;
     NavigationView navigationView;
-    public  static ImageView iv_nav_currency_image,iv_nav_logo;
+    public  static ImageView iv_nav_country_image,iv_nav_logo;
     public  static TextView tv_nav_title,tv_nav_user_name;
     Bundle b;
     String Screen,register;
     public static AssetManager am ;
+    boolean doubleBackToExitPressedOnce = false;
     public static Typeface typeface,tf,medium;
     LinearLayout lv_withlogin_header,lv_withoutlogin_header,withoutloginicon;
     MenuItem nav_register,nav_contactus,nav_signin,nav_myaccount,nav_myarticle,nav_notification,nav_logout;
+    Point p,c;
+    ProgressDialog PD;
+    RecyclerView recycler_country;
+    public static PopupWindow popup;
+    ProgressBar progressBar_country;
+
+
+    private List<Country_model> country_model = new ArrayList<Country_model>();
+    private Country_Adapter country_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +108,8 @@ public class Navigation_activity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        PD = new ProgressDialog(Navigation_activity.this);
+        PD.setCancelable(false);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -125,6 +167,305 @@ public class Navigation_activity extends AppCompatActivity
                 pushFragment(new Register_freg(),"register");
             }
         }
+
+
+        //---------get country//
+        iv_nav_country_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (c != null)
+
+                   // showPopupCurrency(Navigation_activity.this, c);
+                showPopup(Navigation_activity.this, c);
+
+
+            }
+        });
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        int[] location = new int[2];
+        iv_nav_country_image.getLocationOnScreen(location);
+        c = new Point();
+        c.x = location[0];
+        c.y = location[1];
+
+    }
+    private void showPopup(final Activity context, Point c) {
+        int popupWidth = 500;
+        int popupHeight = 650;
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
+
+
+
+        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup1);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.country_popup_row, viewGroup);
+     ///   lv_english = (LinearLayout) layout.findViewById(R.id.lv_english);
+     //   lv_arbi = (LinearLayout) layout.findViewById(R.id.lv_arbi);
+
+
+        progressBar_country = (ProgressBar) layout.findViewById(R.id.progressBar_country);
+        recycler_country = (RecyclerView) layout.findViewById(R.id.recycler_country);
+        LinearLayout lv_show = (LinearLayout) layout.findViewById(R.id.lv_country_show);
+        country_adapter = new Country_Adapter(Navigation_activity.this, country_model);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Navigation_activity.this, LinearLayoutManager.VERTICAL, true);
+        layoutManager.setReverseLayout(false);
+        recycler_country.setLayoutManager(layoutManager);
+        recycler_country.setAdapter(country_adapter);
+        //lv_show.setVisibility(View.VISIBLE);
+
+        CALL_COUNTRY_API(lv_show);
+        final PopupWindow popup = new PopupWindow(context);
+        popup.setContentView(layout);
+        popup.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup.setFocusable(true);
+        int OFFSET_X;
+        int OFFSET_Y;
+        popup.setBackgroundDrawable(new BitmapDrawable());
+
+        if (width > 1300) {
+            popupHeight = 950;
+            popup.setHeight(popupHeight);
+            OFFSET_X = -538;
+            OFFSET_Y = 80;
+            Log.e("abc","abc8");
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 1200 && width <= 1300) {
+            popupWidth = 900;
+            popupHeight = 1100;
+            popup.setHeight(popupHeight);
+            popup.setWidth(popupWidth);
+            OFFSET_X = -560;
+            OFFSET_Y = 90;
+            Log.e("abc","abc1");
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 1100 && width <= 1200) {
+            popupWidth = 900;
+            popupHeight = 1100;
+            Log.e("abc","abc");
+            popup.setHeight(popupHeight);
+            popup.setWidth(popupWidth);
+            OFFSET_X = -975;
+            OFFSET_Y = 80;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 1020 && width <= 1100) {
+            popupHeight = 750;
+            popup.setHeight(popupHeight);
+            OFFSET_X = -550;
+            OFFSET_Y = 100;
+            Log.e("abc","abc2");
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 950 && width <= 1020) {
+            OFFSET_X = -550;
+            OFFSET_Y = 80;            Log.e("abc","abc3");
+
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 850 && width <= 950) {
+            OFFSET_X = -495;
+            OFFSET_Y = 40;
+            Log.e("abc","abc4");
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 750 && width <= 800) {
+            OFFSET_X = -420;
+            OFFSET_Y = 80;
+            Log.e("abc","abc5");
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 650 && width <= 750) {
+            OFFSET_X = -450;
+            OFFSET_Y = 80;
+            Log.e("abc","abc6");
+
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 550 && width <= 650) {
+            popup.setWidth(popupWidth);
+            OFFSET_X = -430;
+            OFFSET_Y = 40;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+
+        } else if (width >= 500 && width <= 560) {
+            popup.setWidth(popupWidth);
+            OFFSET_X = -350;
+            OFFSET_Y = 80;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+
+        }
+
+
+
+       // popup.setBackgroundDrawable(new BitmapDrawable());
+     //   popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+
+
+        //popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+    }
+
+    private void showPopupCurrency(final Activity context, Point c) {
+        PD.show();
+        int popupWidth = 500;
+        int popupHeight = 650;
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+
+        Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
+
+        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup1);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.country_popup_row, viewGroup);
+
+        recycler_country = (RecyclerView) layout.findViewById(R.id.recycler_country);
+        LinearLayout lv_show = (LinearLayout) layout.findViewById(R.id.lv_country_show);
+        country_adapter = new Country_Adapter(Navigation_activity.this, country_model);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Navigation_activity.this, LinearLayoutManager.VERTICAL, true);
+        layoutManager.setReverseLayout(false);
+        recycler_country.setLayoutManager(layoutManager);
+        recycler_country.setAdapter(country_adapter);
+         //lv_show.setVisibility(View.VISIBLE);
+
+        CALL_COUNTRY_API(lv_show);
+
+        popup = new PopupWindow(context);
+        popup.setContentView(layout);
+        popup.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        popup.setHeight(popupHeight);
+        popup.setFocusable(true);
+        int OFFSET_X;
+        int OFFSET_Y;
+        popup.setBackgroundDrawable(new BitmapDrawable());
+
+        if (width > 1300) {
+            popupHeight = 950;
+            popup.setHeight(popupHeight);
+            OFFSET_X = -550;
+            OFFSET_Y = 30;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 1200 && width <= 1300) {
+            popupWidth = 900;
+            popupHeight = 1100;
+            popup.setHeight(popupHeight);
+            popup.setWidth(popupWidth);
+            OFFSET_X = -760;
+            OFFSET_Y = 90;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 1100 && width <= 1200) {
+            popupWidth = 900;
+            popupHeight = 1100;
+            popup.setHeight(popupHeight);
+            popup.setWidth(popupWidth);
+            OFFSET_X = -740;
+            OFFSET_Y = 90;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 1020 && width <= 1100) {
+            popupHeight = 750;
+            popup.setHeight(popupHeight);
+            OFFSET_X = -650;
+            OFFSET_Y = 100;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 950 && width <= 1020) {
+            OFFSET_X = -550;
+            OFFSET_Y = 80;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 850 && width <= 950) {
+            OFFSET_X = -495;
+            OFFSET_Y = 40;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 750 && width <= 800) {
+            OFFSET_X = -495;
+            OFFSET_Y = 80;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 650 && width <= 750) {
+            OFFSET_X = -500;
+            OFFSET_Y = 80;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        } else if (width > 550 && width <= 650) {
+            popup.setWidth(popupWidth);
+            OFFSET_X = -430;
+            OFFSET_Y = 40;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+
+        } else if (width >= 500 && width <= 560) {
+            popup.setWidth(popupWidth);
+            OFFSET_X = -350;
+            OFFSET_Y = 80;
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+
+        }
+    }
+
+    private void CALL_COUNTRY_API(final LinearLayout lv_show) {
+      //  progressBar_home.setVisibility(View.VISIBLE);
+        country_model.clear();
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> country_list = api.get_country_list();
+
+        country_list.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("response_counry", "" + response.body().toString());
+             //   progressBar_home.setVisibility(View.GONE);
+
+                PD.dismiss();
+                lv_show.setVisibility(View.VISIBLE);
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_country",""+status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message",""+message);
+                    if (status.equalsIgnoreCase("success")){
+                        JSONArray data_array=jsonObject.getJSONArray("data");
+
+                        for (int i = 0; i < data_array.length(); i++) {
+
+                            try {
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                Log.e("Name",""+news_object.getString("country_id"));
+                                country_model.add(new Country_model(news_object.getString("country_id"),
+                                        news_object.getString("country_name"),
+                                        news_object.getString("country_status"),
+                                        news_object.getString("country_image_url")
+                                ));
+
+                            } catch (Exception e) {
+                                Log.e("Exception", "" + e);
+                            } finally {
+                                country_adapter.notifyItemChanged(i);
+                            }
+
+                        }
+
+                    }else if (status.equalsIgnoreCase("error")){
+                    }
+
+                }catch (Exception e){
+                    Log.e("",""+e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(Navigation_activity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void SET_FONT_STYLE() {
@@ -140,7 +481,7 @@ public class Navigation_activity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         bottom_navigation = findViewById(R.id.bottom_navigation);
-        iv_nav_currency_image = findViewById(R.id.iv_nav_currency_image);
+        iv_nav_country_image = findViewById(R.id.iv_nav_country_image);
         iv_nav_logo = findViewById(R.id.iv_nav_logo);
         tv_nav_title = findViewById(R.id.tv_nav_title);
         View header = navigationView.getHeaderView(0);
@@ -156,6 +497,11 @@ public class Navigation_activity extends AppCompatActivity
         nav_myarticle = menu.findItem(R.id.nav_my_article);
         nav_notification = menu.findItem(R.id.nav_notification);
         nav_logout = menu.findItem(R.id.nav_logout);
+
+
+
+
+
 
     }
 
@@ -223,6 +569,30 @@ public class Navigation_activity extends AppCompatActivity
                 }*/
         }
     }
+    public static void Check_String_NULL_Value( TextView textview, String text) {
+
+
+        if(text.equalsIgnoreCase("null")==true)
+        {
+            textview.setText("");
+        }else {
+
+            textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
+        }
+
+    }
+    public static String  Convert_String_First_Letter(String convert_string)
+    {
+        String upperString ;
+
+        if(convert_string.length() > 0)
+        {
+            upperString = convert_string.substring(0,1).toUpperCase() + convert_string.substring(1);
+        }else {
+            upperString=" ";
+        }
+        return upperString;
+    }
     private void pushFragment(Fragment fragment, String add_to_backstack) {
         if (fragment == null)
             return;
@@ -244,7 +614,99 @@ public class Navigation_activity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+
+       /* FragmentManager fragmentManager = getSupportFragmentManager();
+        //  fragmentManager.popBackStack();
+        //Here we are clearing back stack fragment entries
+
+        int count = fragmentManager.getBackStackEntryCount();
+        *//* if (count == 0) {*//*
+
+        if (doubleBackToExitPressedOnce) {
+            Log.e("198",""+doubleBackToExitPressedOnce);
+            super.onBackPressed();
+            super.finish();
+            return;
+        }
+        Log.e("203",""+doubleBackToExitPressedOnce);
+        this.doubleBackToExitPressedOnce = true;
+
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("208",""+doubleBackToExitPressedOnce);
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 3000);*/
+       /* }else {
+
+            if (doubleBackToExitPressedOnce) {
+                Log.e("198",""+doubleBackToExitPressedOnce);
+                super.onBackPressed();
+                super.finish();
+                return;
+            }
+            Log.e("203",""+doubleBackToExitPressedOnce);
+            this.doubleBackToExitPressedOnce = true;
+
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("208",""+doubleBackToExitPressedOnce);
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 3000);
+        }*/
+      /*  if (count == 1) {
+
+            Log.e("196",""+doubleBackToExitPressedOnce);
+            if (doubleBackToExitPressedOnce) {
+                Log.e("198",""+doubleBackToExitPressedOnce);
+                super.onBackPressed();
+                super.finish();
+                return;
+            }
+            Log.e("203",""+doubleBackToExitPressedOnce);
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("208",""+doubleBackToExitPressedOnce);
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 3000);
+        }
+        else {
+            // String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
+
+            super.onBackPressed();
+            int countttt = fragmentManager.getBackStackEntryCount();
+            Log.e("onBackPressetitle", "aaa" );
+            Log.e("220_count_onBack", "aaa" +countttt);
+
+            //tv_title.setText(title);
+        }*//*else if (count == 0) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                super.finish();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }*/
     }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

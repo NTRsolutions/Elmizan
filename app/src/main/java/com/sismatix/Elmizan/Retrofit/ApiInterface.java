@@ -16,8 +16,8 @@ public interface ApiInterface {
     Call<ResponseBody> login(@Field("user_name") String user_name,
                              @Field("user_password") String user_password);
 
-//news list
-//https://elmizan.demoproject.info/api/news_list.php
+    //news list
+    //https://elmizan.demoproject.info/api/news_list.php
 
     @GET("news_list.php")
     Call<ResponseBody> get_News_list(@Query("page") String page,
@@ -25,15 +25,16 @@ public interface ApiInterface {
                                      @Query("news_status[]") String news_status);
 
     //news detail api
-//https://elmizan.demoproject.info/api/news_details.php
-//prameter pass =>news_id
+    //https://elmizan.demoproject.info/api/news_details.php
+    //prameter pass =>news_id
     @POST("news_details.php")
     @FormUrlEncoded
-    Call<ResponseBody> get_news_detail(@Field("news_id") String news_id);
+    Call<ResponseBody> get_news_detail(@Field("news_id") String news_id,
+                                       @Field("user_id") String user_id);
 
     //Add Comment
-//https://elmizan.demoproject.info/api/news_comment_add.php
-//prameter pass =>news_id,user_id,news_comment_content
+    //https://elmizan.demoproject.info/api/news_comment_add.php
+    //prameter pass =>news_id,user_id,news_comment_content
     @POST("news_comment_add.php")
     @FormUrlEncoded
     Call<ResponseBody> get_news_add_comment(@Field("news_id") String news_id,
@@ -41,38 +42,62 @@ public interface ApiInterface {
                                             @Field("news_comment_content") String news_comment_content);
 
     //News like
-//https://elmizan.demoproject.info/api/news_like_add.php
-//prameter pass =>news_id,user_id
+    //https://elmizan.demoproject.info/api/news_like_add.php
+    //prameter pass =>news_id,user_id
     @POST("news_like_add.php")
     @FormUrlEncoded
     Call<ResponseBody> get_news_like(@Field("news_id") String news_id,
                                      @Field("user_id") String user_id);
 
-//article list
-//https://elmizan.demoproject.info/api/article_list.php
+    //article list
+    //https://elmizan.demoproject.info/api/article_list.php
 
     @GET("article_list.php")
     Call<ResponseBody> get_article_list(@Query("page") String page,
                                         @Query("per_page") String per_page,
-                                        @Query("article_status[]") String article_status
-                                        );
+                                        @Query("article_status[]") String article_status,
+                                        @Query("inserted_by") String inserted_by);
+
+    //get article detail
+    //https://elmizan.demoproject.info/api/article_details.php
+    @POST("article_details.php")
+    @FormUrlEncoded
+    Call<ResponseBody> get_article_detail(@Field("article_id") String Article_id,
+      @Field("user_id") String user_id);
+
+
+    //Article add comment
+    //https://elmizan.demoproject.info/api/article_comment_add.php
+    @POST("article_comment_add.php")
+    @FormUrlEncoded
+    Call<ResponseBody> get_article_add_comment(@Field("article_id") String article_id,
+                                            @Field("user_id") String user_id,
+                                            @Field("article_comment_content") String article_comment_content);
+
+    //article like api
+    //https://elmizan.demoproject.info/api/article_like_add.php
+    @POST("article_like_add.php")
+    @FormUrlEncoded
+    Call<ResponseBody> get_article_like(@Field("article_id") String article_id,
+                                     @Field("user_id") String user_id);
+
 
     //category list
-//https://elmizan.demoproject.info/api/category_list.php
+    //https://elmizan.demoproject.info/api/category_list.php
     @GET("category_list.php")
     Call<ResponseBody> get_category_list();
 
     //library list
-//https://elmizan.demoproject.info/api/library_list.php?page=1&per_page=10&library_status[]=1&category_id[]=1
-//prameter pass =>category_id[],page,per_page
+    //https://elmizan.demoproject.info/api/library_list.php?page=1&per_page=10&library_status[]=1&category_id[]=1
+    //prameter pass =>category_id[],page,per_page
     @GET("library_list.php")
     Call<ResponseBody> get_library_list(@Query("page") String page,
                                         @Query("per_page") String per_page,
                                         @Query("category_id[]") String category_id,
                                         @Query("library_status[]") String library_status);
 
-//Register api
-//https://elmizan.demoproject.info/api/user_registration.php
+    //Register api
+    //https://elmizan.demoproject.info/api/user_registration.php
     @POST("user_registration.php")
     @FormUrlEncoded
     Call<ResponseBody> get_register(@Field("user_name") String user_name,
@@ -91,14 +116,18 @@ public interface ApiInterface {
     Call<ResponseBody> get_User_list(@Query("page") String page,
                                      @Query("per_page") String per_page,
                                      @Query("user_type[]") String user_type,
-                                     @Query("user_status[]") String user_status);
+                                     @Query("user_status[]") String user_status,
+                                     @Query("search") String search);
     //Get User Detail
     //https://elmizan.demoproject.info/api/user_details.php
     @POST("user_details.php")
     @FormUrlEncoded
-    Call<ResponseBody> get_user_detail(@Field("user_id") String user_id
-                                     );
+    Call<ResponseBody> get_user_detail(@Field("user_id") String user_id);
 
+    //Get country list
+    //https://elmizan.demoproject.info/api/country_list.php
+    @GET("country_list.php")
+    Call<ResponseBody> get_country_list();
 
 
 }

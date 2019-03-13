@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Model.Library_model;
 import com.sismatix.Elmizan.Model.Video_Model;
 import com.sismatix.Elmizan.R;
@@ -38,9 +39,14 @@ import java.util.List;
         @Override
         public void onBindViewHolder(final Library_adapter.MyViewHolder holder, final int position) {
             final Library_model product_model = models.get(position);
+
+            Navigation_activity.Check_String_NULL_Value(holder.tv_library_title,product_model.getLibrary_title());
+            Navigation_activity.Check_String_NULL_Value(holder.tv_library_link,product_model.getLibrary_link());
+
+
             holder.tv_library_date.setText(product_model.getLibrary_date());
-            holder.tv_library_link.setText(product_model.getLibrary_link());
-            holder.tv_library_title.setText(product_model.getLibrary_title());
+           // holder.tv_library_link.setText(product_model.getLibrary_link());
+          //  holder.tv_library_title.setText(product_model.getLibrary_title());
             holder.tv_library_link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

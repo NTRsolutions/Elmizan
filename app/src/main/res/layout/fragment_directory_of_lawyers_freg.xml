@@ -6,29 +6,53 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".Fregment.Directory_of_lawyers_freg">
+    <ProgressBar
+        android:id="@+id/progressBar_user_detail"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:indeterminateDrawable="@drawable/custom_progress"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/lv_user_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-            <ImageView
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/iv_lawyer_profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/freelayer_profile"/>
+                app:civ_border_color="#fff"
+                app:civ_border_width="1dp" />
+
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:tint="@color/date_color"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/menu_img"/>
             <TextView
                 android:id="@+id/tv_name_dircto"
                 android:layout_width="wrap_content"
@@ -36,18 +60,14 @@
                 android:textColor="@color/black"
                 android:textSize="15dp"
                 android:text="@string/free_name"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:tint="@color/date_color"
-                android:src="@drawable/menu_img"/>
+
         </LinearLayout>
         <TextView
             android:id="@+id/tv_shortdicription_dircto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:textColor="@color/black"
             android:text="@string/shortdicription"/>
         <LinearLayout

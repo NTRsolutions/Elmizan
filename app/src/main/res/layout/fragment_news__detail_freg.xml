@@ -17,6 +17,23 @@
             android:padding="15dp"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/progressBar_newsdetail"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/custom_progress"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/lv_news_detail"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,9 +44,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center|start"
                     android:orientation="vertical">
 
                     <TextView
+                        android:gravity="center|start"
                         android:id="@+id/tv_detail_news_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -78,6 +98,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <ImageView
@@ -94,16 +115,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center|start">
 
                 <TextView
+                    android:gravity="center|start"
                     android:id="@+id/tv_news_detail_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/date"
                     android:textColor="@color/bottom_icon"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -119,12 +141,12 @@
                     android:layout_marginTop="15dp"
                     android:orientation="vertical"
                     app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="8dp"
+                    app:cardCornerRadius="4dp"
                     app:cardElevation="1dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="140dp"
+                        android:layout_height="120dp"
                         android:orientation="vertical">
 
                         <ImageView
@@ -143,6 +165,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:gravity="center|start"
                     android:id="@+id/tv_posted"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -153,6 +176,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:gravity="center|start"
                     android:id="@+id/tv_posted_by"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,6 +193,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:gravity="center|start"
                     android:id="@+id/tv_news_detail_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -194,6 +219,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:gravity="center|start"
                     android:id="@+id/tv_detail_news_add_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -245,6 +271,7 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:text="@string/send"/>
+            </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

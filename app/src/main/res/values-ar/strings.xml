@@ -98,6 +98,6 @@
     <string name="Address">العنوان:</string>
     <string name="email_direct">الإيميل:</string>
     <string name="sitee">الموقع:</string>
-
-
+    <string name="data_not_found">Data Not Found</string>
+    <string name="country">Country</string>
 </resources>

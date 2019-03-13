@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.Adapter.PlansPagerAdapter;
+import com.sismatix.Elmizan.Adapter.TAb_PAGER_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.R;
@@ -34,6 +35,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class Library_freg extends Fragment {
+
     TabLayout tabLayout;
     ViewPager viewpager;
     public static int position;
@@ -58,9 +60,81 @@ public class Library_freg extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }*/
-        initViews();
+        //initViews();
+
+
+        if (viewpager != null) {
+            setupViewPager(viewpager);
+            viewpager.setCurrentItem(0);
+            tabLayout.setupWithViewPager(viewpager);
+        }
         return view;
     }
+    private void setupViewPager(ViewPager viewPager) {
+
+        TAb_PAGER_Adapter adapter = new TAb_PAGER_Adapter(getChildFragmentManager());
+        Dynamic_lib_Fregment fragment;
+        Bundle bundle ;
+
+        for (int i=0;i<Home_freg.category_title.size();i++)
+        {
+            fragment = new Dynamic_lib_Fregment();
+            bundle = new Bundle();
+            bundle.putInt("type", i);
+            fragment.setArguments(bundle);
+            adapter.addFragment(fragment, Home_freg.category_title.get(i));
+
+            // tabLayout.addTab(tabLayout.newTab().setText(Home_freg.category_title.get(i)));
+           /* PlansPagerAdapter adapter = new PlansPagerAdapter
+                    (getChildFragmentManager(), tabLayout.getTabCount());
+            viewpager.setAdapter(adapter);
+            viewpager.setCurrentItem(0);*/
+        }
+
+        viewPager.setAdapter(adapter);
+        viewPager.getAdapter().notifyDataSetChanged();
+
+        if (tabLayout.getTabCount() == 2) {
+            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        } else {
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }
+
+      /*  Bundle bundle = new Bundle();
+        bundle.putInt("type", 1);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, getString(R.string.item_1));
+
+
+        fragment = new Dynamic_Library_freg();
+        bundle = new Bundle();
+        bundle.putInt("type", 2);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, getString(R.string.item_2));
+
+        fragment = new ImageListFragment();
+        bundle = new Bundle();
+        bundle.putInt("type", 3);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, getString(R.string.item_3));
+
+        fragment = new ImageListFragment();
+        bundle = new Bundle();
+        bundle.putInt("type", 4);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, getString(R.string.item_4));
+        fragment = new ImageListFragment();
+        bundle = new Bundle();
+        bundle.putInt("type", 5);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, getString(R.string.item_5));
+        fragment = new ImageListFragment();
+        bundle = new Bundle();
+        bundle.putInt("type", 6);
+        fragment.setArguments(bundle);
+        adapter.addFragment(fragment, getString(R.string.item_6));
+        viewPager.setAdapter(adapter);
+*/    }
 
     private void initViews(){
 

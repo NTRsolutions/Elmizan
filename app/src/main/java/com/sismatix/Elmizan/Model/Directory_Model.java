@@ -17,10 +17,18 @@ public class Directory_Model {
     String user_updated_at;
     String user_verify_token;
     String user_created_at;
-    String user_avatar_url;
+    String user_avatar_url,user_description;
+
+    public String getUser_description() {
+        return user_description;
+    }
+
+    public void setUser_description(String user_description) {
+        this.user_description = user_description;
+    }
 
     public Directory_Model(String user_id, String user_name, String user_email, String user_phone, String user_address, String user_firstname, String user_lastname, String user_avatar, String user_type, String user_website, String basic_premium, String user_status, String is_online,
-                           String user_updated_at, String user_verify_token, String user_created_at, String user_avatar_url) {
+                           String user_updated_at, String user_verify_token, String user_created_at, String user_avatar_url, String user_description) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_email = user_email;
@@ -38,6 +46,7 @@ public class Directory_Model {
         this.user_verify_token = user_verify_token;
         this.user_created_at = user_created_at;
         this.user_avatar_url = user_avatar_url;
+        this.user_description = user_description;
     }
     public String getUser_id() {
         return user_id;

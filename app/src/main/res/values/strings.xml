@@ -107,5 +107,11 @@
     <string name="Address">Address:</string>
     <string name="email_direct">Email:</string>
     <string name="sitee">Site:</string>
+    <string name="data_not_found">Data Not Found</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="country">Country</string>
+
 
 </resources>

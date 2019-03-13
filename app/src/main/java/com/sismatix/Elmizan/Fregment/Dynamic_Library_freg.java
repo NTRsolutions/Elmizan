@@ -91,11 +91,11 @@ public class Dynamic_Library_freg extends Fragment {
         //Log.e("tab_position_61",""+tab_position);
         Log.e("category_id_64",""+category_id);
         Log.e("val",""+val);
-        textView.setText(String.valueOf("Category :  "+getArguments().getInt("position"))+"=categoryid =>" +category_id);
+       // textView.setText(String.valueOf("Category :  "+getArguments().getInt("position"))+"=categoryid =>" +category_id);
         context=getActivity();
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
-            Call_Library_API(category_id);
+           // Call_Library_API(category_id);
         } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }

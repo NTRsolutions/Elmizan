@@ -4,34 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:orientation="vertical"
- >
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
+
         <ProgressBar
             android:id="@+id/progressBar_library"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="200dp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
+            android:layout_marginTop="200dp"
             android:indeterminateDrawable="@drawable/custom_progress"
             android:visibility="gone" />
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recycler_library"/>
 
+        <TextView
+            android:id="@+id/tv_data_not_found_library"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/data_not_found"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textColor="@color/edittextline"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="14sp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_library"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>

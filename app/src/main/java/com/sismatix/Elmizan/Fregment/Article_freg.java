@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -47,7 +48,9 @@ public class Article_freg extends Fragment {
     private Articles_Adapter articles_adapter;
 
     ProgressBar progressBar_article;
-
+    Bundle bundle;
+    String user_id;
+    TextView tv_article;
     public Article_freg() {
         // Required empty public constructor
     }
@@ -63,7 +66,14 @@ public class Article_freg extends Fragment {
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
 
         AllocateMemory(view);
+        bundle = this.getArguments();
+        if(bundle != null){
+            user_id=bundle.getString("user_id");
+            Log.e("user_id_70",""+user_id);
+        }else {
+            Log.e("user_id_71",""+user_id);
 
+        }
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
             CALL_Article_API();
         } else {
@@ -85,7 +95,14 @@ public class Article_freg extends Fragment {
         progressBar_article.setVisibility(View.VISIBLE);
         article_models.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> article_list = api.get_article_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_status);
+        Call<ResponseBody> article_list;
+        if(bundle == null){
+            Log.e("user_id_97",""+user_id);
+            article_list= api.get_article_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_status,"");
+        }else {
+            Log.e("user_id_101",""+user_id);
+            article_list= api.get_article_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_status,user_id);
+        }
 
         article_list.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -100,6 +117,9 @@ public class Article_freg extends Fragment {
                     String message = jsonObject.getString("msg");
                     Log.e("message", "" + message);
                     if (status.equalsIgnoreCase("success")) {
+                        tv_article.setVisibility(View.GONE);
+                        recycler_article.setVisibility(View.VISIBLE);
+
                         JSONArray data_array = jsonObject.getJSONArray("data");
                         String image = null;
                         for (int i = 0; i < data_array.length(); i++) {
@@ -133,6 +153,9 @@ public class Article_freg extends Fragment {
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
+                        tv_article.setVisibility(View.VISIBLE);
+                        tv_article.setText(message);
+                        recycler_article.setVisibility(View.GONE);
                     }
 
                 } catch (Exception e) {
@@ -151,6 +174,7 @@ public class Article_freg extends Fragment {
     private void AllocateMemory(View view) {
         recycler_article = (RecyclerView) view.findViewById(R.id.recycler_article);
         progressBar_article = view.findViewById(R.id.progressBar_article);
+        tv_article = view.findViewById(R.id.tv_article);
 
     }
 

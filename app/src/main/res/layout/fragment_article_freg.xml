@@ -18,6 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_article"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_article"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/edittextline"
+        android:layout_margin="20dp"
+        android:padding="30dp"/>
 
 
 

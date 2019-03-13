@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Fregment.News_Detail_freg;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.R;
@@ -62,8 +63,10 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
         Log.e("date_news_61",""+output1);
 */
         holder.tv_date_news.setText(Html.fromHtml(model.getNews_day()+" "+model.getNews_month()+", "+model.getNews_year()));
-        holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
-        holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
+        Navigation_activity.Check_String_NULL_Value(holder.tv_title_news,model.getNews_title());
+        Navigation_activity.Check_String_NULL_Value(holder.tv_detail_news,model.getNews_description());
+        //holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
+        //holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
 
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
         if(position %2 == 1)

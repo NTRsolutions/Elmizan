@@ -8,10 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
@@ -20,6 +24,7 @@ import com.sismatix.Elmizan.Retrofit.ApiInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,8 +36,11 @@ import retrofit2.Response;
 public class Directory_of_lawyers_freg extends Fragment {
 
     TextView tv_name_dircto,tv_shortdicription_dircto,tv_phonenumber_dircto,tv_address_dircto,tv_email_direct,tv_site_dircto;
-    ImageView iv_lawyer_profile;
-
+    CircleImageView iv_lawyer_profile;
+    ProgressBar progressBar_user_detail;
+    LinearLayout lv_user_detail;
+    Bundle bundle;
+    String user_id;
     public Directory_of_lawyers_freg() {
         // Required empty public constructor
     }
@@ -44,14 +52,24 @@ public class Directory_of_lawyers_freg extends Fragment {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_directory_of_lawyers_freg, container, false);
         Allocate_Memory(v);
+        bundle = this.getArguments();
 
-        CALL_USER_DETAIL_API();
+        if(bundle!=null){
+            user_id=bundle.getString("user_id");
+            Log.e("user_id_58",""+user_id);
+        }
+        if (CheckNetwork.isNetworkAvailable(getActivity())) {
+            CALL_USER_DETAIL_API();
+
+        } else {
+            Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
         return v;
     }
 
     private void CALL_USER_DETAIL_API() {
-
-        String user_id=Login_preference.getuser_id(getActivity());
+        progressBar_user_detail.setVisibility(View.VISIBLE);
+        lv_user_detail.setVisibility(View.GONE);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> user_detail = api.get_user_detail(user_id);
 
@@ -62,6 +80,9 @@ public class Directory_of_lawyers_freg extends Fragment {
                 Log.e("response", "" + response.body().toString());
                 //  progressBar.setVisibility(View.GONE);
 
+
+                progressBar_user_detail.setVisibility(View.GONE);
+                lv_user_detail.setVisibility(View.VISIBLE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
@@ -72,12 +93,18 @@ public class Directory_of_lawyers_freg extends Fragment {
                         JSONObject data_obj=jsonObject.getJSONObject("data");
                         Log.e("status_data_obj",""+data_obj);
 
-                        tv_name_dircto.setText(data_obj.getString("user_name"));
+                        Navigation_activity.Check_String_NULL_Value(tv_name_dircto,data_obj.getString("user_name"));
+                        Navigation_activity.Check_String_NULL_Value(tv_address_dircto,data_obj.getString("user_address"));
+                        Navigation_activity.Check_String_NULL_Value(tv_phonenumber_dircto,data_obj.getString("user_phone"));
+                        Navigation_activity.Check_String_NULL_Value(tv_email_direct,data_obj.getString("user_email"));
+                        Navigation_activity.Check_String_NULL_Value(tv_site_dircto,data_obj.getString("user_website"));
+                        Navigation_activity.Check_String_NULL_Value(tv_shortdicription_dircto,data_obj.getString("user_description"));
+                        /*//tv_name_dircto.setText(data_obj.getString("user_name"));
                         tv_address_dircto.setText(data_obj.getString("user_address"));
-                       tv_email_direct.setText(data_obj.getString("user_email"));
+                        tv_email_direct.setText(data_obj.getString("user_email"));
                         tv_phonenumber_dircto.setText(data_obj.getString("user_phone"));
-                       // tv_shortdicription_dircto.setText(data_obj.getString("user_phone"));
-                        tv_site_dircto.setText(data_obj.getString("user_website"));
+                        tv_shortdicription_dircto.setText(data_obj.getString("user_description"));
+                        tv_site_dircto.setText(data_obj.getString("user_website"));*/
                         Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(iv_lawyer_profile);
 
 
@@ -102,7 +129,10 @@ public class Directory_of_lawyers_freg extends Fragment {
         tv_phonenumber_dircto=(TextView)v.findViewById(R.id.tv_phonenumber_dircto);
         tv_email_direct=(TextView)v.findViewById(R.id.tv_email_direct);
         tv_site_dircto=(TextView)v.findViewById(R.id.tv_site_dircto);
-        iv_lawyer_profile=(ImageView) v.findViewById(R.id.iv_lawyer_profile);
+        iv_lawyer_profile=(CircleImageView) v.findViewById(R.id.iv_lawyer_profile);
+
+        lv_user_detail=(LinearLayout) v.findViewById(R.id.lv_user_detail);
+        progressBar_user_detail=(ProgressBar) v.findViewById(R.id.progressBar_user_detail);
 
     }
 
