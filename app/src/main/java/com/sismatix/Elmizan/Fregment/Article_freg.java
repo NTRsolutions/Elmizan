@@ -63,6 +63,8 @@ public class Article_freg extends Fragment {
         view = inflater.inflate(R.layout.fragment_article_freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
+
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
 
         AllocateMemory(view);
@@ -153,6 +155,8 @@ public class Article_freg extends Fragment {
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
+                        tv_article.setTypeface(Navigation_activity.typeface);
+
                         tv_article.setVisibility(View.VISIBLE);
                         tv_article.setText(message);
                         recycler_article.setVisibility(View.GONE);

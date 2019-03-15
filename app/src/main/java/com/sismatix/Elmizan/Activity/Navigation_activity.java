@@ -9,12 +9,8 @@ import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -43,16 +39,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.Adapter.Country_Adapter;
-import com.sismatix.Elmizan.Adapter.Home_News_Adapter;
+import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
+import com.sismatix.Elmizan.Fregment.Contact_us;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Home_freg;
-import com.sismatix.Elmizan.Fregment.Library_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
+import com.sismatix.Elmizan.Fregment.New_Library_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
 import com.sismatix.Elmizan.Fregment.Video_freg;
 import com.sismatix.Elmizan.Model.Country_model;
-import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
@@ -181,7 +177,8 @@ public class Navigation_activity extends AppCompatActivity
 
             }
         });
-    }
+
+        }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 
@@ -551,7 +548,7 @@ public class Navigation_activity extends AppCompatActivity
                     break;
                 }*/
             case R.id.bottom_nav_library:
-                pushFragment(new Library_freg(),"Cart");
+                pushFragment(new New_Library_freg(),"Cart");
 
                 break;
             case R.id.bottom_nav_myaccount:
@@ -738,8 +735,11 @@ public class Navigation_activity extends AppCompatActivity
 
         if (id == R.id.nav_about_us) {
             // Handle the camera action
+            pushFragment(new About_us(),"aboutus");
+
         } else if (id == R.id.nav_contactus) {
 
+            pushFragment(new Contact_us(),"aboutus");
         } else if (id == R.id.nav_logout) {
             String lo="0";
             Login_preference.setLogin_flag(this,lo);

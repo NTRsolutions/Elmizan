@@ -263,6 +263,7 @@
                 android:id="@+id/lv_news_detail_send"
                 android:background="@color/black">
                 <TextView
+                    android:id="@+id/tv_send_news"
                     android:gravity="center"
                     android:padding="10dp"
                     android:layout_width="match_parent"

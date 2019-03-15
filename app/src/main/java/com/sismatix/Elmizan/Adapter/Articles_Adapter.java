@@ -45,6 +45,8 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
     @Override
     public void onBindViewHolder(final Articles_Adapter.MyViewHolder holder, final int position) {
         final Article_model article_model = models.get(position);
+        holder.tv_article_description.setTypeface(Navigation_activity.typeface);
+        holder.tv_article_title.setTypeface(Navigation_activity.typeface);
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_description,article_model.getArticle_description());
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_title,article_model.getArticle_title());

@@ -57,6 +57,12 @@ public class Login_freg extends Fragment implements View.OnClickListener {
         et_password_login=(EditText)v.findViewById(R.id.et_password_login);
         btn_create_account_login=(Button)v.findViewById(R.id.btn_create_account_login);
         tv_register=(TextView) v.findViewById(R.id.tv_register);
+
+        tv_register.setTypeface(Navigation_activity.typeface);
+        btn_create_account_login.setTypeface(Navigation_activity.typeface);
+        et_password_login.setTypeface(Navigation_activity.typeface);
+        et_Email_login.setTypeface(Navigation_activity.typeface);
+
     }
 
     @Override

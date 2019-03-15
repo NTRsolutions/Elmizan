@@ -58,6 +58,8 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Directory_Model directory_model = models.get(position);
 
+        holder.tv_directory_user_name.setTypeface(Navigation_activity.typeface);
+        holder.tv_directory_appeal.setTypeface(Navigation_activity.typeface);
 
         holder.tv_directory_user_name.setText(Navigation_activity.Convert_String_First_Letter(directory_model.getUser_firstname()) + " " + Navigation_activity.Convert_String_First_Letter(directory_model.getUser_lastname()));
 

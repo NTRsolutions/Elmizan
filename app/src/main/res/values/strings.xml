@@ -109,9 +109,17 @@
     <string name="sitee">Site:</string>
     <string name="data_not_found">Data Not Found</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="country">Country</string>
+    <string name="gmail">ALMIZAN.KWT@GMAIL.COM</string>
+    <string name="twiter">\@ALMIZANKWT</string>
+    <string name="instagram">ALMIZAN.KWT</string>
+    <string name="telephone">9912345678</string>
+    <string name="detail">Al Mizan is a social service aimed at spreading the legal culture among the members of society, in addition to facilitating the communication between individuals and lawyers.</string>
+    <string name="second_detail">Al Mezan is also interested in publishing the news and opinions of legal lawyers, which contribute to creating an atmosphere of knowledge and legal culture.</string>
+    <string name="detail_last">The aim of the balance sheet is to elevate everyone who has placed himself in the position of defending the law and society as a whole.</string>
+    <string name="contact_data">Contact Data</string>
+    <string name="about_usss">About the balance</string>
 
 
 </resources>

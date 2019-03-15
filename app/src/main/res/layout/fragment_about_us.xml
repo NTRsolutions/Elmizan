@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fregment.About_us">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+           >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center|start"
+                android:padding="15dp">
+                <TextView
+                    android:id="@+id/tv_about_us"
+                    android:gravity="center|start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/about_usss"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    />
+                <TextView
+                    android:id="@+id/tv_balance_detail"
+                    android:gravity="center|start"
+                    android:textColor="@color/bottom_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:textSize="16sp"
+                    android:text="@string/detail"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/aboutus"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_detail"
+                    android:textColor="@color/yellow"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:gravity="center|start"
+                    android:textSize="16sp"
+                    android:text="@string/second_detail"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:gravity="center|start"
+                android:layout_marginBottom="?attr/actionBarSize"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/tv_detail1"
+                    android:textSize="16sp"
+                    android:textColor="@color/bottom_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:gravity="center|start"
+                    android:text="@string/detail_last"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

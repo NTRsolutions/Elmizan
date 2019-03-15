@@ -39,6 +39,9 @@ import java.util.List;
         @Override
         public void onBindViewHolder(final Library_adapter.MyViewHolder holder, final int position) {
             final Library_model product_model = models.get(position);
+            holder.tv_library_title.setTypeface(Navigation_activity.typeface);
+            holder.tv_library_link.setTypeface(Navigation_activity.typeface);
+            holder.tv_library_date.setTypeface(Navigation_activity.typeface);
 
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_title,product_model.getLibrary_title());
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_link,product_model.getLibrary_link());

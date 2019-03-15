@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Model.Country_model;
 import com.sismatix.Elmizan.R;
 
@@ -42,7 +43,11 @@ import java.util.List;
 
             final Country_model rmd = model.get(position);
             Log.e("nmae_44",""+rmd.getCountry_name());
-            holder.tv_country.setText(rmd.getCountry_name());
+            holder.tv_country.setTypeface(Navigation_activity.typeface);
+            Navigation_activity.Check_String_NULL_Value(holder.tv_country,rmd.getCountry_name());
+
+
+          //  holder.tv_country.setText(rmd.getCountry_name());
             holder.lv_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

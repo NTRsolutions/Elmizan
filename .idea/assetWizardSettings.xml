@@ -20,8 +20,8 @@
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
                                       <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Downloads/elmizan-3/elmizan/Group 13.png" />
-                                      <entry key="outputName" value="ic_freelayer_profile" />
+                                      <entry key="imageAsset" value="$PROJECT_DIR$/../project doc/Almezan/Downloads (1)/twitterrr.png" />
+                                      <entry key="outputName" value="ic_twitter" />
                                     </map>
                                   </option>
                                 </PersistentState>

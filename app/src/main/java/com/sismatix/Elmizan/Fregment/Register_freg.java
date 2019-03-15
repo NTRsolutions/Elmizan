@@ -58,6 +58,13 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         editTextphone_reg=(EditText)v.findViewById(R.id.editTextphone_reg);
         editTextpassword_reg=(TextInputEditText)v.findViewById(R.id.editTextpassword_reg);
         btn_register=(Button)v.findViewById(R.id.btn_register);
+
+        btn_register.setTypeface(Navigation_activity.typeface);
+        editTextname_reg.setTypeface(Navigation_activity.typeface);
+        editTextEmail_reg.setTypeface(Navigation_activity.typeface);
+        editTextphone_reg.setTypeface(Navigation_activity.typeface);
+        editTextpassword_reg.setTypeface(Navigation_activity.typeface);
+
     }
 
     @Override

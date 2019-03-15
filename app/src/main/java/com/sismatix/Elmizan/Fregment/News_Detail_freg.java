@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class News_Detail_freg extends Fragment implements View.OnClickListener {
     View view;
     String news_id, article_id;
-    TextView tv_detail_news_title, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
+    TextView tv_detail_news_title,tv_send_news, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
     ImageView iv_news_detail_like, iv_news_detail_bookmark, iv_news_detail_share, iv_news_detail_image;
     EditText edt_news_detail_comment;
     LinearLayout lv_news_detail_send,lv_news_detail;
@@ -59,6 +59,8 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_news__detail_freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
+
+        Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
 
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.single_news_page));
@@ -127,8 +129,11 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
 
+                        String date=data_obj.getString("article_created_at_format_day")+" "+
+                                data_obj.getString("article_created_at_format_month")+" "+
+                                data_obj.getString("article_created_at_format_year");
                         Navigation_activity.Check_String_NULL_Value(tv_detail_news_title, data_obj.getString("article_title"));
-                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, data_obj.getString("article_created_at"));
+                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, date);
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, data_obj.getString("article_description"));
 
                         Navigation_activity.Check_String_NULL_Value(tv_posted_by,data_obj.getString("article_created_by"));
@@ -252,9 +257,12 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
+                        String date=data_obj.getString("article_created_at_format_day")+" "+
+                                data_obj.getString("article_created_at_format_month")+" "+
+                                data_obj.getString("article_created_at_format_year");
 
                         Navigation_activity.Check_String_NULL_Value(tv_detail_news_title, data_obj.getString("news_title"));
-                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, data_obj.getString("news_created_at"));
+                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, date);
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, data_obj.getString("news_description"));
                         Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
                         String check_if_news_liked=data_obj.getString("check_if_news_liked");
@@ -314,6 +322,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         tv_news_detail_date = (TextView) view.findViewById(R.id.tv_news_detail_date);
         tv_news_detail_description = (TextView) view.findViewById(R.id.tv_news_detail_description);
         tv_detail_news_add_comment = (TextView) view.findViewById(R.id.tv_detail_news_add_comment);
+        tv_send_news = (TextView) view.findViewById(R.id.tv_send_news);
         iv_news_detail_like = (ImageView) view.findViewById(R.id.iv_news_detail_like);
         iv_news_detail_bookmark = (ImageView) view.findViewById(R.id.iv_news_detail_bookmark);
         iv_news_detail_share = (ImageView) view.findViewById(R.id.iv_news_detail_share);
@@ -322,6 +331,20 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         lv_news_detail_send = view.findViewById(R.id.lv_news_detail_send);
         lv_news_detail = view.findViewById(R.id.lv_news_detail);
         progressBar_newsdetail = view.findViewById(R.id.progressBar_newsdetail);
+
+
+
+        tv_posted.setTypeface(Navigation_activity.typeface);
+        tv_posted_by.setTypeface(Navigation_activity.typeface);
+        tv_detail_news_title.setTypeface(Navigation_activity.typeface);
+        tv_news_detail_date.setTypeface(Navigation_activity.typeface);
+        tv_news_detail_description.setTypeface(Navigation_activity.typeface);
+        tv_detail_news_add_comment.setTypeface(Navigation_activity.typeface);
+        edt_news_detail_comment.setTypeface(Navigation_activity.typeface);
+        tv_detail_news_add_comment.setTypeface(Navigation_activity.typeface);
+        tv_send_news.setTypeface(Navigation_activity.typeface);
+
+
 
     }
 

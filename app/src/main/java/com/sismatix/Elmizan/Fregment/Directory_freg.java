@@ -59,6 +59,8 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.directory));
 
+        Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
+
         AllocateMemory(view);
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
@@ -157,6 +159,8 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
+                        tv_data_not_found.setTypeface(Navigation_activity.typeface);
+
                         tv_data_not_found.setVisibility(View.VISIBLE);
                         recycler_directory.setVisibility(View.GONE);
                         tv_data_not_found.setText(message);

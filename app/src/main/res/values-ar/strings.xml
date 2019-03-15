@@ -100,4 +100,18 @@
     <string name="sitee">الموقع:</string>
     <string name="data_not_found">Data Not Found</string>
     <string name="country">Country</string>
+
+
+
+
+<!--    about us and contact us-->
+    <string name="gmail">ALMIZAN.KWT@GMAIL.COM</string>
+    <string name="twiter">\ALMIZANKWT@</string>
+    <string name="instagram">ALMIZAN.KWT</string>
+    <string name="telephone">9912345678</string>
+    <string name="detail">الميزان هو خدمة اجتماعية تهدف إلى نشر الثقافة القانونية بين أفراد المجتمع، إضافة إلى تسهيل عملية التواصل بين الأفراد والمحامين.</string>
+    <string name="second_detail">كما أن الميزان مهتم بنشر أخبار وآراء المحامين القانونية، التي تساهم في خلق جو من المعرفة والثقاقة القانونية.</string>
+    <string name="detail_last">يهدف الميزان إلى اللإرتقاء بكل من وضع نفسه في موضع الدفاع عن القانون والمجتمع ككل.</string>
+    <string name="contact_data">بيانات الإتصال</string>
+    <string name="about_usss">عن الميزان</string>
 </resources>
