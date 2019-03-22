@@ -33,6 +33,18 @@ public class My_Preference {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("first_name", "");
     }
+    public static void set_premium_lawyer(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("premiunm_lawyer", value);
+        prefsEditor.commit();
+    }
+    public static String get_premium_lawyer(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("premiunm_lawyer", "");
+    }
 
     public static void setLastname(Context context, String value)
     {

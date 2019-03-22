@@ -82,6 +82,13 @@
                 android:textColorHint="@color/edittextline"
                 android:textColor="@color/black"  />
         </android.support.design.widget.TextInputLayout>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox"
+            android:text="@string/registration_lawyer"
+            android:layout_below="@+id/layout_mobilenuber"/>
         <Button
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
@@ -91,7 +98,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/layout_mobilenuber"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"
             android:text="@string/createaccont"
             android:textColor="@color/white" />

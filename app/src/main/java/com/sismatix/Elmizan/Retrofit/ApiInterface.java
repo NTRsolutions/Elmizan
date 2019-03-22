@@ -1,11 +1,16 @@
 package com.sismatix.Elmizan.Retrofit;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -63,7 +68,7 @@ public interface ApiInterface {
     @POST("article_details.php")
     @FormUrlEncoded
     Call<ResponseBody> get_article_detail(@Field("article_id") String Article_id,
-      @Field("user_id") String user_id);
+                                          @Field("user_id") String user_id);
 
 
     //Article add comment
@@ -71,15 +76,15 @@ public interface ApiInterface {
     @POST("article_comment_add.php")
     @FormUrlEncoded
     Call<ResponseBody> get_article_add_comment(@Field("article_id") String article_id,
-                                            @Field("user_id") String user_id,
-                                            @Field("article_comment_content") String article_comment_content);
+                                               @Field("user_id") String user_id,
+                                               @Field("article_comment_content") String article_comment_content);
 
     //article like api
     //https://elmizan.demoproject.info/api/article_like_add.php
     @POST("article_like_add.php")
     @FormUrlEncoded
     Call<ResponseBody> get_article_like(@Field("article_id") String article_id,
-                                     @Field("user_id") String user_id);
+                                        @Field("user_id") String user_id);
 
 
     //category list
@@ -100,13 +105,13 @@ public interface ApiInterface {
     //https://elmizan.demoproject.info/api/user_registration.php
     @POST("user_registration.php")
     @FormUrlEncoded
-    Call<ResponseBody> get_register(@Field("user_name") String user_name,
-                                        @Field("user_email") String user_email,
-                                        @Field("user_phone") String user_phone,
-                                        @Field("user_password") String user_password,
-                                        @Field("confirm_password") String confirm_password,
-                                        @Field("agree_terms") String agree_terms );
-
+    Call<ResponseBody> get_register(@Field("user_fullname") String user_name,
+                                    @Field("user_email") String user_email,
+                                    @Field("user_phone") String user_phone,
+                                    @Field("user_password") String user_password,
+                                    @Field("confirm_password") String confirm_password,
+                                    @Field("agree_terms") String agree_terms,
+                                    @Field("register_as_lawyer") String register_as_lawyer);
 
 
     //User List
@@ -118,6 +123,7 @@ public interface ApiInterface {
                                      @Query("user_type[]") String user_type,
                                      @Query("user_status[]") String user_status,
                                      @Query("search") String search);
+
     //Get User Detail
     //https://elmizan.demoproject.info/api/user_details.php
     @POST("user_details.php")
@@ -128,6 +134,48 @@ public interface ApiInterface {
     //https://elmizan.demoproject.info/api/country_list.php
     @GET("country_list.php")
     Call<ResponseBody> get_country_list();
+
+    //Add article
+    //article_update.php
+    //upload image
+    @Multipart
+    @POST("article_update.php")
+    Call<ResponseBody> add_article_image(
+            @Part("inserted_by") RequestBody inserted_by,
+            @Part("article_id") RequestBody article_id,
+            @Part("old_article_images[]") RequestBody old_article_images,
+            @Part("article_title") RequestBody article_title,
+            @Part("article_description") RequestBody article_description,
+            @Part("article_status") RequestBody article_status,
+            @Part MultipartBody.Part file);
+
+    ////image blank
+    @Multipart
+    @POST("article_update.php")
+    Call<ResponseBody> add_article_image_blank(
+            @Part("inserted_by") RequestBody inserted_by,
+            @Part("article_id") RequestBody article_id,
+            @Part("old_article_images[]") RequestBody old_article_images,
+            @Part("article_title") RequestBody article_title,
+            @Part("article_description") RequestBody article_description,
+            @Part("article_status") RequestBody article_status,
+            @Part("article_images[]") RequestBody article_images
+          );
+
+
+    //Add article
+    //article_update.php
+    //upload youtube link
+    @Multipart
+    @POST("article_update.php")
+    Call<ResponseBody> add_article_youtube_link(
+            @Part("inserted_by") RequestBody inserted_by,
+            @Part("video_url[]") RequestBody video_url,
+            @Part("article_id") RequestBody article_id,
+            @Part("old_article_images[]") RequestBody old_article_images,
+            @Part("article_title") RequestBody article_title,
+            @Part("article_description") RequestBody article_description,
+            @Part("article_status") RequestBody article_status);
 
 
 }

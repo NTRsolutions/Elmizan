@@ -37,7 +37,7 @@ public class Splash_screen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getApplicationContext().setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        lang_arbi();
+       lang_arbi();
         setContentView(R.layout.activity_splash_screen);
         if(getSupportActionBar() != null) {
             getSupportActionBar().hide();

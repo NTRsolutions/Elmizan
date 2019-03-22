@@ -61,7 +61,6 @@ public class Home_freg extends Fragment {
         category_id.clear();
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
             CALL_Home_News_API();
-            CALL_categoryList_API();
 
 
         } else {
@@ -78,55 +77,6 @@ public class Home_freg extends Fragment {
         recycler_news_home.setAdapter(news_adapter);
 
         return view;
-    }
-    private void CALL_categoryList_API() {
-        //  progressBar_home.setVisibility(View.VISIBLE);
-
-        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> category_list = api.get_category_list();
-        category_list.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("response_category", "" + response.body().toString());
-                //   progressBar_home.setVisibility(View.GONE);
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(response.body().string());
-                    String status = jsonObject.getString("status");
-                    Log.e("status_prod_cat", "" + status);
-                    String message = jsonObject.getString("msg");
-                    Log.e("message", "" + message);
-                    if (status.equalsIgnoreCase("success")) {
-                        JSONArray data_array = jsonObject.getJSONArray("data");
-
-                        for (int i = 0; i < data_array.length(); i++) {
-
-                            try {
-                                JSONObject category_object = data_array.getJSONObject(i);
-                                Log.e("Name", "" + category_object.getString("category_id"));
-                                category_id.add(category_object.getString("category_id"));
-                                category_title.add(category_object.getString("category_title"));
-
-                            } catch (Exception e) {
-                                Log.e("Exception", "" + e);
-                            } finally {
-                            }
-
-                        }
-
-                    } else if (status.equalsIgnoreCase("error")) {
-                    }
-
-                } catch (Exception e) {
-                    Log.e("", "" + e);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void CALL_Home_News_API() {
@@ -162,7 +112,7 @@ public class Home_freg extends Fragment {
                                         news_object.getString("news_media"),
                                         news_object.getString("news_status"),
                                         news_object.getString("news_status"),
-                                        news_object.getString("news_created_at_format"),
+                                        news_object.getString("news_created_at_format_day"),
                                         news_object.getString("news_created_at_format_day"),
                                         news_object.getString("news_created_at_format_month"),
                                         news_object.getString("news_created_at_format_year")

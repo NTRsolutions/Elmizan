@@ -27,7 +27,8 @@ public class Directory_Model {
         this.user_description = user_description;
     }
 
-    public Directory_Model(String user_id, String user_name, String user_email, String user_phone, String user_address, String user_firstname, String user_lastname, String user_avatar, String user_type, String user_website, String basic_premium, String user_status, String is_online,
+    public Directory_Model(String user_id, String user_name, String user_email, String user_phone, String user_address,
+                           String user_firstname, String user_avatar, String user_type, String user_website, String basic_premium, String user_status, String is_online,
                            String user_updated_at, String user_verify_token, String user_created_at, String user_avatar_url, String user_description) {
         this.user_id = user_id;
         this.user_name = user_name;
@@ -35,7 +36,6 @@ public class Directory_Model {
         this.user_phone = user_phone;
         this.user_address = user_address;
         this.user_firstname = user_firstname;
-        this.user_lastname = user_lastname;
         this.user_avatar = user_avatar;
         this.user_type = user_type;
         this.user_website = user_website;
@@ -96,13 +96,7 @@ public class Directory_Model {
         this.user_firstname = user_firstname;
     }
 
-    public String getUser_lastname() {
-        return user_lastname;
-    }
 
-    public void setUser_lastname(String user_lastname) {
-        this.user_lastname = user_lastname;
-    }
 
     public String getUser_avatar() {
         return user_avatar;

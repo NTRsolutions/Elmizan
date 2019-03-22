@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Preference.Login_preference;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -105,6 +106,9 @@ public class Login_freg extends Fragment implements View.OnClickListener {
         ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> signup = apii.login(login_emailid, login_password);
 
+        Log.e("login_emailid", "" + login_emailid);
+        Log.e("login_password", "" + login_password);
+
         signup.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -119,11 +123,13 @@ public class Login_freg extends Fragment implements View.OnClickListener {
                     if (status.equalsIgnoreCase("success")) {
                         Toast.makeText(getContext(), "" + meassg, Toast.LENGTH_SHORT).show();
                         JSONObject object=new JSONObject(jsonObject.getString("data"));
+
                         Login_preference.setLogin_flag(getActivity(),"1");
                         Login_preference.setuser_id(getActivity(),object.getString("user_id"));
                         Login_preference.setemail(getActivity(),object.getString("user_email"));
                         Login_preference.setuser_name(getActivity(),object.getString("user_name"));
                         Login_preference.setuser_profile(getActivity(),object.getString("user_avatar_url"));
+                        My_Preference.set_premium_lawyer(getActivity(),object.getString("basic_premium"));
                         Intent intent=new Intent(getActivity(),Navigation_activity.class);
                         startActivity(intent);
                         getActivity().finish();

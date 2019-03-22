@@ -88,7 +88,7 @@
 </string>
     <string name="photos"><![CDATA[فيديوهات وصور]]></string>
     <string name="posted_by">منشور من طرف :</string>
-    <string name="premimum_lawyer">Premimum Lawyer</string>
+    <string name="premimum_lawyer">المحامي المتميز</string>
 
 
     <!-- Directory of lawyers -->
@@ -114,4 +114,18 @@
     <string name="detail_last">يهدف الميزان إلى اللإرتقاء بكل من وضع نفسه في موضع الدفاع عن القانون والمجتمع ككل.</string>
     <string name="contact_data">بيانات الإتصال</string>
     <string name="about_usss">عن الميزان</string>
+    <string name="online">عبر الانترنت</string>
+
+
+    <!--Add article-->
+    <string name="add_article">أضف مقال</string>
+    <string name="add_Page_article">إضافة مقال او نصيحة قانونية</string>
+    <string name="title">العنوان</string>
+    <string name="article_detail">التفاصيل</string>
+    <string name="upload_image">صورة</string>
+    <string name="youtube_link">رابط يوتيوب</string>
+    <string name="upload_article">تحميل المادة</string>
+    <string name="registration_lawyer">التسجيل كمحام</string>
+    <string name="edit_article">تحرير المادة</string>
+
 </resources>

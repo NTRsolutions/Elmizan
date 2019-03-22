@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,7 +35,8 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     EditText editTextname_reg,editTextEmail_reg,editTextphone_reg;
     TextInputEditText editTextpassword_reg;
     Button btn_register;
-
+    CheckBox checkbox;
+    String  checked_value_pass;
 
     public Register_freg() {
         // Required empty public constructor
@@ -48,6 +51,18 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         AllocateMemory(v);
 
         btn_register.setOnClickListener(this);
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Log.e("checked",""+b);
+                if(b==true)
+                {
+                    checked_value_pass="1";
+                }else {
+                    checked_value_pass="0";
+                }
+            }
+        });
 
         return v;
     }
@@ -58,12 +73,14 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         editTextphone_reg=(EditText)v.findViewById(R.id.editTextphone_reg);
         editTextpassword_reg=(TextInputEditText)v.findViewById(R.id.editTextpassword_reg);
         btn_register=(Button)v.findViewById(R.id.btn_register);
+        checkbox=(CheckBox) v.findViewById(R.id.checkbox);
 
         btn_register.setTypeface(Navigation_activity.typeface);
         editTextname_reg.setTypeface(Navigation_activity.typeface);
         editTextEmail_reg.setTypeface(Navigation_activity.typeface);
         editTextphone_reg.setTypeface(Navigation_activity.typeface);
         editTextpassword_reg.setTypeface(Navigation_activity.typeface);
+        checkbox.setTypeface(Navigation_activity.typeface);
 
     }
 
@@ -96,8 +113,9 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     private void Register_Api(String regi_name, String regi_emailid, String regi_phone, String regi_password) {
         ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
         String agree_terms="1";
-        Call<ResponseBody> register = apii.get_register(regi_name, regi_emailid,regi_phone,regi_password,regi_password,agree_terms);
-
+        Call<ResponseBody> register = apii.get_register(regi_name, regi_emailid,regi_phone,
+                regi_password,regi_password,agree_terms,checked_value_pass);
+        Log.e("checked_value_pass", "" + checked_value_pass);
         register.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

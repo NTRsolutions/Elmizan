@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".Fregment.News_Detail_freg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -197,7 +203,7 @@
                     android:id="@+id/tv_news_detail_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/news_detail"
+                    android:text=""
                     android:textColor="@color/bottom_icon"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -206,7 +212,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/news_detail"
+                    android:text=""
                     android:textColor="@color/bottom_icon"
                     android:textSize="14sp"
                     android:visibility="gone"
@@ -277,5 +283,74 @@
 
         </LinearLayout>
     </ScrollView>
+    </LinearLayout>
+    <View
+        android:id="@+id/shadowView_article"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90808080"
+        android:visibility="gone" />
 
-</LinearLayout>
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu_article"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="gone"
+        fab:menu_animationDelayPerItem="55"
+        fab:menu_backgroundColor="@android:color/transparent"
+        fab:menu_colorNormal="@color/black"
+        fab:menu_colorPressed="@color/black"
+        fab:menu_colorRipple="#99d4d4d4"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/fab_add"
+        fab:menu_labels_colorNormal="@color/white"
+        fab:menu_labels_colorPressed="@color/white"
+        fab:menu_labels_colorRipple="#66efecec"
+        fab:menu_labels_cornerRadius="3dp"
+        fab:menu_labels_ellipsize="none"
+        fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+        fab:menu_labels_margin="0dp"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_padding="8dp"
+        fab:menu_labels_position="left"
+        fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_singleLine="false"
+        fab:menu_labels_textColor="@color/black"
+        fab:menu_labels_textSize="15sp"
+        fab:menu_openDirection="up"
+        fab:menu_shadowColor="#90808080"
+        fab:menu_shadowRadius="4dp"
+        fab:menu_shadowXOffset="1dp"
+        fab:menu_shadowYOffset="4dp"
+        fab:menu_showShadow="true">
+
+        <!--    <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_customize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_white_folting"
+                fab:fab_colorNormal="@color/Darkgray"
+                fab:fab_colorPressed="@color/Darkgray"
+                fab:fab_label="Customize Package"
+                fab:fab_size="mini"
+                tools:ignore="VectorDrawableCompat" />-->
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_edit_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fab_add"
+            fab:fab_colorNormal="@color/yellow"
+            fab:fab_colorPressed="@color/yellow"
+            fab:fab_label="@string/edit_article"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</RelativeLayout>

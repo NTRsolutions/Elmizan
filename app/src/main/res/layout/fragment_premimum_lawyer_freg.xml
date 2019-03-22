@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -46,12 +47,13 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    >
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/iv_profile_premium"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
+                        android:layout_marginTop="0dp"
                         android:src="@drawable/user_profile"
                         app:civ_border_color="#fff"
                         app:civ_border_width="1dp" />
@@ -63,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -70,6 +73,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
+                        android:padding="6dp"
                         android:orientation="vertical">
 
                         <ImageView
@@ -140,37 +144,35 @@
                     android:paddingBottom="20dp">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tv_premium_off_onn"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="5dp"
+                            android:layout_gravity="center|start"
+                            android:gravity="center|start"
                             android:text="@string/offline"
                             android:textColor="@color/red"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            />
 
                         <TextView
                             android:id="@+id/tv_premium_off_dot"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="5dp"
+                            android:layout_gravity="center|start"
+                            android:gravity="center|start"
+                            android:padding="2dp"
+                            android:layout_marginLeft="10dp"
                             android:text="@string/bullet"
                             android:textColor="@color/red"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textSize="18sp"
+                            />
 
                     </LinearLayout>
 
@@ -217,7 +219,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.3"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="2dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -230,8 +232,8 @@
 
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
+                            android:layout_gravity="center|start|top"
+                            android:gravity="center|start|top"
                             android:text="@string/phonee"
                             android:textColor="@color/black"
                             android:textSize="14sp"
@@ -239,11 +241,10 @@
 
                         <TextView
                             android:id="@+id/tv_premium_phone"
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center|start"
+                            android:layout_gravity="center|top"
+                            android:gravity="center|start|top"
                             android:text="@string/phone_no"
                             android:textColor="@color/edittextline"
                             android:textSize="14sp"
@@ -253,8 +254,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start"
                         android:orientation="horizontal">
 
                         <TextView
@@ -269,11 +270,10 @@
 
                         <TextView
                             android:id="@+id/tv_premium_address"
-
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center|start"
-                            android:gravity="center|top"
+                            android:gravity="center|top|start"
                             android:text="@string/address_static"
                             android:textColor="@color/edittextline"
                             android:textSize="14sp"
@@ -290,8 +290,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center|start"
+                            android:layout_gravity="center|top"
+                            android:gravity="center|start|top"
                             android:text="@string/emaill"
                             android:textColor="@color/black"
                             android:textSize="14sp"
@@ -301,8 +301,8 @@
                             android:id="@+id/tv_premium_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center|start"
+                            android:layout_gravity="center|top"
+                            android:gravity="center|end|top"
                             android:text="@string/email_static"
                             android:textColor="@color/edittextline"
                             android:textSize="14sp"
@@ -319,8 +319,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
+                            android:layout_gravity="center|start|top"
+                            android:gravity="center|start|top"
                             android:text="@string/site"
                             android:textColor="@color/black"
                             android:textSize="14sp"
@@ -330,8 +330,8 @@
                             android:id="@+id/tv_premium_site"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center|start"
-                            android:gravity="center|start"
+                            android:layout_gravity="center|start|top"
+                            android:gravity="center|start|top"
                             android:text="@string/site_static"
                             android:textColor="@color/edittextline"
                             android:textSize="14sp"

@@ -295,7 +295,7 @@ public class Premimum_Lawyer_freg extends Fragment {
         tv_premium_email.setTypeface(Navigation_activity.typeface);
         tv_premium_address.setTypeface(Navigation_activity.typeface);
         tv_premium_phone.setTypeface(Navigation_activity.typeface);
-        tv_premium_off_dot.setTypeface(Navigation_activity.typeface);
+      //  tv_premium_off_dot.setTypeface(Navigation_activity.typeface);
         tv_premium_off_onn.setTypeface(Navigation_activity.typeface);
         tv_premium_appeal.setTypeface(Navigation_activity.typeface);
         tv_premium_name.setTypeface(Navigation_activity.typeface);

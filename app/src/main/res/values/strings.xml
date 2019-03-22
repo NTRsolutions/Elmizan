@@ -120,6 +120,20 @@
     <string name="detail_last">The aim of the balance sheet is to elevate everyone who has placed himself in the position of defending the law and society as a whole.</string>
     <string name="contact_data">Contact Data</string>
     <string name="about_usss">About the balance</string>
+    <string name="online">Online</string>
+
+
+    <!--Add article-->
+    <string name="add_article">Add Article</string>
+
+    <string name="add_Page_article">إضافة مقال او نصيحة قانونية</string>
+    <string name="title">Title</string>
+    <string name="article_detail">Details</string>
+    <string name="upload_image">Upload image</string>
+    <string name="youtube_link">Youtube link</string>
+    <string name="upload_article">Upload Article</string>
+    <string name="registration_lawyer">Registration As a Lawyer</string>
+    <string name="edit_article">Edit Article</string>
 
 
 </resources>

@@ -60,8 +60,7 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 
         holder.tv_directory_user_name.setTypeface(Navigation_activity.typeface);
         holder.tv_directory_appeal.setTypeface(Navigation_activity.typeface);
-
-        holder.tv_directory_user_name.setText(Navigation_activity.Convert_String_First_Letter(directory_model.getUser_firstname()) + " " + Navigation_activity.Convert_String_First_Letter(directory_model.getUser_lastname()));
+        holder.tv_directory_user_name.setText(Navigation_activity.Convert_String_First_Letter(directory_model.getUser_firstname()) );
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_directory_appeal, directory_model.getUser_description());
 
@@ -69,17 +68,44 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
         Glide.with(context).load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
 
+
         if (directory_model.getBasic_premium().equalsIgnoreCase("premium") == true) {
+
+
+            if(directory_model.getIs_online().equalsIgnoreCase("0")==true)
+
+            {
+                holder.lv_directory_chat.setVisibility(View.GONE);
+                holder.lv_directory_send_msg.setVisibility(View.VISIBLE);
+                holder.tv_directory_offline_onnline.setText(context.getResources().getString(R.string.offline));
+                holder.tv_directory_offline_onnline.setTextColor(context.getResources().getColor(R.color.red));
+                holder.tv_directory_circle.setTextColor(context.getResources().getColor(R.color.red));
+
+            }else if(directory_model.getIs_online().equalsIgnoreCase("1")==true)
+            {
+
+
+                holder.tv_directory_offline_onnline.setText(context.getResources().getString(R.string.online));
+                holder.tv_directory_offline_onnline.setTextColor(context.getResources().getColor(R.color.green));
+
+                holder.tv_directory_circle.setTextColor(context.getResources().getColor(R.color.green));
+
+                holder.lv_directory_chat.setVisibility(View.VISIBLE);
+                holder.lv_directory_send_msg.setVisibility(View.GONE);
+
+            }
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.iv_directory_premimum_logo.setImageDrawable(context.getDrawable(R.drawable.menu_img));
                 holder.lv_directory_more.setVisibility(View.VISIBLE);
                 holder.lv_directory_article.setVisibility(View.VISIBLE);
                 holder.lv_directory_call.setVisibility(View.VISIBLE);
-                holder.lv_directory_chat.setVisibility(View.VISIBLE);
-                holder.lv_directory_send_msg.setVisibility(View.VISIBLE);
+                //  holder.lv_directory_chat.setVisibility(View.VISIBLE);
+               // holder.lv_directory_send_msg.setVisibility(View.VISIBLE);
 
             }
         } else {
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.iv_directory_premimum_logo.setImageDrawable(context.getDrawable(R.drawable.grey_perimimum));
                 holder.lv_directory_more.setVisibility(View.VISIBLE);
@@ -87,9 +113,14 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
                 holder.lv_directory_call.setVisibility(View.GONE);
                 holder.lv_directory_chat.setVisibility(View.GONE);
                 holder.lv_directory_send_msg.setVisibility(View.GONE);
+                holder.tv_directory_offline_onnline.setVisibility(View.GONE);
+                holder.tv_directory_circle.setVisibility(View.GONE);
 
             }
         }
+
+
+
         holder.lv_directory_call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,13 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.JsonObject;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Preference.Login_preference;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -48,6 +52,11 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     LinearLayout lv_news_detail_send,lv_news_detail;
     ProgressBar progressBar_newsdetail;
     public static String login_flag;
+    FloatingActionMenu fab_menu_article;
+    FloatingActionButton fab_edit_article;
+    View shadowView_article;
+    String article_inserted_by;
+
     public News_Detail_freg() {
         // Required empty public constructor
     }
@@ -78,11 +87,16 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         }
 
 
+
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             if (news_id == "" || news_id == null || news_id == "null" || news_id.equalsIgnoreCase(null)
                     || news_id.equalsIgnoreCase("null")) {
+
                 CALL_ARTICLE_DETAIL_API();
+                fab_btn_click_listner();
+
+
             } else {
                 CALL_News_Detail_API();
             }
@@ -96,6 +110,64 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
         return view;
 
+    }
+
+    private void fab_btn_click_listner() {
+
+
+
+
+        fab_menu_article.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    // showToast("Menu is opened");
+                    shadowView_article.setVisibility(View.VISIBLE);
+                } else {
+                    // showToast("Menu is closed");
+                    shadowView_article.setVisibility(View.GONE);
+                }
+            }
+        });
+        shadowView_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fab_menu_article.isOpened()) {
+                    fab_menu_article.close(true);
+                }
+            }
+        });
+
+        fab_edit_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
+
+                    if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
+
+                        Bundle b=new Bundle();
+                        b.putString("article_id",article_id);
+                        Fragment myFragment = new Add_Article_Freg();
+                        myFragment.setArguments(b);
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                    } else {
+                        Toast.makeText(getActivity(), "Please Register as a Lawyer", Toast.LENGTH_SHORT).show();
+
+
+
+
+                        pushFragment(new Register_freg(), "login");
+                    }
+                } else {
+                    pushFragment(new Login_freg(), "login");
+                }
+
+
+            }
+        });
     }
 
     private void CALL_ARTICLE_DETAIL_API() {
@@ -132,9 +204,23 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         String date=data_obj.getString("article_created_at_format_day")+" "+
                                 data_obj.getString("article_created_at_format_month")+" "+
                                 data_obj.getString("article_created_at_format_year");
+                        article_inserted_by= data_obj.getString("inserted_by");
+
+                        String userid=Login_preference.getuser_id(getActivity());
+                        Log.e("userid_120",""+userid);
+                        Log.e("article_inserted_by",""+article_inserted_by);
+
+                        if(article_inserted_by.equalsIgnoreCase(userid)==true)
+                        {
+                            fab_menu_article.setVisibility(View.VISIBLE);
+                        }else {
+                            fab_menu_article.setVisibility(View.GONE);
+                        }
+
+                        Log.e("article_inserted_by", "" + article_inserted_by);
                         Navigation_activity.Check_String_NULL_Value(tv_detail_news_title, data_obj.getString("article_title"));
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, date);
-                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, data_obj.getString("article_description"));
+                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml( data_obj.getString("article_description"))));
 
                         Navigation_activity.Check_String_NULL_Value(tv_posted_by,data_obj.getString("article_created_by"));
 
@@ -257,13 +343,15 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
-                        String date=data_obj.getString("article_created_at_format_day")+" "+
-                                data_obj.getString("article_created_at_format_month")+" "+
-                                data_obj.getString("article_created_at_format_year");
+                        String date=data_obj.getString("news_created_at_format_day")+" "+
+                                data_obj.getString("news_created_at_format_month")+" "+
+                                data_obj.getString("news_created_at_format_year");
 
                         Navigation_activity.Check_String_NULL_Value(tv_detail_news_title, data_obj.getString("news_title"));
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, date);
-                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, data_obj.getString("news_description"));
+
+                        Log.e("news_description", "" + data_obj.getString("news_description"));
+                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml(data_obj.getString("news_description"))));
                         Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
                         String check_if_news_liked=data_obj.getString("check_if_news_liked");
                         if (check_if_news_liked.equalsIgnoreCase("true") == true) {
@@ -315,6 +403,12 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     }
 
     private void Allocate_Memory(View view) {
+
+
+        shadowView_article=(View)view.findViewById(R.id.shadowView_article);
+        fab_menu_article = (FloatingActionMenu) view.findViewById(R.id.fab_menu_article);
+        fab_edit_article = (FloatingActionButton) view.findViewById(R.id.fab_edit_article);
+
 
         tv_posted = (TextView) view.findViewById(R.id.tv_posted);
         tv_posted_by = (TextView) view.findViewById(R.id.tv_posted_by);

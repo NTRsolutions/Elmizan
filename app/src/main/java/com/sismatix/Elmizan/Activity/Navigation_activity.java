@@ -46,10 +46,12 @@ import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Home_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.New_Library_freg;
+import com.sismatix.Elmizan.Fregment.News_Detail_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
 import com.sismatix.Elmizan.Fregment.Video_freg;
 import com.sismatix.Elmizan.Model.Country_model;
 import com.sismatix.Elmizan.Preference.Login_preference;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -749,6 +751,21 @@ public class Navigation_activity extends AppCompatActivity
         } else if (id == R.id.nav_my_account) {
 
         } else if (id == R.id.nav_my_article) {
+            if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
+                if(My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium")){
+                    Bundle b=new Bundle();
+                    b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
+                    Fragment myFragment = new Article_freg();
+                    myFragment.setArguments(b);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                }else {
+                    Toast.makeText(this, "Please Register as a Lawyer", Toast.LENGTH_SHORT).show();
+                    pushFragment(new Register_freg(),"login");
+                }
+            }else {
+                pushFragment(new Login_freg(),"login");
+            }
 
         } else if (id == R.id.nav_notification) {
 

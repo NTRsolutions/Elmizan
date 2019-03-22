@@ -136,8 +136,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                                         user_object.getString("user_email"),
                                         user_object.getString("user_phone"),
                                         user_object.getString("user_address"),
-                                        user_object.getString("user_firstname"),
-                                        user_object.getString("user_lastname"),
+                                        user_object.getString("user_fullname"),
                                         user_object.getString("user_avatar"),
                                         user_object.getString("user_type"),
                                         user_object.getString("user_website"),
@@ -153,7 +152,6 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                                 Log.e("Exception", "" + e);
                             } finally {
                                  directory_adapter.notifyItemChanged(i);
-
                             }
 
                         }
