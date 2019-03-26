@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -56,10 +59,21 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
             //holder.tv_article_title.setText(article_model.getArticle_title());
           //  holder.tv_article_date.setText(article_model.getArticle_date());
 
+/*
+        holder.videoView.setVisibility(View.VISIBLE);
+        MediaController mediaController= new MediaController(context);
+        mediaController.setAnchorView(holder.videoView);
+        Uri uri=Uri.parse("https://www.youtube.com/watch?v=MFNWOdYxhAQ");
+        holder.videoView.setMediaController(mediaController);
+        holder.videoView.setVideoURI(uri);
+       // holder.videoView.requestFocus();
+       // holder.videoView.start();*/
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.app_icon);
         requestOptions.error(R.drawable.app_icon);
+
+        //holder.iv_article_image.setVisibility(View.GONE);
 
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
@@ -122,6 +136,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
         TextView tv_article_description, tv_article_title,tv_more_article, tv_article_date;
         LinearLayout lv_article_click;
         ImageView iv_article_image;
+        VideoView videoView;
 
         public MyViewHolder(View view) {
             super(view);
@@ -131,6 +146,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
             tv_more_article = (TextView) view.findViewById(R.id.tv_more_article);
             lv_article_click = (LinearLayout) view.findViewById(R.id.lv_article_click);
             iv_article_image = (ImageView) view.findViewById(R.id.iv_article_image);
+            videoView = (VideoView) view.findViewById(R.id.videoView);
 
 
         }

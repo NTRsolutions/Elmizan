@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -98,7 +99,9 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
     Bundle bundle;
     public static final int RequestPermissionCode = 7;
     String article_id, oldurl_pass;
+    LinearLayout lv_add_article_click;
     boolean Choose_img_clicked=false;
+    ProgressBar progressBar_add_article;
 
     public Add_Article_Freg() {
         // Required empty public constructor
@@ -154,6 +157,8 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
     ///get article detail
     private void CALL_ARTICLE_DETAIL_API() {
+        progressBar_add_article.setVisibility(View.VISIBLE);
+        lv_add_article_click.setVisibility(View.GONE);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         String userid = Login_preference.getuser_id(getActivity());
 
@@ -169,6 +174,9 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
                 JSONObject jsonObject = null;
                 try {
+
+                    progressBar_add_article.setVisibility(View.GONE);
+                    lv_add_article_click.setVisibility(View.VISIBLE);
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
                     Log.e("status_news_detail", "" + status);
@@ -460,9 +468,12 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                                     article_title1, article_detail1, status, part);
                 }
             } else {
+                RequestBody old_article_pass = RequestBody.create(MediaType.parse("text/plain"), "");
+
                 Log.e("edit_youtube_link", "" + youtube_link1);
+                Log.e("old_article_pass", "" + old_article_pass);
                 add_article = api.add_article_youtube_link
-                        (userid1, youtube_link1, article_id1, old_article,
+                        (userid1, youtube_link1, article_id1, old_article_pass,
                                 article_title1, article_detail1, status);
             }
         }
@@ -489,9 +500,11 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
+                        String media_upload_error = jsonObject.getString("media_upload_error");
+                        Toast.makeText(getActivity(), "" + media_upload_error, Toast.LENGTH_SHORT).show();
 
                         Log.e("add_article_status_else", "" + status);
+                        Log.e("media_upload_error", "" + media_upload_error);
                     }
 
                 } catch (Exception e) {
@@ -558,10 +571,10 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 BitmapDrawable d = new BitmapDrawable(getResources(), imagefile.getAbsolutePath());
                 iv_upload_image.setImageDrawable(d);
 
-                RoundedBitmapDrawable circularBitmapDrawable =
+              /*  RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(getResources(), imagefile.getAbsolutePath());
                 circularBitmapDrawable.setCircular(true);
-
+*/
             }
         }
     }
@@ -630,6 +643,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
     private void Allocate_Memory(View v) {
 
+        progressBar_add_article = (ProgressBar) v.findViewById(R.id.progressBar_add_article);
         radio_upload_youtube_link = (RadioButton) v.findViewById(R.id.radio_upload_youtube_link);
         radio_upload_image = (RadioButton) v.findViewById(R.id.radio_upload_image);
         radioGroup = (RadioGroup) v.findViewById(R.id.radioGroup);
@@ -646,6 +660,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         iv_upload_image = (CircleImageView) v.findViewById(R.id.iv_upload_image);
         iv_camera = (ImageView) v.findViewById(R.id.iv_camera);
 
+        lv_add_article_click = (LinearLayout) v.findViewById(R.id.lv_add_article_click);
         lv_add_article = (LinearLayout) v.findViewById(R.id.lv_add_article);
         lv_upload_youtube_link = (LinearLayout) v.findViewById(R.id.lv_upload_youtube_link);
         lv_upload_image = (LinearLayout) v.findViewById(R.id.lv_upload_image);

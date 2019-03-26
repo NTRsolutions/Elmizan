@@ -43,6 +43,7 @@ import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Contact_us;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
+import com.sismatix.Elmizan.Fregment.Edit_premium_lawyer_profile;
 import com.sismatix.Elmizan.Fregment.Home_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.New_Library_freg;
@@ -554,7 +555,14 @@ public class Navigation_activity extends AppCompatActivity
 
                 break;
             case R.id.bottom_nav_myaccount:
-                pushFragment(new Video_freg(),"Cart");
+
+                if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
+                    pushFragment(new Edit_premium_lawyer_profile(),"");
+
+                }else {
+                    pushFragment(new Login_freg(),"login");
+                }
+
 
             /*    if (loginflagmain.equalsIgnoreCase("1") || loginflagmain == "1") {
                     pushFragment(new AccountTabs(),"My Account");
@@ -759,9 +767,6 @@ public class Navigation_activity extends AppCompatActivity
                     myFragment.setArguments(b);
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
-                }else {
-                    Toast.makeText(this, "Please Register as a Lawyer", Toast.LENGTH_SHORT).show();
-                    pushFragment(new Register_freg(),"login");
                 }
             }else {
                 pushFragment(new Login_freg(),"login");

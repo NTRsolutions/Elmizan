@@ -6,10 +6,11 @@ public class Article_model {
     String article_description;
     String image;
     String article_status;
-    String article_date;
+    String article_date,video;
+
     public Article_model(String article_id, String article_title,
                          String article_description, String image,
-                         String article_status, String article_date) {
+                         String article_status, String article_date, String video) {
 
         this.article_id = article_id;
         this.article_title = article_title;
@@ -17,6 +18,16 @@ public class Article_model {
         this.image = image;
         this.article_status = article_status;
         this.article_date = article_date;
+        this.video = video;
+    }
+
+
+    public String getVideo() {
+        return video;
+    }
+
+    public void setVideo(String video) {
+        this.video = video;
     }
 
 

@@ -42,15 +42,17 @@ import java.util.List;
             holder.tv_library_title.setTypeface(Navigation_activity.typeface);
             holder.tv_library_link.setTypeface(Navigation_activity.typeface);
             holder.tv_library_date.setTypeface(Navigation_activity.typeface);
+            holder.tv_library_desc.setTypeface(Navigation_activity.typeface);
 
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_title,product_model.getLibrary_title());
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_link,product_model.getLibrary_link());
+            Navigation_activity.Check_String_NULL_Value(holder.tv_library_desc,product_model.getLibrary_description());
 
 
             holder.tv_library_date.setText(product_model.getLibrary_date());
            // holder.tv_library_link.setText(product_model.getLibrary_link());
           //  holder.tv_library_title.setText(product_model.getLibrary_title());
-            holder.tv_library_link.setOnClickListener(new View.OnClickListener() {
+            holder.tv_more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -92,7 +94,7 @@ import java.util.List;
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView tv_library_date, tv_library_title, tv_library_link,tv_more;
+            TextView tv_library_date, tv_library_title, tv_library_link,tv_more,tv_library_desc;
             LinearLayout lv_library;
 
             public MyViewHolder(View view) {
@@ -102,6 +104,7 @@ import java.util.List;
                 tv_library_link = (TextView) view.findViewById(R.id.tv_library_link);
                 tv_more = (TextView) view.findViewById(R.id.tv_more);
                 lv_library = (LinearLayout) view.findViewById(R.id.lv_library);
+                tv_library_desc = (TextView) view.findViewById(R.id.tv_library_desc);
 
 
             }

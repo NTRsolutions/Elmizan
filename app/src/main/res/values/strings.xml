@@ -134,6 +134,17 @@
     <string name="upload_article">Upload Article</string>
     <string name="registration_lawyer">Registration As a Lawyer</string>
     <string name="edit_article">Edit Article</string>
+    <string name="link">www.google.com</string>
+
+    <string name="user_name_nm">Najwan Mohammed Mohammed Salem</string>
+    <string name="user_name_app">Appeal Attorney and State Council</string>
+    <string name="user_personal_Data">Personal Data</string>
+    <string name="Social_networking_accounts">Social networking accounts</string>
+    <string name="About_the_lawyer">About the Lawyer</string>
+    <string name="user_detail">who has been allowed to practice law according to applicable law, and the lawyer may be authorized to ... plead before civil courts; A lawyer is a title given to a person who has been allowed to practice law according to applicable law, and the lawyer may be authorized to ... plead before civil courts</string>
+    <string name="Edit_your_avatar">Edit your avatar</string>
+    <string name="tv_title">Title</string>
+    <string name="titleee">رقم واسم الشارع, المدينة, الدولة</string>
 
 
 </resources>

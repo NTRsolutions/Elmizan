@@ -141,9 +141,6 @@ public class Article_freg extends Fragment {
 
                     if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
                         pushFragment(new Add_Article_Freg(), "login");
-                    } else {
-                        Toast.makeText(getActivity(), "Please Register as a Lawyer", Toast.LENGTH_SHORT).show();
-                        pushFragment(new Register_freg(), "login");
                     }
                 } else {
                     pushFragment(new Login_freg(), "login");
@@ -198,7 +195,7 @@ public class Article_freg extends Fragment {
                         recycler_article.setVisibility(View.VISIBLE);
 
                         JSONArray data_array = jsonObject.getJSONArray("data");
-                        String image = null;
+                        String image = null,video=null;
 
                         for (int i = 0; i < data_array.length(); i++) {
 
@@ -212,6 +209,7 @@ public class Article_freg extends Fragment {
 
                                 if (article_media_url.equalsIgnoreCase("false") == true) {
                                     image = "";
+                                    video="";
                                 } else {
                                     JSONObject image_obj = news_object.getJSONObject("article_media_urls");
                                     JSONArray imag_array = image_obj.getJSONArray("image");
@@ -227,6 +225,22 @@ public class Article_freg extends Fragment {
                                         Log.e("imag_array_else", "" + imag_array);
                                         image = "";
                                     }
+
+                                    JSONArray video_array = image_obj.getJSONArray("video");
+                                    if (video_array != null && video_array.isNull(0) != true) {
+                                        Log.e("video_array", "" + video_array);
+
+                                        for (int j = 0; j < video_array.length(); j++) {
+                                            video = video_array.getString(j);
+                                            Log.e("video_article", "" + video);
+
+                                        }
+                                    } else {
+                                        Log.e("videp_array_else", "" + video_array);
+                                        video = "";
+                                    }
+
+
                                 }
                                 String date = news_object.getString("article_created_at_format_day") + " " +
                                         news_object.getString("article_created_at_format_month") + " " +
@@ -237,7 +251,7 @@ public class Article_freg extends Fragment {
                                         news_object.getString("article_description"),
                                         image,
                                         news_object.getString("article_status"),
-                                        date
+                                        date,video
                                 ));
 
                             } catch (Exception e) {

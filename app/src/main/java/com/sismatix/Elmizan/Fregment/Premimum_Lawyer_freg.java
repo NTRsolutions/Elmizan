@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Articles_Adapter;
+import com.sismatix.Elmizan.Adapter.Premium_article_adpter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Article_model;
 import com.sismatix.Elmizan.R;
@@ -47,7 +48,7 @@ public class Premimum_Lawyer_freg extends Fragment {
     RecyclerView recycler_pre_lawyer_article;
     ProgressBar progressBar_article_lawyer;
     private List<Article_model> article_models = new ArrayList<Article_model>();
-    private Articles_Adapter articles_adapter;
+    private Premium_article_adpter articles_adapter;
     IndefinitePagerIndicator indicater;
     LinearLayout lv_primium_click;
     Bundle bundle;
@@ -106,11 +107,11 @@ public class Premimum_Lawyer_freg extends Fragment {
                 }
             }
         });
-        articles_adapter = new Articles_Adapter(getActivity(), article_models);
+        articles_adapter = new Premium_article_adpter(getActivity(), article_models);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         ///new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false)
         recycler_pre_lawyer_article.setLayoutManager(mLayoutManager);
-        recycler_pre_lawyer_article.setItemAnimator(new DefaultItemAnimator());
+       // recycler_pre_lawyer_article.setItemAnimator(new DefaultItemAnimator());
         // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler_pre_lawyer_article.setAdapter(articles_adapter);
 
@@ -189,6 +190,7 @@ public class Premimum_Lawyer_freg extends Fragment {
                 progressBar_article_lawyer.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
+                    article_models.clear();
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
                     Log.e("status_articel", "" + status);
@@ -200,27 +202,63 @@ public class Premimum_Lawyer_freg extends Fragment {
                         indicater.setVisibility(View.VISIBLE);
 
                         JSONArray data_array = jsonObject.getJSONArray("data");
-                        String image = null;
+                        String image = null,video=null;
+
                         for (int i = 0; i < data_array.length(); i++) {
 
                             try {
                                 JSONObject news_object = data_array.getJSONObject(i);
                                 Log.e("Name", "" + news_object.getString("article_id"));
-                                JSONObject image_obj = news_object.getJSONObject("article_media_urls");
-                                JSONArray imag_array = image_obj.getJSONArray("image");
-                                for (int j = 0; j < imag_array.length(); j++) {
 
-                                    image = imag_array.getString(i);
-                                    Log.e("image_article", "" + image);
+                                String article_media_url = news_object.getString("article_media_urls");
+                                Log.e("article_media_urls", "" + article_media_url);
+
+
+                                if (article_media_url.equalsIgnoreCase("false") == true) {
+                                    image = "";
+                                    video="";
+                                } else {
+                                    JSONObject image_obj = news_object.getJSONObject("article_media_urls");
+                                    JSONArray imag_array = image_obj.getJSONArray("image");
+                                    if (imag_array != null && imag_array.isNull(0) != true) {
+                                        Log.e("imag_array", "" + imag_array);
+
+                                        for (int j = 0; j < imag_array.length(); j++) {
+                                            image = imag_array.getString(j);
+                                            Log.e("image_article", "" + image);
+
+                                        }
+                                    } else {
+                                        Log.e("imag_array_else", "" + imag_array);
+                                        image = "";
+                                    }
+
+                                    JSONArray video_array = image_obj.getJSONArray("video");
+                                    if (video_array != null && video_array.isNull(0) != true) {
+                                        Log.e("video_array", "" + video_array);
+
+                                        for (int j = 0; j < video_array.length(); j++) {
+                                            video = video_array.getString(j);
+                                            Log.e("video_article", "" + video);
+
+                                        }
+                                    } else {
+                                        Log.e("videp_array_else", "" + video_array);
+                                        video = "";
+                                    }
+
 
                                 }
+                                String date = news_object.getString("article_created_at_format_day") + " " +
+                                        news_object.getString("article_created_at_format_month") + " " +
+                                        news_object.getString("article_created_at_format_year");
 
                                 article_models.add(new Article_model(news_object.getString("article_id"),
                                         news_object.getString("article_title"),
                                         news_object.getString("article_description"),
                                         image,
                                         news_object.getString("article_status"),
-                                        news_object.getString("article_created_at")
+                                        date,video
                                 ));
 
                             } catch (Exception e) {
@@ -230,6 +268,14 @@ public class Premimum_Lawyer_freg extends Fragment {
                             }
 
                         }
+
+                        if (data_array.length() > 1) {
+                            indicater.attachToRecyclerView(recycler_pre_lawyer_article);
+                          } else {
+                            indicater.setVisibility(View.GONE);
+                        }
+                     //   indicater.attachToRecyclerView(recycler_pre_lawyer_article);
+
 
                     } else if (status.equalsIgnoreCase("error")) {
                         tv_article_data_not_found.setVisibility(View.VISIBLE);
@@ -282,7 +328,6 @@ public class Premimum_Lawyer_freg extends Fragment {
         lv_primium_click = view.findViewById(R.id.lv_primium_click);
         progressBar_premium = view.findViewById(R.id.progressBar_premium);
         indicater = view.findViewById(R.id.recyclerview_pager_indicator);
-        indicater.attachToRecyclerView(recycler_pre_lawyer_article);
 
 
 

@@ -146,6 +146,7 @@ public class New_dynamic_Library_frag extends Fragment {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 String library_id = object.getString("library_id");
                                 Log.e("library_id", "" + library_id);
+                                Log.e("library_description", "" + object.getString("library_description"));
                                 String library_title = object.getString("library_title");
                                 String library_link = object.getString("library_link");
                                 String category_id = object.getString("category_id");
@@ -160,7 +161,7 @@ public class New_dynamic_Library_frag extends Fragment {
                                         library_link,
                                         category_id,
                                         date,
-                                        library_status);
+                                        library_status, object.getString("library_description"));
 
                                 itemArrayList.add(model);
                             }

@@ -127,5 +127,20 @@
     <string name="upload_article">تحميل المادة</string>
     <string name="registration_lawyer">التسجيل كمحام</string>
     <string name="edit_article">تحرير المادة</string>
+    <string name="link">www.google.com</string>
+
+
+    <!--Edit Profile-->
+
+    <string name="user_name_nm">نجوان محمد محمد سالم</string>
+    <string name="user_name_app">محامي إستئناف ومجلس دولة</string>
+    <string name="user_personal_Data">بيانات شخصية </string>
+    <string name="Social_networking_accounts">حسابات التواصل الإجتماعي</string>
+    <string name="About_the_lawyer">نبذة عن المحامي </string>
+    <string name="Edit_your_avatar">تعديل صورتك الشخصية</string>
+    <string name="user_detail">المحامي لقب يطلق على من أجيز له ممارسة مهنة المحاماة بناء على القوانين المعمول بها، والمحامي قد يجاز ... المرافعة أمام المحاكم المدنية; المحامي لقب يطلق على من أجيز له ممارسة مهنة المحاماة بناء على القوانين المعمول بها، والمحامي قد يجاز ... المرافعة أمام المحاكم المدنية</string>
+    <string name="tv_title">العنوان</string>
+    <string name="titleee">رقم واسم الشارع, المدينة, الدولة</string>
+
 
 </resources>

@@ -153,13 +153,6 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         myFragment.setArguments(b);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
-                    } else {
-                        Toast.makeText(getActivity(), "Please Register as a Lawyer", Toast.LENGTH_SHORT).show();
-
-
-
-
-                        pushFragment(new Register_freg(), "login");
                     }
                 } else {
                     pushFragment(new Login_freg(), "login");
