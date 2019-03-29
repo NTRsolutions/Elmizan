@@ -164,7 +164,8 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
                             // b.putString("name",product_model.getCategory_name());
                             Log.e("user_id_131",""+directory_model.getUser_id());
                             myFragment.setArguments(b);
-                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                            activity.getSupportFragmentManager().beginTransaction().
+                                    replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
 
                         } else {

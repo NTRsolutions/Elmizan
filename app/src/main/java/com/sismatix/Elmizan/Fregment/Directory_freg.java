@@ -19,6 +19,7 @@ import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Directory_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Directory_Model;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -86,27 +87,26 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         Log.e("serched_text_83",""+serched_text);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> user_list;
-
+        String country_id ="";
         if(serched_text.equalsIgnoreCase("null")==true || serched_text==null)
         {
             progressBar_directory.setVisibility(View.VISIBLE);
             directory_model.clear();
 
-            user_list = api.get_User_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_type,ApiClient.user_status,"");
-            Log.e("serched_90",""+serched_text);
-
-
-        }else {
-            progressBar_directory.setVisibility(View.VISIBLE);
-            directory_model.clear();
-
-            Log.e("serched_text_97",""+serched_text);
-
-            user_list = api.get_User_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_type,ApiClient.user_status,serched_text);
+            
+            Log.e("derecotyr",""+serched_text);
+            serched_text = "";
 
         }
+        if(My_Preference.getCountry_name(getActivity()).equalsIgnoreCase("countryid")==false) {
+            progressBar_directory.setVisibility(View.VISIBLE);
+            directory_model.clear();
+            
+            Log.e("country_id_104",""+My_Preference.getCountry_name(getActivity()));
+            country_id = My_Preference.getCountry_name(getActivity());
+        }
 
-
+        user_list = api.get_User_list(ApiClient.PAGE,ApiClient.PER_PAGE,ApiClient.user_type,ApiClient.user_status,serched_text,country_id);
         user_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

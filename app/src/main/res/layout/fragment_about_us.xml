@@ -14,8 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
-           >
+            android:layout_marginTop="20dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,8 +30,7 @@
                     android:textStyle="bold"
                     android:text="@string/about_usss"
                     android:textSize="18sp"
-                    android:textColor="@color/colorPrimary"
-                    />
+                    android:textColor="@color/colorPrimary" />
                 <TextView
                     android:id="@+id/tv_balance_detail"
                     android:gravity="center|start"
@@ -44,26 +43,44 @@
                     android:text="@string/detail"/>
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/lv_back_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center|start"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/aboutus"
-                android:padding="15dp">
+                android:layout_marginTop="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_au_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="80dp"
+                    android:gravity="center">
 
                 <TextView
                     android:id="@+id/tv_detail"
                     android:textColor="@color/yellow"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:textStyle="normal"
-                    android:gravity="center|start"
+                    android:gravity="center"
                     android:textSize="16sp"
+                    android:padding="10dp"
                     android:text="@string/second_detail"/>
-            </LinearLayout>
+
+                </RelativeLayout>
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

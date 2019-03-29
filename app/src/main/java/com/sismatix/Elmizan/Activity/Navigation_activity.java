@@ -31,6 +31,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -223,7 +224,7 @@ public class Navigation_activity extends AppCompatActivity
         //lv_show.setVisibility(View.VISIBLE);
 
         CALL_COUNTRY_API(lv_show);
-        final PopupWindow popup = new PopupWindow(context);
+        popup = new PopupWindow(context);
         popup.setContentView(layout);
         popup.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         popup.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -314,101 +315,6 @@ public class Navigation_activity extends AppCompatActivity
         //popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
     }
 
-    private void showPopupCurrency(final Activity context, Point c) {
-        PD.show();
-        int popupWidth = 500;
-        int popupHeight = 650;
-
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int width = displaymetrics.widthPixels;
-
-        Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
-
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup1);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.country_popup_row, viewGroup);
-
-        recycler_country = (RecyclerView) layout.findViewById(R.id.recycler_country);
-        LinearLayout lv_show = (LinearLayout) layout.findViewById(R.id.lv_country_show);
-        country_adapter = new Country_Adapter(Navigation_activity.this, country_model);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(Navigation_activity.this, LinearLayoutManager.VERTICAL, true);
-        layoutManager.setReverseLayout(false);
-        recycler_country.setLayoutManager(layoutManager);
-        recycler_country.setAdapter(country_adapter);
-         //lv_show.setVisibility(View.VISIBLE);
-
-        CALL_COUNTRY_API(lv_show);
-
-        popup = new PopupWindow(context);
-        popup.setContentView(layout);
-        popup.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-        int OFFSET_X;
-        int OFFSET_Y;
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        if (width > 1300) {
-            popupHeight = 950;
-            popup.setHeight(popupHeight);
-            OFFSET_X = -550;
-            OFFSET_Y = 30;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 1200 && width <= 1300) {
-            popupWidth = 900;
-            popupHeight = 1100;
-            popup.setHeight(popupHeight);
-            popup.setWidth(popupWidth);
-            OFFSET_X = -760;
-            OFFSET_Y = 90;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 1100 && width <= 1200) {
-            popupWidth = 900;
-            popupHeight = 1100;
-            popup.setHeight(popupHeight);
-            popup.setWidth(popupWidth);
-            OFFSET_X = -740;
-            OFFSET_Y = 90;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 1020 && width <= 1100) {
-            popupHeight = 750;
-            popup.setHeight(popupHeight);
-            OFFSET_X = -650;
-            OFFSET_Y = 100;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 950 && width <= 1020) {
-            OFFSET_X = -550;
-            OFFSET_Y = 80;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 850 && width <= 950) {
-            OFFSET_X = -495;
-            OFFSET_Y = 40;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 750 && width <= 800) {
-            OFFSET_X = -495;
-            OFFSET_Y = 80;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 650 && width <= 750) {
-            OFFSET_X = -500;
-            OFFSET_Y = 80;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 550 && width <= 650) {
-            popup.setWidth(popupWidth);
-            OFFSET_X = -430;
-            OFFSET_Y = 40;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-
-        } else if (width >= 500 && width <= 560) {
-            popup.setWidth(popupWidth);
-            OFFSET_X = -350;
-            OFFSET_Y = 80;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-
-        }
-    }
 
     private void CALL_COUNTRY_API(final LinearLayout lv_show) {
       //  progressBar_home.setVisibility(View.VISIBLE);
@@ -510,9 +416,7 @@ public class Navigation_activity extends AppCompatActivity
     }
     private void Bootom_Navigation_view() {
 
-        /*TextView textView = (TextView) bottom_navigation.findViewById(R.id.bottom_navigation).findViewById(R.id.largeLabel);
-        textView.setTextSize(8);
-*/
+
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        BottomNavigationViewHelper.disableShiftMode(bottom_navigation);
 
@@ -542,14 +446,7 @@ public class Navigation_activity extends AppCompatActivity
             case R.id.bottom_nav_article:
                 pushFragment(new Article_freg(),"Home");
                 break;
-              /*  if (loginflagmain.equalsIgnoreCase("1") || loginflagmain == "1") {
-                    pushFragment(new Wishlist_fragment(),"Wishlist_fragment");
-                    viewPager.setCurrentItem(2);
-                    break;
-                } else {
-                    Toast.makeText(this, "Please try to login.", Toast.LENGTH_SHORT).show();
-                    break;
-                }*/
+
             case R.id.bottom_nav_library:
                 pushFragment(new New_Library_freg(),"Cart");
 
@@ -564,16 +461,6 @@ public class Navigation_activity extends AppCompatActivity
                 }
 
 
-            /*    if (loginflagmain.equalsIgnoreCase("1") || loginflagmain == "1") {
-                    pushFragment(new AccountTabs(),"My Account");
-                    viewPager.setCurrentItem(4);
-                    break;
-
-                } else {
-                    pushFragment(new Account(),"Login_myaccount");
-                    viewPager.setCurrentItem(4);
-                    break;
-                }*/
         }
     }
     public static void Check_String_NULL_Value( TextView textview, String text) {
@@ -581,7 +468,21 @@ public class Navigation_activity extends AppCompatActivity
 
         if(text.equalsIgnoreCase("null")==true)
         {
-            textview.setText("");
+            textview.setHint("");
+            //textview.setText("Enter Value here");
+        }else {
+
+            textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
+        }
+
+    }
+    public static void Check_Editext_NULL_Value(EditText textview, String text) {
+
+
+        if(text.equalsIgnoreCase("null")==true)
+        {
+         //   textview.setText("Enter Value here");
+           textview.setHint("");
         }else {
 
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
@@ -757,6 +658,19 @@ public class Navigation_activity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_my_account) {
+
+            if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
+                if(My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium")){
+                    Bundle b=new Bundle();
+                    b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
+                    Fragment myFragment = new Edit_premium_lawyer_profile();
+                    myFragment.setArguments(b);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                }
+            }else {
+                pushFragment(new Login_freg(),"login");
+            }
 
         } else if (id == R.id.nav_my_article) {
             if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Model.Country_model;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 
 import java.util.List;
@@ -46,15 +47,19 @@ import java.util.List;
             holder.tv_country.setTypeface(Navigation_activity.typeface);
             Navigation_activity.Check_String_NULL_Value(holder.tv_country,rmd.getCountry_name());
 
+            My_Preference.setCountry_name(context,"countryid");
 
           //  holder.tv_country.setText(rmd.getCountry_name());
             holder.lv_click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    My_Preference.setCountry_name(context,model.get(position).getCountry_id());
+                    Log.e("countryid_55",""+rmd.getCountry_id());
+
                     name=rmd.getCountry_name();
                     image=rmd.getCountry_image_url();
-                   // Picasso.with(context).load(rmd.getCountry_image_url()).into(Home.iv_currency);
-                 //   Home.popup.dismiss();
+                    Glide.with(context).load(rmd.getCountry_image_url()).into(Navigation_activity.iv_nav_country_image);
+                    Navigation_activity.popup.dismiss();
                 }
             });
             Glide.with(context).load(rmd.getCountry_image_url()).into(holder.ivflag);

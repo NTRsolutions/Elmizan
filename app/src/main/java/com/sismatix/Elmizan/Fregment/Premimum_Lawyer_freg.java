@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,8 @@ import com.sismatix.Elmizan.Adapter.Articles_Adapter;
 import com.sismatix.Elmizan.Adapter.Premium_article_adpter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Article_model;
+import com.sismatix.Elmizan.Preference.Login_preference;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -44,7 +48,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Premimum_Lawyer_freg extends Fragment {
+public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListener {
     RecyclerView recycler_pre_lawyer_article;
     ProgressBar progressBar_article_lawyer;
     private List<Article_model> article_models = new ArrayList<Article_model>();
@@ -57,10 +61,11 @@ public class Premimum_Lawyer_freg extends Fragment {
     ProgressBar progressBar_premium;
     String phone_no;
 
-    TextView tv_premium_article, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
-            tv_premium_off_dot, tv_premium_off_onn, tv_premium_appeal, tv_premium_name, tv_article_data_not_found;
-    ImageView iv_premium_twitter, iv_premium_insta, iv_premium_fb, iv_profile_premium;
-    LinearLayout lv_premium_twitter, lv_premium_insta, lv_premium_fb, lv_premium_call;
+    TextView tv_premium_article,tv_edit_your_profile, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
+            tv_pre_country_text,tv_pre_country,tv_premium_offline, tv_premium_appeal, tv_premium_name, tv_article_data_not_found,tv_premium_online;
+    ImageView iv_premium_twitter, iv_premium_insta, iv_premium_fb, iv_profile_premium,iv_add_article,iv_add_media;
+    LinearLayout lv_premium_twitter, lv_premium_insta, lv_premium_fb, lv_premium_call,lv_edit_your_profile,lv_pre_online,lv_pre_offline;
+
 
     public Premimum_Lawyer_freg() {
         // Required empty public constructor
@@ -91,32 +96,32 @@ public class Premimum_Lawyer_freg extends Fragment {
         }
 
 
-        lv_premium_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (phone_no == "" || phone_no == null || phone_no == "null" || phone_no.equalsIgnoreCase(null)
-                        || phone_no.equalsIgnoreCase("null")) {
 
-                    Log.e("phone",""+phone_no);
-                } else {
-
-                    Log.e("phone_104",""+phone_no);
-                    Intent i = new Intent(Intent.ACTION_DIAL);
-                    i.setData(Uri.parse("tel:" + phone_no));
-                    startActivity(i);
-                }
-            }
-        });
         articles_adapter = new Premium_article_adpter(getActivity(), article_models);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        ///new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false)
         recycler_pre_lawyer_article.setLayoutManager(mLayoutManager);
-       // recycler_pre_lawyer_article.setItemAnimator(new DefaultItemAnimator());
-        // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler_pre_lawyer_article.setAdapter(articles_adapter);
 
 
+        lv_premium_call.setOnClickListener(this);
+        lv_edit_your_profile.setOnClickListener(this);
+        iv_add_article.setOnClickListener(this);
+        iv_add_media.setOnClickListener(this);
+
         return view;
+    }
+    private void pushFragment(Fragment fragment) {
+        if (fragment == null)
+            return;
+        FragmentManager fragmentManager = getFragmentManager();
+        if (fragmentManager != null) {
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            if (ft != null) {
+                ft.replace(R.id.main_fram_layout, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        }
     }
 
     private void CALL_USER_DETAIL_API() {
@@ -124,7 +129,6 @@ public class Premimum_Lawyer_freg extends Fragment {
         lv_primium_click.setVisibility(View.GONE);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> user_detail = api.get_user_detail(user_id);
-
 
         user_detail.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -153,6 +157,8 @@ public class Premimum_Lawyer_freg extends Fragment {
                         Navigation_activity.Check_String_NULL_Value(tv_premium_site, data_obj.getString("user_website"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_descr, data_obj.getString("user_description"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_appeal, data_obj.getString("user_description"));
+                        Navigation_activity.Check_String_NULL_Value(tv_pre_country, data_obj.getString("user_country_name"));
+                        tv_pre_country_text.setText(getResources().getString(R.string.country)+" :");
                         /*//tv_name_dircto.setText(data_obj.getString("user_name"));
                         tv_address_dircto.setText(data_obj.getString("user_address"));
                         tv_email_direct.setText(data_obj.getString("user_email"));
@@ -298,6 +304,9 @@ public class Premimum_Lawyer_freg extends Fragment {
     }
 
     private void AllocateMemory(View view) {
+        tv_pre_country = (TextView) view.findViewById(R.id.tv_pre_country);
+        tv_pre_country_text = (TextView) view.findViewById(R.id.tv_pre_country_text);
+        tv_edit_your_profile = (TextView) view.findViewById(R.id.tv_edit_your_profile);
         tv_premium_article = (TextView) view.findViewById(R.id.tv_premium_article);
         tv_premium_descr = (TextView) view.findViewById(R.id.tv_premium_descr);
         tv_premium_usernm = (TextView) view.findViewById(R.id.tv_premium_usernm);
@@ -305,12 +314,15 @@ public class Premimum_Lawyer_freg extends Fragment {
         tv_premium_email = (TextView) view.findViewById(R.id.tv_premium_email);
         tv_premium_address = (TextView) view.findViewById(R.id.tv_premium_address);
         tv_premium_phone = (TextView) view.findViewById(R.id.tv_premium_phone);
-        tv_premium_off_dot = (TextView) view.findViewById(R.id.tv_premium_off_dot);
-        tv_premium_off_onn = (TextView) view.findViewById(R.id.tv_premium_off_onn);
+
+        tv_premium_offline = (TextView) view.findViewById(R.id.tv_premium_offline);
         tv_premium_appeal = (TextView) view.findViewById(R.id.tv_premium_appeal);
         tv_premium_name = (TextView) view.findViewById(R.id.tv_premium_name);
         tv_article_data_not_found = (TextView) view.findViewById(R.id.tv_article_data_not_found);
+        tv_premium_online = (TextView) view.findViewById(R.id.tv_premium_online);
 
+        iv_add_media = (ImageView) view.findViewById(R.id.iv_add_media);
+        iv_add_article = (ImageView) view.findViewById(R.id.iv_add_article);
         iv_premium_twitter = (ImageView) view.findViewById(R.id.iv_premium_twitter);
         iv_premium_insta = (ImageView) view.findViewById(R.id.iv_premium_insta);
         iv_premium_insta = (ImageView) view.findViewById(R.id.iv_premium_insta);
@@ -321,6 +333,9 @@ public class Premimum_Lawyer_freg extends Fragment {
         lv_premium_insta = (LinearLayout) view.findViewById(R.id.lv_premium_insta);
         lv_premium_fb = (LinearLayout) view.findViewById(R.id.lv_premium_fb);
         lv_premium_call = (LinearLayout) view.findViewById(R.id.lv_premium_call);
+        lv_edit_your_profile = (LinearLayout) view.findViewById(R.id.lv_edit_your_profile);
+        lv_pre_online = (LinearLayout) view.findViewById(R.id.lv_pre_online);
+        lv_pre_offline = (LinearLayout) view.findViewById(R.id.lv_pre_offline);
 
 
         recycler_pre_lawyer_article = (RecyclerView) view.findViewById(R.id.recycler_pre_lawyer_article);
@@ -341,11 +356,71 @@ public class Premimum_Lawyer_freg extends Fragment {
         tv_premium_address.setTypeface(Navigation_activity.typeface);
         tv_premium_phone.setTypeface(Navigation_activity.typeface);
       //  tv_premium_off_dot.setTypeface(Navigation_activity.typeface);
-        tv_premium_off_onn.setTypeface(Navigation_activity.typeface);
+        tv_premium_offline.setTypeface(Navigation_activity.typeface);
+        tv_premium_online.setTypeface(Navigation_activity.typeface);
         tv_premium_appeal.setTypeface(Navigation_activity.typeface);
         tv_premium_name.setTypeface(Navigation_activity.typeface);
         tv_article_data_not_found.setTypeface(Navigation_activity.typeface);
 
     }
 
+    @Override
+    public void onClick(View view) {
+        if(view==lv_edit_your_profile)
+        {
+            if(user_id.equalsIgnoreCase(Login_preference.getuser_id(getContext()))==true)
+            {
+
+                lv_edit_your_profile.setVisibility(View.VISIBLE);
+                pushFragment(new Edit_premium_lawyer_profile());
+            }else {
+                lv_edit_your_profile.setVisibility(View.GONE);
+            }
+/*
+
+            if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
+                pushFragment(new Edit_premium_lawyer_profile());
+            } else {
+                pushFragment(new Login_freg());
+            }*/
+
+        }else if(view==iv_add_article)
+        {
+
+            if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
+
+                if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
+                    pushFragment(new Add_Article_Freg());
+                }
+            } else {
+                pushFragment(new Login_freg());
+            }
+
+        }else if(view==iv_add_media)
+        {
+            if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
+
+                if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
+                    pushFragment(new UPload_Media_freg());
+                }
+            } else {
+                pushFragment(new Login_freg());
+            }
+
+        }
+        else if(view==lv_premium_call)
+        {
+            if (phone_no == "" || phone_no == null || phone_no == "null" || phone_no.equalsIgnoreCase(null)
+                    || phone_no.equalsIgnoreCase("null")) {
+
+                Log.e("phone",""+phone_no);
+            } else {
+
+                Log.e("phone_104",""+phone_no);
+                Intent i = new Intent(Intent.ACTION_DIAL);
+                i.setData(Uri.parse("tel:" + phone_no));
+                startActivity(i);
+            }
+        }
+    }
 }

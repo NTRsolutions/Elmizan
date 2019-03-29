@@ -48,7 +48,7 @@
                 android:background="@color/white">
 
                 <LinearLayout
-                    android:id="@+id/google"
+                    android:id="@+id/google_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_garry"
@@ -82,7 +82,8 @@
                     android:id="@+id/layout_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/google"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@+id/google_login"
                     android:textColorHint="@color/edittextline">
                     <EditText
                         android:id="@+id/et_Email_login"
@@ -134,7 +135,7 @@
                     android:layout_below="@+id/forgot"
                     android:layout_marginTop="30dp"
                     android:background="@color/colorPrimary"
-                    android:text="@string/createaccont"
+                    android:text="@string/signin"
                     android:textColor="@color/white"/>
                 <TextView
                     android:id="@+id/tv_register"

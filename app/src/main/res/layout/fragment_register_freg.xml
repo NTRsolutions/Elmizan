@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:focusable="true"
-    android:gravity="center"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:gravity="center">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,32 +24,35 @@
             android:id="@+id/layout_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/edittextline"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:textColorHint="@color/edittextline">
+
             <EditText
                 android:id="@+id/editTextname_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sign_name"
                 android:inputType="text"
-                android:textColorHint="@color/edittextline"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/edittextline" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/layout_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_email"
-            android:textColorHint="@color/edittextline"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:textColorHint="@color/edittextline">
+
             <EditText
                 android:id="@+id/editTextEmail_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textColorHint="@color/edittextline"
-                android:textColor="@color/black"  />
+                android:textColor="@color/black"
+                android:textColorHint="@color/edittextline" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -53,54 +60,94 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_password"
+            android:layout_marginBottom="20dp"
             app:passwordToggleContentDescription="@string/login"
             app:passwordToggleDrawable="@drawable/show_password_selector"
-            app:passwordToggleTint="@color/edittextline"
             app:passwordToggleEnabled="true"
-            android:layout_marginBottom="20dp">
+            app:passwordToggleTint="@color/edittextline">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/editTextpassword_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/layout_mobilenuber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etPasswordLayout"
-            android:textColorHint="@color/edittextline"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:textColorHint="@color/edittextline">
+
             <EditText
                 android:id="@+id/editTextphone_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/phone"
                 android:inputType="number"
-                android:textColorHint="@color/edittextline"
-                android:textColor="@color/black"  />
+                android:textColor="@color/black"
+                android:textColorHint="@color/edittextline" />
         </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
+        <LinearLayout
+            android:id="@+id/lv_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_mobilenuber"
+            android:layout_marginTop="5dp"
+            android:weightSum="4"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_weight="2.5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:gravity="center|start"
+                android:text="@string/country"
+                android:textColor="@color/edittextline"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/spinner_country"
+                android:layout_weight="1.5"
+                android:gravity="center|end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/lv_spinner"
+            android:layout_marginTop="5dp"
+            android:background="@color/edittextline" />
+
+        <CheckBox
             android:id="@+id/checkbox"
-            android:text="@string/registration_lawyer"
-            android:layout_below="@+id/layout_mobilenuber"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lv_spinner"
+            android:layout_marginTop="20dp"
+            android:text="@string/registration_lawyer" />
+
         <Button
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
+            android:layout_below="@+id/checkbox"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/layout_mobilenuber"
-            android:layout_marginTop="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
             android:background="@color/colorPrimary"
             android:text="@string/createaccont"
             android:textColor="@color/white" />
     </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

@@ -94,12 +94,12 @@
     <!-- Directory of lawyers -->
     <string name="free_name">نجوان محمد محمد سالم</string>
     <string name="shortdicription">محامي إستئناف ومجلس دولة</string>
-    <string name="phone_direct">رقم الهاتف:</string>
-    <string name="Address">العنوان:</string>
-    <string name="email_direct">الإيميل:</string>
-    <string name="sitee">الموقع:</string>
-    <string name="data_not_found">Data Not Found</string>
-    <string name="country">Country</string>
+    <string name="phone_direct">رقم الهاتف :</string>
+    <string name="Address">العنوان :</string>
+    <string name="email_direct">الإيميل :</string>
+    <string name="sitee">الموقع :</string>
+    <string name="data_not_found">لم يتم العثور على بيانات</string>
+    <string name="country"> بلد</string>
 
 
 
@@ -141,6 +141,13 @@
     <string name="user_detail">المحامي لقب يطلق على من أجيز له ممارسة مهنة المحاماة بناء على القوانين المعمول بها، والمحامي قد يجاز ... المرافعة أمام المحاكم المدنية; المحامي لقب يطلق على من أجيز له ممارسة مهنة المحاماة بناء على القوانين المعمول بها، والمحامي قد يجاز ... المرافعة أمام المحاكم المدنية</string>
     <string name="tv_title">العنوان</string>
     <string name="titleee">رقم واسم الشارع, المدينة, الدولة</string>
+
+    <string name="save">حفظ</string>
+    <string name="Edit_your_profile">عدل ملفك الشخصي</string>
+    <string name="fb_link">فيسبوك لينك</string>
+    <string name="insta_link">رابط انستغرام</string>
+    <string name="twitter_link">رابط تويتر
+</string>
 
 
 </resources>

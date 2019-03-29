@@ -9,7 +9,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -75,7 +79,10 @@ public class Article_freg extends Fragment {
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
 
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
+        String youtubeUrl = "https://www.youtube.com/watch?v=O3aemJ9eAAA";
+        Log.e("yid",""+youtubeUrl);
 
+        getYoutubeID(youtubeUrl);
         AllocateMemory(view);
         fab_btn_click_listner();
 
@@ -107,7 +114,34 @@ public class Article_freg extends Fragment {
         recycler_article.setAdapter(articles_adapter);
         return view;
     }
+    private String getYoutubeID(String youtubeUrl) {
+        if (TextUtils.isEmpty(youtubeUrl)) {
+            return "";
+        }
+        String video_id = "";
 
+        String expression = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+        CharSequence input = youtubeUrl;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            String groupIndex1 = matcher.group(7);
+            if (groupIndex1 != null && groupIndex1.length() == 11)
+                video_id = groupIndex1;
+        }
+        if (TextUtils.isEmpty(video_id)) {
+            if (youtubeUrl.contains("youtu.be/")) {
+                String spl = youtubeUrl.split("youtu.be/")[1];
+                if (spl.contains("\\?")) {
+                    video_id = spl.split("\\?")[0];
+                } else {
+                    video_id = spl;
+                }
+            }
+        }
+        Log.e("vidid", "" + video_id);
+        return video_id;
+    }
     private void fab_btn_click_listner() {
 
 
@@ -136,21 +170,50 @@ public class Article_freg extends Fragment {
             @Override
             public void onClick(View view) {
 
-
                 if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
 
                     if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
                         pushFragment(new Add_Article_Freg(), "login");
                     }
                 } else {
-                    pushFragment(new Login_freg(), "login");
+
+                    String screen = "Article";
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("screen",screen);
+                    Fragment myFragment = new Login_freg();
+                    myFragment.setArguments(bundle1);
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+//pushFragment(new Login_freg(), "login");
                 }
 
 
             }
         });
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        if(getView() == null){
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    getActivity().onBackPressed();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
     private void pushFragment(Fragment fragment, String add_to_backstack) {
         if (fragment == null)
             return;

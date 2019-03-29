@@ -83,4 +83,16 @@ public class Login_preference {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("user_avatar_url", "");
     }
+    public static void setuser_countryid(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("user_avatar_url", value);
+        prefsEditor.commit();
+    }
+    public static String getuser_countryid(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("user_avatar_url", "");
+    }
 }

@@ -1,13 +1,13 @@
 package com.sismatix.Elmizan.Fregment;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +23,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.gson.JsonObject;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
+import com.sismatix.Elmizan.Config;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
@@ -34,6 +38,9 @@ import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -46,16 +53,20 @@ import retrofit2.Response;
 public class News_Detail_freg extends Fragment implements View.OnClickListener {
     View view;
     String news_id, article_id;
-    TextView tv_detail_news_title,tv_send_news, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
+    TextView tv_detail_news_title, tv_send_news, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
     ImageView iv_news_detail_like, iv_news_detail_bookmark, iv_news_detail_share, iv_news_detail_image;
     EditText edt_news_detail_comment;
-    LinearLayout lv_news_detail_send,lv_news_detail;
+    LinearLayout lv_news_detail_send, lv_news_detail;
     ProgressBar progressBar_newsdetail;
     public static String login_flag;
     FloatingActionMenu fab_menu_article;
     FloatingActionButton fab_edit_article;
     View shadowView_article;
     String article_inserted_by;
+    LinearLayout lv_image_details, lv_video_details;
+
+    private YouTubePlayer YPlayer;
+    String video, image, video_idd, video_id, spl;
 
     public News_Detail_freg() {
         // Required empty public constructor
@@ -75,6 +86,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.single_news_page));
 
         Allocate_Memory(view);
+
+        Log.e("videooooo", "" + video);
+
         Bundle bundle = this.getArguments();
         login_flag = Login_preference.getLogin_flag(getActivity());
 
@@ -84,8 +98,8 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             article_id = bundle.getString("article_id");
             Log.e("news_id_43", "" + news_id);
             Log.e("article_id_79", "" + article_id);
-        }
 
+        }
 
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
@@ -95,7 +109,6 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                 CALL_ARTICLE_DETAIL_API();
                 fab_btn_click_listner();
-
 
             } else {
                 CALL_News_Detail_API();
@@ -112,9 +125,68 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
     }
 
+    private void Youtube(final String video) {
+
+        Log.e("vidssssss", "" + video);
+
+        YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.youtube_fragment, youTubePlayerFragment).commit();
+        youTubePlayerFragment.initialize(Config.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                if (!b) {
+
+                    YPlayer = youTubePlayer;
+                    YPlayer.setFullscreen(false);
+                    //YPlayer.cueVideo("HPW5EKRIaCw");
+                    YPlayer.loadVideo(video_id);
+                    //holder.YPlayer.cueVideo(videoid);
+                    YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                    YPlayer.setShowFullscreenButton(true);
+                    YPlayer.getCurrentTimeMillis();
+                }
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+            }
+        });
+    }
+
+    private String getYoutubeVideoID(String video) {
+        if (TextUtils.isEmpty(video)) {
+            return "";
+        }
+        video_id = "";
+
+        String expression = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+        CharSequence input = video;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(input);
+        if (matcher.matches()) {
+            String groupIndex1 = matcher.group(7);
+            if (groupIndex1 != null && groupIndex1.length() == 11)
+                video_id = groupIndex1;
+        }
+        if (TextUtils.isEmpty(video_id)) {
+            if (video.contains("youtu.be/")) {
+                spl = video.split("youtu.be/")[1];
+                if (spl.contains("\\?")) {
+                    video_id = spl.split("\\?")[0];
+                } else {
+                    video_id = spl;
+                }
+            }
+        }
+        Log.e("vidid_details", "" + video_id);
+        return video_id;
+    }
+
+
     private void fab_btn_click_listner() {
-
-
 
 
         fab_menu_article.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -147,14 +219,24 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                     if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
 
-                        Bundle b=new Bundle();
-                        b.putString("article_id",article_id);
+                        Bundle b = new Bundle();
+                        b.putString("article_id", article_id);
                         Fragment myFragment = new Add_Article_Freg();
                         myFragment.setArguments(b);
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
                     }
                 } else {
+
+                    /*String screen = "news_details";
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("screen", "" + screen);
+                    bundle1.putString("article_id", "" + article_id);
+                    Fragment myFragment = new Login_freg();
+                    myFragment.setArguments(bundle1);
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();*/
+
                     pushFragment(new Login_freg(), "login");
                 }
 
@@ -171,9 +253,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
         Call<ResponseBody> article_detail;
         if (login_flag.equalsIgnoreCase("1") || login_flag == "1") {
-            article_detail = api.get_article_detail(article_id,userid);
-        }else{
-            article_detail = api.get_article_detail(article_id,"");
+            article_detail = api.get_article_detail(article_id, userid);
+        } else {
+            article_detail = api.get_article_detail(article_id, "");
         }
         article_detail.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -194,30 +276,29 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
 
-                        String date=data_obj.getString("article_created_at_format_day")+" "+
-                                data_obj.getString("article_created_at_format_month")+" "+
+                        String date = data_obj.getString("article_created_at_format_day") + " " +
+                                data_obj.getString("article_created_at_format_month") + " " +
                                 data_obj.getString("article_created_at_format_year");
-                        article_inserted_by= data_obj.getString("inserted_by");
+                        article_inserted_by = data_obj.getString("inserted_by");
 
-                        String userid=Login_preference.getuser_id(getActivity());
-                        Log.e("userid_120",""+userid);
-                        Log.e("article_inserted_by",""+article_inserted_by);
+                        String userid = Login_preference.getuser_id(getActivity());
+                        Log.e("userid_120", "" + userid);
+                        Log.e("article_inserted_by", "" + article_inserted_by);
 
-                        if(article_inserted_by.equalsIgnoreCase(userid)==true)
-                        {
+                        if (article_inserted_by.equalsIgnoreCase(userid) == true) {
                             fab_menu_article.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             fab_menu_article.setVisibility(View.GONE);
                         }
 
                         Log.e("article_inserted_by", "" + article_inserted_by);
                         Navigation_activity.Check_String_NULL_Value(tv_detail_news_title, data_obj.getString("article_title"));
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_date, date);
-                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml( data_obj.getString("article_description"))));
+                        Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml(data_obj.getString("article_description"))));
 
-                        Navigation_activity.Check_String_NULL_Value(tv_posted_by,data_obj.getString("article_created_by"));
+                        Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("article_created_by"));
 
-                        String check_if_article_liked=data_obj.getString("check_if_article_liked");
+                        String check_if_article_liked = data_obj.getString("check_if_article_liked");
                         if (check_if_article_liked.equalsIgnoreCase("true") == true) {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumb_up_black_36dp));
                         } else {
@@ -227,26 +308,70 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         /*tv_detail_news_title.setText(data_obj.getString("news_title"));
                         tv_news_detail_date.setText(data_obj.getString("news_created_at"));
                         tv_news_detail_description.setText(data_obj.getString("news_description"));
-                        tv_posted_by.setText(data_obj.getString("news_created_by"));
-*/
-                        JSONObject image_obj = data_obj.getJSONObject("article_media_urls");
-                        Log.e("img_obj", "" + image_obj);
-                        JSONArray jsonArray = image_obj.getJSONArray("image");
-                        Log.e("jsonArray_news", "" + jsonArray);
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        tv_posted_by.setText(data_obj.getString("news_created_by"));*/
 
-                            try {
-                                String image = jsonArray.getString(i);
+                        String article_media_url = data_obj.getString("article_media_urls");
+                        Log.e("article_media_urls", "" + article_media_url);
+
+                        if (article_media_url.equalsIgnoreCase("false") == true) {
+                            image = "";
+                            video = "";
+                        } else {
+                            JSONObject image_obj = data_obj.getJSONObject("article_media_urls");
+                            JSONArray imag_array = image_obj.getJSONArray("image");
+                            if (imag_array != null && imag_array.isNull(0) != true) {
+                                Log.e("imag_array", "" + imag_array);
+                                lv_image_details.setVisibility(View.VISIBLE);
+                                lv_video_details.setVisibility(View.GONE);
+
+                                for (int j = 0; j < imag_array.length(); j++) {
+                                    image = imag_array.getString(j);
+                                    Log.e("image_article", "" + image);
+
+                                    if (image == "" || image == null || image == "null" || image.equalsIgnoreCase(null)
+                                            || image.equalsIgnoreCase("null")) {
+                                        lv_image_details.setVisibility(View.GONE);
+                                    } else {
+                                        Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                                    }
+
+                                }
+
+                            } else {
+                                Log.e("imag_array_else", "" + imag_array);
+                                image = "";
+                                lv_video_details.setVisibility(View.GONE);
+                                lv_image_details.setVisibility(View.GONE);
                                 Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                            }
 
-                                // JSONObject vac_object = jsonArray.getJSONObject(i);
-                                Log.e("image_news", "" + image);
-                                // product_model.add(new Product_Category_model(vac_object.getString("name"),vac_object.getString("value")));
+                            JSONArray video_array = image_obj.getJSONArray("video");
+                            if (video_array != null && video_array.isNull(0) != true) {
+                                Log.e("video_array", "" + video_array);
+                                lv_video_details.setVisibility(View.VISIBLE);
 
-                            } catch (Exception e) {
-                                Log.e("Exception", "" + e);
-                            } finally {
-                                //   product_category_adapter.notifyItemChanged(i);
+                                for (int j = 0; j < video_array.length(); j++) {
+                                    video = video_array.getString(j);
+                                    Log.e("video_arrayvvvv", "" + video);
+
+                                    if (video == "" || video == null || video == "null" || video.equalsIgnoreCase(null)
+                                            || video.equalsIgnoreCase("null")) {
+                                        Log.e("video_blanknull", "" + video);
+                                        lv_video_details.setVisibility(View.GONE);
+                                    } else {
+
+                                        Youtube(video);
+                                        getYoutubeVideoID(video);
+                                        Log.e("video_article", "" + video);
+
+                                    }
+                                }
+
+                            } else {
+                                lv_video_details.setVisibility(View.GONE);
+                                Log.e("video_array_else", "" + video_array);
+                                video = "";
+                                Glide.with(getActivity()).load(image).into(iv_news_detail_image);
                             }
 
                         }
@@ -314,12 +439,12 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> news_detail;
         if (login_flag.equalsIgnoreCase("1") || login_flag == "1") {
-            news_detail = api.get_news_detail(news_id,userid);
-        }else{
-            news_detail = api.get_news_detail(news_id,"");
+            news_detail = api.get_news_detail(news_id, userid);
+        } else {
+            news_detail = api.get_news_detail(news_id, "");
         }
 
-            news_detail.enqueue(new Callback<ResponseBody>() {
+        news_detail.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response_news_detail", "" + response.body().toString());
@@ -336,8 +461,8 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
-                        String date=data_obj.getString("news_created_at_format_day")+" "+
-                                data_obj.getString("news_created_at_format_month")+" "+
+                        String date = data_obj.getString("news_created_at_format_day") + " " +
+                                data_obj.getString("news_created_at_format_month") + " " +
                                 data_obj.getString("news_created_at_format_year");
 
                         Navigation_activity.Check_String_NULL_Value(tv_detail_news_title, data_obj.getString("news_title"));
@@ -346,7 +471,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         Log.e("news_description", "" + data_obj.getString("news_description"));
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml(data_obj.getString("news_description"))));
                         Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
-                        String check_if_news_liked=data_obj.getString("check_if_news_liked");
+                        String check_if_news_liked = data_obj.getString("check_if_news_liked");
                         if (check_if_news_liked.equalsIgnoreCase("true") == true) {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumb_up_black_36dp));
                         } else {
@@ -397,11 +522,13 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
     private void Allocate_Memory(View view) {
 
+        lv_image_details = (LinearLayout) view.findViewById(R.id.lv_image_details);
+        lv_video_details = (LinearLayout) view.findViewById(R.id.lv_video_details);
+        iv_news_detail_image = (ImageView) view.findViewById(R.id.iv_news_detail_image);
 
-        shadowView_article=(View)view.findViewById(R.id.shadowView_article);
+        shadowView_article = (View) view.findViewById(R.id.shadowView_article);
         fab_menu_article = (FloatingActionMenu) view.findViewById(R.id.fab_menu_article);
         fab_edit_article = (FloatingActionButton) view.findViewById(R.id.fab_edit_article);
-
 
         tv_posted = (TextView) view.findViewById(R.id.tv_posted);
         tv_posted_by = (TextView) view.findViewById(R.id.tv_posted_by);
@@ -413,12 +540,11 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         iv_news_detail_like = (ImageView) view.findViewById(R.id.iv_news_detail_like);
         iv_news_detail_bookmark = (ImageView) view.findViewById(R.id.iv_news_detail_bookmark);
         iv_news_detail_share = (ImageView) view.findViewById(R.id.iv_news_detail_share);
-        iv_news_detail_image = (ImageView) view.findViewById(R.id.iv_news_detail_image);
+        //iv_news_detail_image = (ImageView) view.findViewById(R.id.iv_news_detail_image);
         edt_news_detail_comment = view.findViewById(R.id.edt_news_detail_comment);
         lv_news_detail_send = view.findViewById(R.id.lv_news_detail_send);
         lv_news_detail = view.findViewById(R.id.lv_news_detail);
         progressBar_newsdetail = view.findViewById(R.id.progressBar_newsdetail);
-
 
 
         tv_posted.setTypeface(Navigation_activity.typeface);
@@ -430,7 +556,6 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         edt_news_detail_comment.setTypeface(Navigation_activity.typeface);
         tv_detail_news_add_comment.setTypeface(Navigation_activity.typeface);
         tv_send_news.setTypeface(Navigation_activity.typeface);
-
 
 
     }
@@ -447,12 +572,12 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         if (news_id == "" || news_id == null || news_id == "null" || news_id.equalsIgnoreCase(null)
                                 || news_id.equalsIgnoreCase("null")) {
-                           CALL_ARTICLE_ADD_COMMENT_API();
-                        }else {
+                            CALL_ARTICLE_ADD_COMMENT_API();
+                        } else {
                             CALL_NEWS_ADD_COMMENT();
                         }
-                    }else {
-                        pushFragment(new Login_freg(),"Cart");
+                    } else {
+                        pushFragment(new Login_freg(), "Cart");
                     }
 
                 } else {
@@ -466,13 +591,21 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                     if (news_id == "" || news_id == null || news_id == "null" || news_id.equalsIgnoreCase(null)
                             || news_id.equalsIgnoreCase("null")) {
                         CALL_ARTICLE_LIKE_API();
-                    }else {
+                    } else {
                         CALL_News_Like_API();
                     }
 
-                }else {
-                    pushFragment(new Login_freg(),"Cart");
-                    }
+                } else {
+                    String screen = "news_details";
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("screen", "" + screen);
+                    bundle1.putString("article_id", article_id);
+                    Fragment myFragment = new Login_freg();
+                    myFragment.setArguments(bundle1);
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                    //pushFragment(new Login_freg(), "Cart");
+                }
             } else {
                 Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
             }
@@ -507,6 +640,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                     Log.e("", "" + e);
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
@@ -521,7 +655,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
         Log.e("user_id_article", "" + userid);
         Log.e("article_id_like", "" + article_id);
-        Call<ResponseBody> article_like  = api.get_article_like(article_id, userid);
+        Call<ResponseBody> article_like = api.get_article_like(article_id, userid);
 
         article_like.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -565,6 +699,8 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         if (fragmentManager != null) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
             if (ft != null) {
+                ft.setCustomAnimations(R.anim.fade_in,
+                        0, 0, R.anim.fade_out);
                 ft.replace(R.id.main_fram_layout, fragment);
                 ft.addToBackStack(add_to_backstack);
                 ft.commit();
@@ -577,7 +713,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         String userid = Login_preference.getuser_id(getActivity());
 
         Log.e("user_id", "" + userid);
-        Call<ResponseBody> news_like  = api.get_news_like(news_id, userid);
+        Call<ResponseBody> news_like = api.get_news_like(news_id, userid);
 
         news_like.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -599,7 +735,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         }
                         String message = jsonObject.getString("msg");
                         Log.e("msg", "" + message);
-                      //  Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {

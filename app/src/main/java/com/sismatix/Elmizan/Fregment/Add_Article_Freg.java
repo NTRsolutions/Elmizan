@@ -522,11 +522,6 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
 
 
-
-
-
-
-
     @SuppressLint("LongLogTag")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

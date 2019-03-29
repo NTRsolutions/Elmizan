@@ -163,17 +163,17 @@ public class My_Preference {
         return mPrefs.getString("AddressId", "");
     }
 
-    public static void setCountryId(Context context, String value)
+    public static void setCountry_name(Context context, String value)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefsEditor = mPrefs.edit();
-        prefsEditor.putString("CountryId", value);
+        prefsEditor.putString("Countryname", value);
         prefsEditor.commit();
     }
-    public static String getCountryId(Context context)
+    public static String getCountry_name(Context context)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("CountryId", "");
+        return mPrefs.getString("Countryname", "");
     }
 
     public static void setCountryPosition(Context context, String value)

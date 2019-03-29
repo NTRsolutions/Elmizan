@@ -103,14 +103,14 @@
     <!-- Directory of lawyers -->
     <string name="free_name">Name:</string>
     <string name="shortdicription">Dicrtdiption:</string>
-    <string name="phone_direct">Phone:</string>
-    <string name="Address">Address:</string>
-    <string name="email_direct">Email:</string>
+    <string name="phone_direct">Phone :</string>
+    <string name="Address">Address :</string>
+    <string name="email_direct">Email :</string>
     <string name="sitee">Site:</string>
     <string name="data_not_found">Data Not Found</string>
 
 
-    <string name="country">Country</string>
+    <string name="country">Country </string>
     <string name="gmail">ALMIZAN.KWT@GMAIL.COM</string>
     <string name="twiter">\@ALMIZANKWT</string>
     <string name="instagram">ALMIZAN.KWT</string>
@@ -145,6 +145,21 @@
     <string name="Edit_your_avatar">Edit your avatar</string>
     <string name="tv_title">Title</string>
     <string name="titleee">رقم واسم الشارع, المدينة, الدولة</string>
+    <string name="save">Save</string>
+    <string name="Edit_your_profile">Edit Your Profile</string>
+    <string name="fb_link">Facebook Link</string>
+    <string name="insta_link">Instagram Link</string>
+    <string name="twitter_link">Twitter Link</string>
+    <string name="phone_noo">Enter Phone No</string>
+    <string name="address_s">Enter Address</string>
+    <string name="emailll">Enter Email</string>
+    <string name="siteee">Enter site</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Upload_photos_media">Upload Photos and Media</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="multiple_file">Upload Multiple Files</string>
+    <string name="internal_storage">Internal storage</string>
 
 </resources>

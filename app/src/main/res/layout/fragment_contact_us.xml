@@ -14,9 +14,8 @@
         android:layout_weight="2"
         android:orientation="vertical"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="10dp">
-
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,31 +35,32 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="30dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal"
             android:weightSum="4">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center|top"
                 android:layout_weight="3.5"
+                android:gravity="center|top"
                 android:orientation="vertical">
 
-                <ImageView android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:src="@mipmap/ic_gmail" />
             </LinearLayout>
 
             <TextView
-                android:layout_weight="0.5"
                 android:id="@+id/tv_gmail"
-                android:paddingRight="5dp"
-                android:gravity="center|end"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:paddingRight="5dp"
                 android:text="@string/gmail"
                 android:textColor="@color/bottom_icon"
                 android:textSize="12sp" />
@@ -76,9 +76,9 @@
             android:weightSum="4">
 
             <LinearLayout
-                android:layout_weight="3.5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="3.5"
                 android:orientation="vertical">
 
                 <ImageView
@@ -88,32 +88,31 @@
             </LinearLayout>
 
             <TextView
-                android:paddingRight="5dp"
-
                 android:id="@+id/tv_no"
-                android:layout_weight="0.5"
-                android:layout_marginLeft="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.5"
+                android:gravity="center|end"
+                android:paddingRight="5dp"
                 android:text="@string/telephone"
                 android:textColor="@color/bottom_icon"
-                android:textSize="12sp"
-                android:gravity="center|start"
-                />
+                android:textSize="12sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:weightSum="4"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="4">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center"
                 android:layout_height="match_parent"
                 android:layout_weight="3.5"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -123,19 +122,19 @@
             </LinearLayout>
 
             <TextView
-                android:paddingRight="5dp"
-
                 android:id="@+id/tv_instagram"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/instagram"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.5"
                 android:gravity="center|end"
+                android:paddingRight="5dp"
+                android:text="@string/instagram"
                 android:textColor="@color/bottom_icon"
                 android:textSize="12sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,11 +143,11 @@
             android:weightSum="4">
 
             <LinearLayout
-                android:layout_weight="3.5"
-                android:gravity="center"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="3.5"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -158,20 +157,21 @@
             </LinearLayout>
 
             <TextView
-                android:paddingRight="5dp"
-
-                android:layout_marginLeft="5dp"
+                android:id="@+id/tv_twitter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/twiter"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="0.5"
                 android:gravity="end|center"
+                android:paddingRight="5dp"
+                android:text="@string/twiter"
                 android:textColor="@color/bottom_icon"
                 android:textSize="12sp" />
 
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -179,11 +179,11 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/iv_cu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/contact" />
-    </LinearLayout>
+            android:scaleType="fitXY" />
 
+    </LinearLayout>
 
 </LinearLayout>

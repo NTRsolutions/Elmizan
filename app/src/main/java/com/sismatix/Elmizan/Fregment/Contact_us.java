@@ -3,16 +3,34 @@ package com.sismatix.Elmizan.Fregment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
+
+import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Contact_us extends Fragment {
+
+    TextView tv_gmail,tv_no,tv_instagram,tv_twitter;
+    ImageView iv_cu;
 
     View v;
     public Contact_us() {
@@ -25,7 +43,131 @@ public class Contact_us extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v= inflater.inflate(R.layout.fragment_contact_us, container, false);
+
+        AllocateMemory(v);
+        callContactUsApi();
+
         return  v;
     }
 
+    private void callContactUsApi() {
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> getabout_us = api.get_contact_us();
+
+        getabout_us.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("response", "" + response.body().toString());
+                //  progressBar.setVisibility(View.GONE);
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_news_detail",""+status);
+                    if (status.equalsIgnoreCase("success")){
+
+                        JSONObject data_obj=jsonObject.getJSONObject("data");
+                        Log.e("status_data_au",""+data_obj);
+
+                        String contact_emai_one = data_obj.getString("contact_email");
+                        Log.e("contact_email",""+contact_emai_one);
+
+                        //Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(iv_lawyer_profile);
+
+                        JSONObject contact_email = data_obj.getJSONObject("contact_email");
+                        Log.e("contact_emaill",""+contact_email);
+
+                        String global_content = contact_email.getString("global_content");
+                        Log.e("global_cont_au_email",""+global_content);
+
+                        tv_gmail.setText(global_content);
+
+                        JSONObject contact_phone = data_obj.getJSONObject("contact_phone");
+                        Log.e("contact_phone",""+contact_phone);
+
+                        String global_content2 = contact_phone.getString("global_content");
+                        Log.e("contact_phone",""+contact_phone);
+
+                        tv_no.setText(global_content2);
+
+                        JSONObject contact_insta = data_obj.getJSONObject("contact_insta");
+                        Log.e("contact_insta",""+contact_insta);
+
+                        String global_content3 = contact_insta.getString("global_content");
+                        Log.e("global_cont_insta",""+global_content3);
+
+                        tv_instagram.setText(global_content3);
+
+                        JSONObject contact_twitter = data_obj.getJSONObject("contact_twitter");
+                        Log.e("contact_twitter",""+contact_twitter);
+
+                        String contact_twitterr = contact_insta.getString("global_content");
+                        Log.e("global_cont_twitter",""+contact_twitterr);
+
+                        tv_twitter.setText(contact_twitterr);
+
+                        JSONObject contact_image = data_obj.getJSONObject("contact_image");
+                        Log.e("contact_image",""+contact_image);
+
+                        String global_content4 = contact_image.getString("global_content");
+                        Log.e("global_cont_image",""+global_content4);
+
+                       /* Glide.with(getContext()).load(global_content4).into(new SimpleTarget<Bitmap>(200,200) {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                Drawable drawable = new BitmapDrawable(getContext().getResources(), resource);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                    lv_back_image.setBackground(drawable);
+                                }
+                            }
+                        });*/
+
+                        Glide.with(getActivity()).load(global_content4).into(iv_cu);
+
+                    }else if (status.equalsIgnoreCase("error")){
+                    }
+
+                }catch (Exception e){
+                    Log.e("",""+e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void AllocateMemory(View v) {
+
+        tv_gmail = (TextView)v.findViewById(R.id.tv_gmail);
+        tv_no = (TextView)v.findViewById(R.id.tv_no);
+        tv_instagram = (TextView)v.findViewById(R.id.tv_instagram);
+        tv_twitter = (TextView)v.findViewById(R.id.tv_twitter);
+        iv_cu = (ImageView)v.findViewById(R.id.iv_cu);
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(getView() == null){
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    getActivity().onBackPressed();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 }
