@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,16 +73,13 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_news__detail_freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
-
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
-
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.single_news_page));
 
@@ -257,6 +255,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         } else {
             article_detail = api.get_article_detail(article_id, "");
         }
+
         article_detail.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -481,28 +480,66 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         /*tv_detail_news_title.setText(data_obj.getString("news_title"));
                         tv_news_detail_date.setText(data_obj.getString("news_created_at"));
                         tv_news_detail_description.setText(data_obj.getString("news_description"));
-                        tv_posted_by.setText(data_obj.getString("news_created_by"));
-*/
+                        tv_posted_by.setText(data_obj.getString("news_created_by"));*/
+
+
                         JSONObject image_obj = data_obj.getJSONObject("news_media_urls");
                         Log.e("img_obj", "" + image_obj);
-                        JSONArray jsonArray = image_obj.getJSONArray("image");
-                        Log.e("jsonArray_news", "" + jsonArray);
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONArray imag_array = image_obj.getJSONArray("image");
+                        if (imag_array != null && imag_array.isNull(0) != true) {
+                            Log.e("imag_array", "" + imag_array);
+                            lv_image_details.setVisibility(View.VISIBLE);
+                            lv_video_details.setVisibility(View.GONE);
 
-                            try {
-                                String image = jsonArray.getString(i);
-                                Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                            for (int j = 0; j < imag_array.length(); j++) {
+                                image = imag_array.getString(j);
+                                Log.e("image_article", "" + image);
 
-                                // JSONObject vac_object = jsonArray.getJSONObject(i);
-                                Log.e("image_news", "" + image);
-                                // product_model.add(new Product_Category_model(vac_object.getString("name"),vac_object.getString("value")));
+                                if (image == "" || image == null || image == "null" || image.equalsIgnoreCase(null)
+                                        || image.equalsIgnoreCase("null")) {
+                                    lv_image_details.setVisibility(View.GONE);
+                                } else {
+                                    Log.e("image_article_main", "" + image);
+                                    Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                                }
 
-                            } catch (Exception e) {
-                                Log.e("Exception", "" + e);
-                            } finally {
-                                //   product_category_adapter.notifyItemChanged(i);
                             }
 
+                        } else {
+                            Log.e("imag_array_else", "" + imag_array);
+                            image = "";
+                            lv_video_details.setVisibility(View.GONE);
+                            lv_image_details.setVisibility(View.GONE);
+                            Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                        }
+
+                        JSONArray video_array = image_obj.getJSONArray("video");
+                        if (video_array != null && video_array.isNull(0) != true) {
+                            Log.e("video_array", "" + video_array);
+                            lv_video_details.setVisibility(View.VISIBLE);
+
+                            for (int j = 0; j < video_array.length(); j++) {
+                                video = video_array.getString(j);
+                                Log.e("video_arrayvvvv", "" + video);
+
+                                if (video == "" || video == null || video == "null" || video.equalsIgnoreCase(null)
+                                        || video.equalsIgnoreCase("null")) {
+                                    Log.e("video_blanknull", "" + video);
+                                    lv_video_details.setVisibility(View.GONE);
+                                } else {
+
+                                    Youtube(video);
+                                    getYoutubeVideoID(video);
+                                    Log.e("video_article", "" + video);
+
+                                }
+                            }
+
+                        } else {
+                            lv_video_details.setVisibility(View.GONE);
+                            Log.e("video_array_else", "" + video_array);
+                            video = "";
+                            Glide.with(getActivity()).load(image).into(iv_news_detail_image);
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
@@ -749,4 +786,35 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    loadFragment(new Home_freg());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void loadFragment(Fragment fragment) {
+        Log.e("clickone", "");
+        android.support.v4.app.FragmentManager manager = getFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.fade_in,
+                0, 0, R.anim.fade_out);
+        transaction.replace(R.id.main_fram_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+
 }

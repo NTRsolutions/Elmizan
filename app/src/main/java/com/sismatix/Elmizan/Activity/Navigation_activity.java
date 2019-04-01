@@ -39,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Adapter.Country_Adapter;
 import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
@@ -84,8 +85,9 @@ public class Navigation_activity extends AppCompatActivity
     public static AssetManager am ;
     boolean doubleBackToExitPressedOnce = false;
     public static Typeface typeface,tf,medium;
-    LinearLayout lv_withlogin_header,lv_withoutlogin_header,withoutloginicon;
-    MenuItem nav_register,nav_contactus,nav_signin,nav_myaccount,nav_myarticle,nav_notification,nav_logout;
+    public static LinearLayout lv_withlogin_header,lv_withoutlogin_header,withoutloginicon;
+    public static MenuItem nav_register,nav_contactus,nav_signin,nav_myaccount,nav_myarticle,nav_notification,nav_logout;
+    public static ImageView iv_profile_image;
     Point p,c;
     ProgressDialog PD;
     RecyclerView recycler_country;
@@ -129,6 +131,7 @@ public class Navigation_activity extends AppCompatActivity
             nav_logout.setVisible(true);
             withoutloginicon.setVisibility(View.VISIBLE);
             tv_nav_user_name.setText(Login_preference.getuser_name(this));
+            Glide.with(this).load(Login_preference.getuser_profile(this)).into(iv_profile_image);
 
         }else{
             lv_withlogin_header.setVisibility(View.GONE);
@@ -394,6 +397,7 @@ public class Navigation_activity extends AppCompatActivity
         lv_withlogin_header=(LinearLayout) header.findViewById(R.id.lv_withlogin_header);
         lv_withoutlogin_header=(LinearLayout) header.findViewById(R.id.lv_withoutlogin_header);
         tv_nav_user_name=(TextView) header.findViewById(R.id.tv_nav_user_name);
+        iv_profile_image = (ImageView) header.findViewById(R.id.iv_profile_image);
         withoutloginicon=(LinearLayout) findViewById(R.id.withoutloginicon);
         Menu menu =navigationView.getMenu();
         nav_register = menu.findItem(R.id.nav_register);

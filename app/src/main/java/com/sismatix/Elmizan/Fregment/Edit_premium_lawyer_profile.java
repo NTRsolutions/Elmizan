@@ -21,6 +21,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -541,6 +542,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 validation_ok = false;
             }
         }
+
         if (edt_phone.getVisibility() == View.VISIBLE) {
             Log.e("click_292", "" + fullname);
             if (phone.length() == 0) {
@@ -551,6 +553,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 validation_ok = false;
             }
         }
+
         if (edt_email.getVisibility() == View.VISIBLE) {
             Log.e("click_293", "" + fullname);
             if (email.length() == 0) {
@@ -561,6 +564,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 validation_ok = false;
             }
         }
+
         if (spinner_edit_country.getSelectedItem().toString().trim().equals("Select") == true) {
             Log.e("click_294", "" + fullname);
             Toast.makeText(getActivity(), "Please Select Country", Toast.LENGTH_SHORT).show();
@@ -591,10 +595,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             }
         }
 
-
-
-
-
        /* edt_email.setText(email);
         //edt_address.setText(address);
         edt_phone.setText(phone);
@@ -604,8 +604,8 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         edt_fb_url.setText(fb_url);
         edt_twitter_url.setText(twitter_url);
         edt_insta_url.setText(inst_url);
-        edt_full_name.setText(fullname);
-*/
+        edt_full_name.setText(fullname);*/
+
     }
 
     private void CALL_USER_UPDATE_API(String fullname, String short_desc, String phone, String email, String address, String country_id_pass, String site, String fb_url, String inst_url, String twitter_url, String about_lawyer, String user_id, String path) {
@@ -625,7 +625,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         Log.e("about_lawyer", "" + about_lawyer);
         Log.e("about_lawyer", "" + about_lawyer);
         Log.e("path_584", "" + path);
-
 
         RequestBody fullname_pass = RequestBody.create(MediaType.parse("text/plain"), fullname);
         RequestBody short_desc_pass = RequestBody.create(MediaType.parse("text/plain"), short_desc);
@@ -673,6 +672,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                             old_img_url, part);
 
         }
+
         Update_User_detail.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -966,5 +966,37 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 WRITE_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED;
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    loadFragment(new Home_freg());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void loadFragment(Fragment fragment) {
+        Log.e("clickone", "");
+        android.support.v4.app.FragmentManager manager = getFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.fade_in,
+                0, 0, R.anim.fade_out);
+        transaction.replace(R.id.main_fram_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+
+
 
 }

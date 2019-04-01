@@ -110,7 +110,7 @@ public class Contact_us extends Fragment {
                         JSONObject contact_image = data_obj.getJSONObject("contact_image");
                         Log.e("contact_image",""+contact_image);
 
-                        String global_content4 = contact_image.getString("global_content");
+                        String global_content4 = contact_image.getString("global_content_url");
                         Log.e("global_cont_image",""+global_content4);
 
                        /* Glide.with(getContext()).load(global_content4).into(new SimpleTarget<Bitmap>(200,200) {
@@ -148,6 +148,7 @@ public class Contact_us extends Fragment {
         iv_cu = (ImageView)v.findViewById(R.id.iv_cu);
 
     }
+
     @Override
     public void onResume() {
         super.onResume();

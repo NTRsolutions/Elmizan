@@ -111,7 +111,7 @@ public class About_us extends Fragment {
                         JSONObject about_us_2_image = data_obj.getJSONObject("about_us_2_image");
                         Log.e("about_us_2_image",""+about_us_2_image);
 
-                        String global_content4 = about_us_2_image.getString("global_content");
+                        String global_content4 = about_us_2_image.getString("global_content_url");
                         Log.e("global_cont_au2img",""+global_content4);
 
                         /*Glide.with(getContext()).load(global_content4).into(new SimpleTarget<Bitmap>(200,200) {

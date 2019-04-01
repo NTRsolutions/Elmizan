@@ -43,6 +43,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.sismatix.Elmizan.Activity.Navigation_activity.lv_withlogin_header;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.lv_withoutlogin_header;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_contactus;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_logout;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_myaccount;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_myarticle;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_notification;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_register;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_signin;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.tv_nav_user_name;
+import static com.sismatix.Elmizan.Activity.Navigation_activity.withoutloginicon;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -246,15 +258,39 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                         startActivity(intent);
                         getActivity().finish();*/
 
-                        if (screen.equalsIgnoreCase("news_details")) {
+                        if (bundle != null) {
+                            String loginflag = Login_preference.getLogin_flag(getActivity());
+                            if (loginflag.equalsIgnoreCase("1") || loginflag == "1") {
+                                lv_withlogin_header.setVisibility(View.VISIBLE);
+                                lv_withoutlogin_header.setVisibility(View.GONE);
+                                //hide if user not login
+                                nav_register.setVisible(false);
+                                nav_contactus.setVisible(false);
+                                nav_signin.setVisible(false);
+                                nav_logout.setVisible(true);
+                                withoutloginicon.setVisibility(View.VISIBLE);
+                                tv_nav_user_name.setText(Login_preference.getuser_name(getActivity()));
+                            } else {
+                                lv_withlogin_header.setVisibility(View.GONE);
+                                lv_withoutlogin_header.setVisibility(View.VISIBLE);
+                                withoutloginicon.setVisibility(View.INVISIBLE);
+                                nav_register.setVisible(true);
+                                nav_contactus.setVisible(true);
+                                nav_signin.setVisible(true);
+                                nav_myaccount.setVisible(false);
+                                nav_myarticle.setVisible(false);
+                                nav_notification.setVisible(false);
+                                nav_logout.setVisible(false);
+                            }
+                            if (screen.equalsIgnoreCase("news_details")) {
 
-                            Bundle b = new Bundle();
-                            b.putString("article_id", aricle_idd);
-                            Fragment myFragment = new News_Detail_freg();
-                            myFragment.setArguments(b);
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
-                                    .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                                Bundle b = new Bundle();
+                                b.putString("article_id", aricle_idd);
+                                Fragment myFragment = new News_Detail_freg();
+                                myFragment.setArguments(b);
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
+                                        .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
                             /*EmailLogin nextFrag = new EmailLogin();
                             getActivity().getSupportFragmentManager().beginTransaction()
@@ -262,25 +298,51 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                                     .addToBackStack(null)
                                     .commit();*/
 
-                        } else if (screen.equalsIgnoreCase("Navigation")) {
+                            } else if (screen.equalsIgnoreCase("Navigation")) {
 
-                            Fragment myFragment = new Edit_premium_lawyer_profile();
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
-                                    .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                                Fragment myFragment = new Edit_premium_lawyer_profile();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
+                                        .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
-                        } else if (screen.equalsIgnoreCase("Article")) {
+                            } else if (screen.equalsIgnoreCase("Article")) {
 
-                            Fragment myFragment = new Add_Article_Freg();
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
-                                    .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                                Fragment myFragment = new Add_Article_Freg();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
+                                        .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                            }else if (screen.equalsIgnoreCase("Add_Prem_Article")) {
+
+                                Fragment myFragment = new Add_Article_Freg();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
+                                        .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                            }else if (screen.equalsIgnoreCase("Add_Media")) {
+
+                                Fragment myFragment = new UPload_Media_freg();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
+                                        .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                            }
 
                         } else {
                             Intent intent = new Intent(getActivity(), Navigation_activity.class);
+                            getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             startActivity(intent);
                             getActivity().finish();
                         }
+
+                         /*else {
+                            Intent intent = new Intent(getActivity(), Navigation_activity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }*/
+                        Intent intent = new Intent(getActivity(), Navigation_activity.class);
+                        startActivity(intent);
+                        getActivity().finish();
 
                     } else if (status.equalsIgnoreCase("error")) {
                         Toast.makeText(getContext(), "" + meassg, Toast.LENGTH_SHORT).show();

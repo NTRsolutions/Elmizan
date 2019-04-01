@@ -12,13 +12,13 @@
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center|start"
                 android:padding="15dp">
@@ -55,10 +55,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/iv_au_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <ImageView
+                        android:id="@+id/iv_au_img"
+                        android:scaleType="fitXY"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/aboutus"
+                        android:layout_height="match_parent" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -67,23 +70,24 @@
                     android:layout_marginTop="80dp"
                     android:gravity="center">
 
-                <TextView
-                    android:id="@+id/tv_detail"
-                    android:textColor="@color/yellow"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="match_parent"
-                    android:textStyle="normal"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:padding="10dp"
-                    android:text="@string/second_detail"/>
+                    <TextView
+                        android:id="@+id/tv_detail"
+                        android:textColor="@color/yellow"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="match_parent"
+                        android:textStyle="normal"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:padding="10dp"
+                        android:text="@string/second_detail"/>
 
                 </RelativeLayout>
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
                 android:gravity="center|start"

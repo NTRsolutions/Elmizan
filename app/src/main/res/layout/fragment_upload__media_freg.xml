@@ -29,7 +29,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
@@ -67,7 +66,6 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -92,14 +90,11 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-
                     </LinearLayout>
-
 
             </LinearLayout>
 
             <LinearLayout
-
                 android:id="@+id/lv_upload_photos_media"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -236,13 +231,10 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
 
         </LinearLayout>
     </ScrollView>

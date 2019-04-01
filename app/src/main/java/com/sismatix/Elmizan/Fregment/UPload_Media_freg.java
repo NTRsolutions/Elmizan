@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,18 +86,16 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
     public static final int RequestPermissionCode = 7;
 
     LinearLayout lv_add_youtube_link_3, lv_add_youtube_link_2, lv_add_youtube_link_1;
-
     ImageView iv_add_youtube_3, iv_add_youtube_2, iv_add_youtube_1;
     EditText edt_youtube_link_3, edt_youtube_link_2, edt_youtube_link_1;
     MyAdapter mAdapter;
     String youtube_link_1, youtube_link_2, youtube_link_3;
-
+    String expression = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     boolean ytb_one = true, ytb_two = true, ytb_three = true;
 
     public UPload_Media_freg() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,7 +103,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_upload__media_freg, container, false);
         AllocateMemory(v);
-
 
         lv_upload_photos_media.setOnClickListener(this);
         lv_choose_img.setOnClickListener(this);
@@ -118,6 +116,11 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         arrayList.clear();
         youtubearrayList.clear();
 
+       /* if (expression.matches(youtube_link_1)&&expression.matches(youtube_link_2)&&expression.matches(youtube_link_3)){
+            Toast.makeText(getContext(), "Valid Url", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getContext(), "Must be Youtube Url", Toast.LENGTH_SHORT).show();
+        }*/
 
         /*listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             // setting onItemLongClickListener and passing the position to the function
@@ -128,7 +131,9 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
                 return true;
             }
+
         });*/
+
         return v;
     }
 
@@ -164,7 +169,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -192,20 +196,25 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                                 Log.e(TAG, "File select error", e);
                             }
                         }
+
                     } else if (data.getData() != null) {
                         //do something with the image (save it to some directory or whatever you need to do with it here)
                         final Uri uri = data.getData();
                         Log.i(TAG, "Uri = " + uri.toString());
                         try {
+
                             // Get the file path from the URI
+
                             final String path = FileUtils.getPath(getContext(), uri);
                             Log.d("Single File Selected", path);
 
                             arrayList.add(uri);
                             mAdapter = new MyAdapter(getActivity(), arrayList);
                             listView.setAdapter(mAdapter);
-                         //   mAdapter.notifyDataSetChanged();
-                          //  mAdapter.notifyDataSetInvalidated();
+
+                            //   mAdapter.notifyDataSetChanged();
+                            //  mAdapter.notifyDataSetInvalidated();
+
                         } catch (Exception e) {
                             Log.e(TAG, "File select error", e);
                         }
@@ -276,7 +285,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         int CAMERA_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), CAMERA);
         int READ_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), READ_EXTERNAL_STORAGE);
         int WRITE_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE);
-
 
         return CAMERA_PermissionResult == PackageManager.PERMISSION_GRANTED &&
                 READ_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED &&
@@ -435,7 +443,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         if (view == lv_upload_photos_media) {
 
-
             if (edt_youtube_link_1.getVisibility() == View.VISIBLE) {
 
                 youtube_link_1 = edt_youtube_link_1.getText().toString();
@@ -478,16 +485,68 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             lv_add_youtube_link_1.setVisibility(View.VISIBLE);
 
         } else if (view == iv_add_youtube_1) {
-
+            ytb_one = false;
+            iv_add_youtube_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ytb_one = true;
+                    lv_add_youtube_link_1.setVisibility(View.GONE);
+                }
+            });
             lv_add_youtube_link_2.setVisibility(View.VISIBLE);
             iv_add_youtube_1.setImageDrawable(getResources().getDrawable(R.drawable.ic_highlight_off_black_48dp));
 
-
         } else if (view == iv_add_youtube_2) {
+            ytb_one = false;
+            iv_add_youtube_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ytb_one = true;
+                    lv_add_youtube_link_2.setVisibility(View.GONE);
+                }
+            });
             iv_add_youtube_2.setImageDrawable(getResources().getDrawable(R.drawable.ic_highlight_off_black_48dp));
             lv_add_youtube_link_3.setVisibility(View.VISIBLE);
         } else if (view == iv_add_youtube_3) {
+            ytb_one = false;
+            iv_add_youtube_3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ytb_one = true;
+                    lv_add_youtube_link_3.setVisibility(View.GONE);
+                }
+            });
             Toast.makeText(getActivity(), "You Can Upload only 3 youtube link", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
+                    loadFragment(new Premimum_Lawyer_freg());
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void loadFragment(Fragment fragment) {
+        Log.e("clickone", "");
+        android.support.v4.app.FragmentManager manager = getFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.fade_in,
+                0, 0, R.anim.fade_out);
+        transaction.replace(R.id.main_fram_layout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 }

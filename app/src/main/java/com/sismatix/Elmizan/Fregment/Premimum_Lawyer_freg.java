@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,6 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     ImageView iv_premium_twitter, iv_premium_insta, iv_premium_fb, iv_profile_premium,iv_add_article,iv_add_media;
     LinearLayout lv_premium_twitter, lv_premium_insta, lv_premium_fb, lv_premium_call,lv_edit_your_profile,lv_pre_online,lv_pre_offline;
 
-
     public Premimum_Lawyer_freg() {
         // Required empty public constructor
     }
@@ -102,14 +102,27 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         recycler_pre_lawyer_article.setLayoutManager(mLayoutManager);
         recycler_pre_lawyer_article.setAdapter(articles_adapter);
 
-
         lv_premium_call.setOnClickListener(this);
         lv_edit_your_profile.setOnClickListener(this);
         iv_add_article.setOnClickListener(this);
         iv_add_media.setOnClickListener(this);
+        Log.e("user_id_110",""+Login_preference.getuser_id(getActivity()));
+
+        if( Login_preference.getuser_id(getActivity()).equalsIgnoreCase(user_id)){
+            Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
+            Log.e("User id matched","");
+        }
+        if( Login_preference.getuser_type(getActivity()).equalsIgnoreCase("lawyer")){
+            Toast.makeText(getContext(), "2", Toast.LENGTH_SHORT).show();
+        }
+        if( My_Preference.get_premium_lawyer(getActivity()).equalsIgnoreCase("premium")){
+            Toast.makeText(getContext(), "3", Toast.LENGTH_SHORT).show();
+        }
 
         return view;
+
     }
+
     private void pushFragment(Fragment fragment) {
         if (fragment == null)
             return;
@@ -344,9 +357,6 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         progressBar_premium = view.findViewById(R.id.progressBar_premium);
         indicater = view.findViewById(R.id.recyclerview_pager_indicator);
 
-
-
-
         tv_premium_article.setTypeface(Navigation_activity.typeface);
         tv_premium_descr.setTypeface(Navigation_activity.typeface);
         tv_premium_usernm.setTypeface(Navigation_activity.typeface);
@@ -363,6 +373,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         tv_article_data_not_found.setTypeface(Navigation_activity.typeface);
 
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -391,9 +403,21 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
                 if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
                     pushFragment(new Add_Article_Freg());
+                }else {
+                    Toast.makeText(getContext(), "You are not Premium lawyer", Toast.LENGTH_SHORT).show();
                 }
+
             } else {
-                pushFragment(new Login_freg());
+
+                String screen = "Add_Prem_Article";
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("screen",screen);
+                Fragment myFragment = new Login_freg();
+                myFragment.setArguments(bundle1);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                        0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                /*pushFragment(new Login_freg());*/
             }
 
         }else if(view==iv_add_media)
@@ -404,7 +428,16 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                     pushFragment(new UPload_Media_freg());
                 }
             } else {
-                pushFragment(new Login_freg());
+
+                String screen = "Add_Media";
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("screen",screen);
+                Fragment myFragment = new Login_freg();
+                myFragment.setArguments(bundle1);
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                        0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                /*pushFragment(new Login_freg());*/
             }
 
         }
@@ -422,5 +455,27 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                 startActivity(i);
             }
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(getView() == null){
+            return;
+        }
+
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
+                    getActivity().onBackPressed();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }
