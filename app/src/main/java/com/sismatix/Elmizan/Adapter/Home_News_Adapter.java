@@ -65,10 +65,12 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
         holder.tv_date_news.setTypeface(Navigation_activity.typeface);
         holder.tv_title_news.setTypeface(Navigation_activity.typeface);
         holder.tv_detail_news.setTypeface(Navigation_activity.typeface);
+        holder.tv_date_news.setTypeface(Navigation_activity.typeface);
 
         holder.tv_date_news.setText(Html.fromHtml(model.getNews_day()+" "+model.getNews_month()+", "+model.getNews_year()));
         Navigation_activity.Check_String_NULL_Value(holder.tv_title_news,model.getNews_title());
         Navigation_activity.Check_String_NULL_Value(holder.tv_detail_news,model.getNews_description());
+        //Navigation_activity.Check_String_NULL_Value(holder.tv_date_news,model.getNews_date());
         //holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
         //holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
 

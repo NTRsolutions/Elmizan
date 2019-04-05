@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     CheckBox checkbox;
     String  checked_value_pass,countryid;
     Spinner spinner_country;
+    RelativeLayout lv_register_parent;
 
 
     public static ArrayList<String> country_name_code = new ArrayList<String>();
@@ -64,8 +67,14 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_register_freg, container, false);
-        AllocateMemory(v);
 
+        Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
+        Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.Create_an_account));
+        Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
+
+        AllocateMemory(v);
+        setupUI(lv_register_parent);
         btn_register.setOnClickListener(this);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,6 +123,26 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     }
 
 
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Login_freg.hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
 
     private void CALL_COUNTRY_API() {
         //  progressBar_home.setVisibility(View.VISIBLE);
@@ -121,7 +150,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         country_name.clear();
         country_name_code.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> country_list = api.get_country_list();
+        Call<ResponseBody> country_list = api.get_country_list(ApiClient.user_status);
 
         country_list.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -188,6 +217,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         btn_register=(Button)v.findViewById(R.id.btn_register);
         checkbox=(CheckBox) v.findViewById(R.id.checkbox);
         spinner_country=(Spinner) v.findViewById(R.id.spinner_country);
+        lv_register_parent=(RelativeLayout) v.findViewById(R.id.lv_register_parent);
 
         btn_register.setTypeface(Navigation_activity.typeface);
         editTextname_reg.setTypeface(Navigation_activity.typeface);
@@ -277,6 +307,8 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+
+
     @Override
     public void onResume() {
         super.onResume();

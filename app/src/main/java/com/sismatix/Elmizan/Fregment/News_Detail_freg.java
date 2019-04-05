@@ -11,12 +11,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,11 +59,12 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     TextView tv_detail_news_title, tv_send_news, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
     ImageView iv_news_detail_like, iv_news_detail_bookmark, iv_news_detail_share, iv_news_detail_image;
     EditText edt_news_detail_comment;
+    RelativeLayout lv_news_parent;
     LinearLayout lv_news_detail_send, lv_news_detail;
     ProgressBar progressBar_newsdetail;
     public static String login_flag;
     FloatingActionMenu fab_menu_article;
-    FloatingActionButton fab_edit_article;
+    FloatingActionButton fab_edit_article,fab_delete_article;
     View shadowView_article;
     String article_inserted_by;
     LinearLayout lv_image_details, lv_video_details;
@@ -81,9 +84,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
-        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.single_news_page));
 
         Allocate_Memory(view);
+        setupUI(lv_news_parent);
 
         Log.e("videooooo", "" + video);
 
@@ -105,10 +108,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             if (news_id == "" || news_id == null || news_id == "null" || news_id.equalsIgnoreCase(null)
                     || news_id.equalsIgnoreCase("null")) {
 
+                Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
+
                 CALL_ARTICLE_DETAIL_API();
                 fab_btn_click_listner();
 
             } else {
+                Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.single_news_page));
+
                 CALL_News_Detail_API();
             }
 
@@ -122,7 +129,26 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         return view;
 
     }
+    public void setupUI(View view) {
 
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Login_freg.hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
     private void Youtube(final String video) {
 
         Log.e("vidssssss", "" + video);
@@ -208,6 +234,38 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             }
         });
 
+        fab_delete_article.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
+
+                    if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
+                        String user_id=Login_preference.getuser_id(getActivity());
+
+                      //  Toast.makeText(getActivity(), article_id+"delete article"+user_id, Toast.LENGTH_SHORT).show();
+
+                        Call_Delete_article_api(article_id,user_id);
+                    }
+                } else {
+
+                    /*String screen = "news_details";
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("screen", "" + screen);
+                    bundle1.putString("article_id", "" + article_id);
+                    Fragment myFragment = new Login_freg();
+                    myFragment.setArguments(bundle1);
+                    getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();*/
+
+                    pushFragment(new Login_freg(), "login");
+                }
+
+
+
+
+            }
+        });
+
         fab_edit_article.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,6 +297,49 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                 }
 
 
+            }
+        });
+    }
+
+    private void Call_Delete_article_api(String article_id, String user_id) {
+        ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
+
+        Call<ResponseBody> register = apii.article_delete(article_id, user_id);
+        Log.e("article_id", "" + article_id);
+        register.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("response", "" + response.body().toString());
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status", "" + status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message", "" + message);
+                    if (status.equalsIgnoreCase("success")) {
+
+                        //JSONObject object=new JSONObject(jsonObject.getString("data"));
+
+                        Bundle b = new Bundle();
+                        b.putString("user_id", Login_preference.getuser_id(getActivity()));
+                        Fragment myFragment = new Article_freg();
+                        myFragment.setArguments(b);
+                        getFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+                        Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
+                        //getActivity().finish();
+                    } else if (status.equalsIgnoreCase("error")) {
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.e("", "" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -279,6 +380,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                 data_obj.getString("article_created_at_format_month") + " " +
                                 data_obj.getString("article_created_at_format_year");
                         article_inserted_by = data_obj.getString("inserted_by");
+                        Log.e("article_date_33",""+date);
 
                         String userid = Login_preference.getuser_id(getActivity());
                         Log.e("userid_120", "" + userid);
@@ -493,13 +595,13 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                             for (int j = 0; j < imag_array.length(); j++) {
                                 image = imag_array.getString(j);
-                                Log.e("image_article", "" + image);
+                                Log.e("image_news_495", "" + image);
 
                                 if (image == "" || image == null || image == "null" || image.equalsIgnoreCase(null)
                                         || image.equalsIgnoreCase("null")) {
                                     lv_image_details.setVisibility(View.GONE);
                                 } else {
-                                    Log.e("image_article_main", "" + image);
+                                    Log.e("image_news_main", "" + image);
                                     Glide.with(getActivity()).load(image).into(iv_news_detail_image);
                                 }
 
@@ -515,9 +617,10 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         JSONArray video_array = image_obj.getJSONArray("video");
                         if (video_array != null && video_array.isNull(0) != true) {
-                            Log.e("video_array", "" + video_array);
-                            lv_video_details.setVisibility(View.VISIBLE);
+                            Log.e("video_array_nb", "" + video_array);
 
+
+                            lv_video_details.setVisibility(View.VISIBLE);
                             for (int j = 0; j < video_array.length(); j++) {
                                 video = video_array.getString(j);
                                 Log.e("video_arrayvvvv", "" + video);
@@ -559,6 +662,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
     private void Allocate_Memory(View view) {
 
+        lv_news_parent = (RelativeLayout) view.findViewById(R.id.lv_news_parent);
         lv_image_details = (LinearLayout) view.findViewById(R.id.lv_image_details);
         lv_video_details = (LinearLayout) view.findViewById(R.id.lv_video_details);
         iv_news_detail_image = (ImageView) view.findViewById(R.id.iv_news_detail_image);
@@ -566,6 +670,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         shadowView_article = (View) view.findViewById(R.id.shadowView_article);
         fab_menu_article = (FloatingActionMenu) view.findViewById(R.id.fab_menu_article);
         fab_edit_article = (FloatingActionButton) view.findViewById(R.id.fab_edit_article);
+        fab_delete_article = (FloatingActionButton) view.findViewById(R.id.fab_delete_article);
 
         tv_posted = (TextView) view.findViewById(R.id.tv_posted);
         tv_posted_by = (TextView) view.findViewById(R.id.tv_posted_by);
@@ -797,7 +902,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    loadFragment(new Home_freg());
+                    //YPlayer.pause();
+                    getActivity().onBackPressed();
+
                     return true;
                 }
                 return false;

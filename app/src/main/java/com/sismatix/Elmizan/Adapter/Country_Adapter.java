@@ -47,7 +47,7 @@ import java.util.List;
             holder.tv_country.setTypeface(Navigation_activity.typeface);
             Navigation_activity.Check_String_NULL_Value(holder.tv_country,rmd.getCountry_name());
 
-            My_Preference.setCountry_name(context,"countryid");
+            My_Preference.setCountry_name(context,"1");
 
           //  holder.tv_country.setText(rmd.getCountry_name());
             holder.lv_click.setOnClickListener(new View.OnClickListener() {

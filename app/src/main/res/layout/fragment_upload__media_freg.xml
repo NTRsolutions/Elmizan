@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/lv_upload_parent"
     tools:context=".Fregment.UPload_Media_freg">
 
     <ScrollView
@@ -17,6 +18,24 @@
             android:orientation="vertical"
             android:padding="5dp">
 
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="200dp"
+                android:indeterminateDrawable="@drawable/custom_progress"
+                android:visibility="gone" />
+            <LinearLayout
+                android:id="@+id/lv_upload_click"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -28,14 +47,6 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_gravity="center"
-                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -235,7 +246,7 @@
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

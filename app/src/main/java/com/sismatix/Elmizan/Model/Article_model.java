@@ -6,11 +6,22 @@ public class Article_model {
     String article_description;
     String image;
     String article_status;
-    String article_date,video;
+    String article_date;
+    String video;
+
+    public String getPosted_by() {
+        return posted_by;
+    }
+
+    public void setPosted_by(String posted_by) {
+        this.posted_by = posted_by;
+    }
+
+    String posted_by;
 
     public Article_model(String article_id, String article_title,
                          String article_description, String image,
-                         String article_status, String article_date, String video) {
+                         String article_status, String article_date, String video,String posted_by) {
 
         this.article_id = article_id;
         this.article_title = article_title;
@@ -19,6 +30,7 @@ public class Article_model {
         this.article_status = article_status;
         this.article_date = article_date;
         this.video = video;
+        this.posted_by = posted_by;
     }
 
 

@@ -44,6 +44,7 @@ import com.sismatix.Elmizan.Adapter.Country_Adapter;
 import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Contact_us;
+import com.sismatix.Elmizan.Fregment.Demo_freg;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Edit_premium_lawyer_profile;
 import com.sismatix.Elmizan.Fregment.Home_freg;
@@ -79,7 +80,7 @@ public class Navigation_activity extends AppCompatActivity
     public static Toolbar toolbar;
     NavigationView navigationView;
     public  static ImageView iv_nav_country_image,iv_nav_logo;
-    public  static TextView tv_nav_title,tv_nav_user_name;
+    public  static TextView tv_nav_title,tv_nav_user_name,tv_nav_appal;
     Bundle b;
     String Screen,register;
     public static AssetManager am ;
@@ -106,6 +107,8 @@ public class Navigation_activity extends AppCompatActivity
         AllocateMemory();
         setSupportActionBar(toolbar);
         SET_FONT_STYLE();
+        My_Preference.setCountry_name(Navigation_activity.this,"1");
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -131,6 +134,21 @@ public class Navigation_activity extends AppCompatActivity
             nav_logout.setVisible(true);
             withoutloginicon.setVisibility(View.VISIBLE);
             tv_nav_user_name.setText(Login_preference.getuser_name(this));
+
+            String desc=Login_preference.getuser_short_desc(this);
+            if(desc.equalsIgnoreCase("null")==true)
+            {
+                tv_nav_appal.setHint("");
+                //textview.setText("Enter Value here");
+            }else {
+
+                tv_nav_appal.setText(desc);
+            }
+
+            //tv_nav_appal.setText(Login_preference.getuser_short_desc(this));
+
+         //   Check_String_NULL_Value(tv_nav_appal,desc, "a");
+
             Glide.with(this).load(Login_preference.getuser_profile(this)).into(iv_profile_image);
 
         }else{
@@ -204,7 +222,7 @@ public class Navigation_activity extends AppCompatActivity
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
-        Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
 
 
 
@@ -236,7 +254,7 @@ public class Navigation_activity extends AppCompatActivity
         int OFFSET_Y;
         popup.setBackgroundDrawable(new BitmapDrawable());
 
-        if (width > 1300) {
+       /* if (width > 1300) {
             popupHeight = 950;
             popup.setHeight(popupHeight);
             OFFSET_X = -538;
@@ -308,31 +326,33 @@ public class Navigation_activity extends AppCompatActivity
             popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
 
         }
-
+*/
 
 
        // popup.setBackgroundDrawable(new BitmapDrawable());
      //   popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
 
 
-        //popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
+        popup.showAtLocation(layout, Gravity.CENTER,0,0);
     }
 
 
     private void CALL_COUNTRY_API(final LinearLayout lv_show) {
-      //  progressBar_home.setVisibility(View.VISIBLE);
+        progressBar_country.setVisibility(View.VISIBLE);
+        recycler_country.setVisibility(View.GONE);
         country_model.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> country_list = api.get_country_list();
+        Call<ResponseBody> country_list = api.get_country_list(ApiClient.user_status);
 
         country_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response_counry", "" + response.body().toString());
-             //   progressBar_home.setVisibility(View.GONE);
+                progressBar_country.setVisibility(View.GONE);
 
-                PD.dismiss();
-                lv_show.setVisibility(View.VISIBLE);
+              //  PD.dismiss();
+                recycler_country.setVisibility(View.VISIBLE);
+                //        lv_show.setVisibility(View.VISIBLE);
 
                 JSONObject jsonObject = null;
                 try {
@@ -397,6 +417,7 @@ public class Navigation_activity extends AppCompatActivity
         lv_withlogin_header=(LinearLayout) header.findViewById(R.id.lv_withlogin_header);
         lv_withoutlogin_header=(LinearLayout) header.findViewById(R.id.lv_withoutlogin_header);
         tv_nav_user_name=(TextView) header.findViewById(R.id.tv_nav_user_name);
+        tv_nav_appal=(TextView) header.findViewById(R.id.tv_nav_appal);
         iv_profile_image = (ImageView) header.findViewById(R.id.iv_profile_image);
         withoutloginicon=(LinearLayout) findViewById(R.id.withoutloginicon);
         Menu menu =navigationView.getMenu();
@@ -656,7 +677,11 @@ public class Navigation_activity extends AppCompatActivity
 
             pushFragment(new Contact_us(),"aboutus");
         } else if (id == R.id.nav_logout) {
+            Login_preference.prefsEditor.clear().apply();
+            Login_preference.prefsEditor.commit();
+            Login_preference.prefsEditor.apply();
             String lo="0";
+
             Login_preference.setLogin_flag(this,lo);
             Intent intent=new Intent(this,Navigation_activity.class);
             startActivity(intent);
@@ -691,6 +716,8 @@ public class Navigation_activity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_notification) {
+
+            pushFragment(new Demo_freg(),"");
 
         }
         else if (id == R.id.nav_signin) {

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:focusable="true"
+    android:id="@+id/lv_register_parent"
     android:focusableInTouchMode="true"
     android:gravity="center">
     <ScrollView

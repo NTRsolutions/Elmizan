@@ -57,6 +57,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
         final Article_model article_model = models.get(position);
         holder.tv_article_description.setTypeface(Navigation_activity.typeface);
         holder.tv_article_title.setTypeface(Navigation_activity.typeface);
+        holder.tv_article_date.setTypeface(Navigation_activity.typeface);
 
         youtubeUrl = article_model.getVideo();
         Log.e("yid", "" + youtubeUrl);
@@ -72,6 +73,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_description, article_model.getArticle_description());
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_title, article_model.getArticle_title());
+        Navigation_activity.Check_String_NULL_Value(holder.tv_article_date, article_model.getArticle_date());
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.app_icon);

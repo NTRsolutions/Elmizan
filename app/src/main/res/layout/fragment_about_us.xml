@@ -10,101 +10,114 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-
+            android:layout_gravity="center"
+            android:gravity="center">
+            <ProgressBar
+                android:id="@+id/progressBar_about"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="200dp"
+                android:indeterminateDrawable="@drawable/custom_progress"
+                android:visibility="gone" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center|start"
-                android:padding="15dp">
-                <TextView
-                    android:id="@+id/tv_about_us"
-                    android:gravity="center|start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="@string/about_usss"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorPrimary" />
-                <TextView
-                    android:id="@+id/tv_balance_detail"
-                    android:gravity="center|start"
-                    android:textColor="@color/bottom_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_height="wrap_content"
-                    android:textStyle="normal"
-                    android:textSize="16sp"
-                    android:text="@string/detail"/>
-            </LinearLayout>
+                android:layout_marginTop="20dp"
+                android:id="@+id/lv_about"
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/lv_back_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-                    <ImageView
-                        android:id="@+id/iv_au_img"
-                        android:scaleType="fitXY"
+                    <TextView
+                        android:id="@+id/tv_about_us"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:text="@string/about_usss"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_balance_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center|start"
+                        android:text="@string/detail"
+                        android:textColor="@color/bottom_icon"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lv_back_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:background="@drawable/aboutus"
-                        android:layout_height="match_parent" />
+                        android:layout_height="250dp">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:id="@+id/iv_au_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="80dp"
-                    android:gravity="center">
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/tv_detail"
-                        android:textColor="@color/yellow"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="match_parent"
-                        android:textStyle="normal"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-180dp"
                         android:gravity="center"
-                        android:textSize="16sp"
                         android:padding="10dp"
-                        android:text="@string/second_detail"/>
+                        android:text="@string/second_detail"
+                        android:textColor="@color/yellow"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
 
-                </RelativeLayout>
-            </RelativeLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:gravity="center|start"
-                android:layout_marginBottom="?attr/actionBarSize"
-                android:padding="15dp">
-
-                <TextView
-                    android:id="@+id/tv_detail1"
-                    android:textSize="16sp"
-                    android:textColor="@color/bottom_icon"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="normal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="?attr/actionBarSize"
                     android:gravity="center|start"
-                    android:text="@string/detail_last"/>
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
+                    <TextView
+                        android:id="@+id/tv_detail1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:text="@string/detail_last"
+                        android:textColor="@color/bottom_icon"
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

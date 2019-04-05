@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,8 +24,10 @@ import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -73,7 +76,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             tv_edit_about_lawyer, tv_edit_twitter, tv_edit_instagram, tv_edit_facebook, tv_edit_socialmedia, tv_edit_save, tv_edit_country;
     EditText edt_full_name, edt_appeal, edt_edit_user_detail, edt_phone, edt_address, edt_email, edt_site, edt_fb_url, edt_twitter_url, edt_insta_url;
     LinearLayout lv_edit_title, lv_edit_appeal, lv_edit_lawyer_info, lv_user_lawyer_detail, lv_edit_detils, lv_save_data,
-            lv_edit_social_media, lv_edit_personal_detail, lv_edit_fb, lv_edit_twitter, lv_edit_insta, lv_edit_pre_profile_click;
+            lv_edit_social_media, lv_edit_personal_detail, lv_edit_fb, lv_edit_twitter, lv_edit_insta, lv_edit_pre_profile_click, lv_edit_parent;
     View v;
     CircleImageView iv_edit_lawyer_profile;
     ImageView iv_edit_camera;
@@ -112,7 +115,15 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_edit_premium_lawyer_profile, container, false);
+        Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
+        Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.Edit_your_profile));
+
+        Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
+
+
         AllocateMemory(v);
+        setupUI(lv_edit_parent);
         user_id = Login_preference.getuser_id(getContext());
         Log.e("userid_95", "" + user_id);
         country_model.clear();
@@ -162,6 +173,35 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
 
         return v;
+    }
+
+
+    public boolean isValid_facebook_url(String fb) {
+        String ePattern = "(?:(?:http|https):\\/\\/)?(?:www.)?facebook.com\\/(?:(?:\\w)*#!\\/)?(?:pages\\/)?(?:[?\\w\\-]*\\/)?(?:profile.php\\?id=(?=\\d.*))?([\\w\\-]*)?";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(fb);
+        Log.e("facebook validation == ",""+m.matches());
+        return m.matches();
+    }
+
+
+    public boolean isValid_twitter_url(String twitter) {
+        String ePattern = "http(?:s)?:\\/\\/(?:www\\.)?twitter\\.com\\/([a-zA-Z0-9_]+)";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(twitter);
+        Log.e("twitter_validation == ",""+m.matches());
+
+        return m.matches();
+    }
+
+    public boolean isValid_instagram_url(String instagram) {
+        String ePattern = "https?:\\/\\/(www\\.)?instagram\\.com\\/([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\\.(?!\\.))){0,28}(?:[A-Za-z0-9_]))?)";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(instagram);
+        Log.e("m_array == ",""+m);
+        Log.e("insta_validation == ",""+m.matches());
+
+        return m.matches();
     }
 
     private void CALL_USER_DETAIL_API() {
@@ -214,15 +254,28 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                         Check_String_NULL_Value(tv_edit_site, data_obj.getString("user_website"), "Enter Website");
                         Check_String_NULL_Value(tv_edit_appeal, data_obj.getString("user_description"), "Enter description");
                         Check_String_NULL_Value(tv_edit_user_detail, data_obj.getString("user_about"), "Enter user Detail");
-                        Check_String_NULL_Value(tv_edit_facebook, data_obj.getString("user_facebook"), "Enter facebook link");
-                        Check_String_NULL_Value(tv_edit_twitter, data_obj.getString("user_twitter"), "Enter twitter link");
-                        Check_String_NULL_Value(tv_edit_instagram, data_obj.getString("user_instagram"), "Enter instagram link");
+                       // Check_String_NULL_Value(tv_edit_facebook, data_obj.getString("user_facebook"), "Enter facebook link");
+                        //Check_String_NULL_Value(tv_edit_twitter, data_obj.getString("user_twitter"), "Enter twitter link");
+                        //Check_String_NULL_Value(tv_edit_instagram, data_obj.getString("user_instagram"), "Enter instagram link");
 
+                        tv_edit_facebook.setText(data_obj.getString("user_facebook"));
+                        tv_edit_twitter.setText(data_obj.getString("user_twitter"));
+                        tv_edit_instagram.setText(data_obj.getString("user_instagram"));
+                        Check_String_NULL_Value(  Navigation_activity.tv_nav_appal, data_obj.getString("user_description"), "");
 
+                       // Login_preference.setuser_short_desc(getActivity(), data_obj.getString("user_description"));
+                       /// Navigation_activity.tv_nav_appal.setText( data_obj.getString("user_description"));
                         Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, fb_url);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
+                        /*Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, fb_url);
                         Navigation_activity.Check_Editext_NULL_Value(edt_twitter_url, twitter_url);
                         Navigation_activity.Check_Editext_NULL_Value(edt_insta_url, inst_url);
+                        */
+
+                        edt_fb_url.setText(fb_url);
+                        edt_twitter_url.setText(twitter_url);
+                        edt_insta_url.setText(inst_url);
+
 
                         Navigation_activity.Check_Editext_NULL_Value(edt_full_name, fullname);
                         Navigation_activity.Check_Editext_NULL_Value(edt_appeal, short_desc);
@@ -400,10 +453,15 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("twitter_url_22", "" + tv_edit_twitter.getText().toString());
                 Log.e("inst_url_22", "" + tv_edit_instagram.getText().toString());
 
+                edt_fb_url.setText(tv_edit_facebook.getText().toString());
+                edt_twitter_url.setText(tv_edit_twitter.getText().toString());
+                edt_insta_url.setText(tv_edit_instagram.getText().toString());
+/*
 
                 Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, tv_edit_facebook.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_twitter_url, tv_edit_twitter.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_insta_url, tv_edit_instagram.getText().toString());
+*/
 
                 flag_social = false;
 
@@ -422,8 +480,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             }
 
 
-
-        } else if (view == lv_save_data)
+        } else if (view == tv_edit_save)
 
         {
             Log.e("click_251", "");
@@ -440,7 +497,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         country_name.clear();
         country_name_code.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> country_list = api.get_country_list();
+        Call<ResponseBody> country_list = api.get_country_list(ApiClient.user_status);
 
         country_list.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -511,7 +568,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
     private void CheckValidation() {
 
-
         fullname = edt_full_name.getText().toString();
         short_desc = edt_appeal.getText().toString();
         phone = edt_phone.getText().toString();
@@ -569,6 +625,30 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             Log.e("click_294", "" + fullname);
             Toast.makeText(getActivity(), "Please Select Country", Toast.LENGTH_SHORT).show();
             validation_ok = false;
+        }
+
+        if (edt_fb_url.getVisibility() == View.VISIBLE) {
+            if (isValid_facebook_url(edt_fb_url.getText().toString()) == false) {
+                Log.e("fb_url_598", "" + edt_fb_url.getText().toString());
+                Toast.makeText(getContext(), "Please enter valid Facebook Url", Toast.LENGTH_SHORT).show();
+                validation_ok = false;
+            }
+        }
+
+
+        if (edt_twitter_url.getVisibility() == View.VISIBLE) {
+            if (isValid_twitter_url(edt_twitter_url.getText().toString()) == false) {
+                Log.e("twitterurl_598", "" + edt_twitter_url.getText().toString());
+                Toast.makeText(getContext(), "Please enter valid Twitter Url", Toast.LENGTH_SHORT).show();
+                validation_ok = false;
+            }
+        }
+        if (edt_insta_url.getVisibility() == View.VISIBLE) {
+            if (isValid_instagram_url(edt_insta_url.getText().toString()) == false) {
+                Log.e("instagram_598", "" + edt_insta_url.getText().toString());
+                Toast.makeText(getContext(), "Please enter valid Instagram Url", Toast.LENGTH_SHORT).show();
+                validation_ok = false;
+            }
         }
 
         if (iv_edit_lawyer_profile.getDrawable() == null) {
@@ -758,6 +838,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         edt_twitter_url = (EditText) v.findViewById(R.id.edt_twitter_url);
         edt_insta_url = (EditText) v.findViewById(R.id.edt_insta_url);
 
+        lv_edit_parent = (LinearLayout) v.findViewById(R.id.lv_edit_parent);
         lv_edit_lawyer_info = (LinearLayout) v.findViewById(R.id.lv_edit_lawyer_info);
         lv_edit_title = (LinearLayout) v.findViewById(R.id.lv_edit_title);
         lv_edit_appeal = (LinearLayout) v.findViewById(R.id.lv_edit_appeal);
@@ -796,7 +877,34 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         edt_appeal.setTypeface(Navigation_activity.typeface);
 
     }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
 
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
 
     @SuppressLint("LongLogTag")
     @Override

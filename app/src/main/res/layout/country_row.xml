@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/layout_round"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/black">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:padding="5dp"
         android:id="@+id/lv_click"
@@ -29,7 +29,7 @@
                 android:layout_gravity="center"
                 android:gravity="center|left"
                 android:text="@string/country"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="18dp" />
 
         </LinearLayout>
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="40dp"
-        android:background="@color/edittextline" />
+        android:background="@color/white" />
 
 
 </LinearLayout>

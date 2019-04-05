@@ -64,7 +64,7 @@
     <string name="news_title">News Title</string>
     <string name="news_detail">The organization of thousands of publishers from the organization of thousands of publishersOf the organization of thousands of publishers and magazines organized by thousands of publishersOf the organization of </string>
 
-    <string name="single_news_page">Single News Page</string>
+    <string name="single_news_page">News Page</string>
     <string name="add_comment">Add Comment</string>
     <string name="send">Send</string>
 
@@ -77,9 +77,11 @@
     <string name="user_name">User Name</string>
     <string name="offline">Offline</string>
     <string name="bullet">\u2022</string>
+    <string name="Create_an_account">Create an account</string>
 
     <!--Creataccount_sign-->
     <string name="sign_name">Name</string>
+    <string name="log_in">log in</string>
     <string name="email">Email</string>
     <string name="phone">Phone</string>
     <string name="sign_in_google">Sign in with Google Account</string>
@@ -156,10 +158,11 @@
     <string name="siteee">Enter site</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Upload_photos_media">Upload Photos and Media</string>
     <string name="choose_image">Choose Image</string>
     <string name="multiple_file">Upload Multiple Files</string>
     <string name="internal_storage">Internal storage</string>
+    <string name="Add_youtube_link">Add Youtube Link</string>
+    <string name="delete_article">Delete article</string>
 
 </resources>

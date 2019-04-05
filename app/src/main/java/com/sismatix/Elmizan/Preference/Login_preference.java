@@ -59,17 +59,17 @@ public class Login_preference {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         return mPrefs.getString("user_name", "");
     }
-    public static void setuser_type(Context context, String value)
+    public static void setuser_short_desc(Context context, String value)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefsEditor = mPrefs.edit();
-        prefsEditor.putString("user_type", value);
+        prefsEditor.putString("user_desc", value);
         prefsEditor.commit();
     }
-    public static String getuser_type(Context context)
+    public static String getuser_short_desc(Context context)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("user_type", "");
+        return mPrefs.getString("user_desc", "");
     }
     public static void setuser_profile(Context context, String value)
     {

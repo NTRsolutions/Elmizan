@@ -30,6 +30,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -100,7 +101,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
     Bundle bundle;
     public static final int RequestPermissionCode = 7;
     String article_id, oldurl_pass;
-    LinearLayout lv_add_article_click;
+    LinearLayout lv_add_article_click,lv_add_article_parent;
     boolean Choose_img_clicked=false;
     ProgressBar progressBar_add_article;
 
@@ -121,6 +122,9 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.add_Page_article));
         Allocate_Memory(v);
+
+
+        setupUI(lv_add_article_parent);
         oldurl_pass="test";
         bundle = this.getArguments();
 
@@ -636,7 +640,26 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         });
         builder.show();
     }
+    public void setupUI(View view) {
 
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Login_freg.hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
     private void Allocate_Memory(View v) {
 
         progressBar_add_article = (ProgressBar) v.findViewById(R.id.progressBar_add_article);
@@ -656,6 +679,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         iv_upload_image = (CircleImageView) v.findViewById(R.id.iv_upload_image);
         iv_camera = (ImageView) v.findViewById(R.id.iv_camera);
 
+        lv_add_article_parent = (LinearLayout) v.findViewById(R.id.lv_add_article_parent);
         lv_add_article_click = (LinearLayout) v.findViewById(R.id.lv_add_article_click);
         lv_add_article = (LinearLayout) v.findViewById(R.id.lv_add_article);
         lv_upload_youtube_link = (LinearLayout) v.findViewById(R.id.lv_upload_youtube_link);

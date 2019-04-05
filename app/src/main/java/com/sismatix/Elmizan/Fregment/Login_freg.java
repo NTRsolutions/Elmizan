@@ -4,6 +4,7 @@ package com.sismatix.Elmizan.Fregment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -62,7 +65,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
     EditText et_Email_login, et_password_login;
     Button btn_create_account_login;
     TextView tv_register;
-    LinearLayout gLogin;
+    LinearLayout gLogin,forgot;
 
     String screen, aricle_idd;
 
@@ -77,6 +80,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
     String googlefirstname, googlelastname, googlemiddlename, locationid_wish;
 
     String signup_emailid, signup_passwordd;
+    LinearLayout lv_login_parent;
 
     public static Call<ResponseBody> login = null;
 
@@ -89,8 +93,14 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login_freg, container, false);
+        Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
+        Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.log_in));
+        Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
+
         AllocateMemory(v);
 
+        setupUI(lv_login_parent);
         bundle = this.getArguments();
         //get_CheckScreen();
 
@@ -133,7 +143,42 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
             Log.e("article_idd", "" + aricle_idd);
         }
 
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://elmizan.demoproject.info/admin/index.php?p=forgot-password"));
+                startActivity(browserIntent);
+            }
+        });
         return v;
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     private void GOOGLE_LOGIN(View v) {
@@ -159,10 +204,12 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
     }
 
     private void AllocateMemory(View v) {
+        lv_login_parent = (LinearLayout) v.findViewById(R.id.lv_login_parent);
         et_Email_login = (EditText) v.findViewById(R.id.et_Email_login);
         et_password_login = (EditText) v.findViewById(R.id.et_password_login);
         btn_create_account_login = (Button) v.findViewById(R.id.btn_create_account_login);
         tv_register = (TextView) v.findViewById(R.id.tv_register);
+        forgot = (LinearLayout) v.findViewById(R.id.forgot);
         //gLogin = (LinearLayout) v.findViewById(R.id.google);
 
         tv_register.setTypeface(Navigation_activity.typeface);
@@ -251,6 +298,9 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                         Login_preference.setuser_id(getActivity(), object.getString("user_id"));
                         Login_preference.setemail(getActivity(), object.getString("user_email"));
                         Login_preference.setuser_name(getActivity(), object.getString("user_name"));
+                        Login_preference.setuser_short_desc(getActivity(), object.getString("user_description"));
+
+
                         Login_preference.setuser_profile(getActivity(), object.getString("user_avatar_url"));
                         My_Preference.set_premium_lawyer(getActivity(), object.getString("basic_premium"));
 
@@ -269,6 +319,8 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                                 nav_signin.setVisible(false);
                                 nav_logout.setVisible(true);
                                 withoutloginicon.setVisibility(View.VISIBLE);
+                               // Navigation_activity.tv_nav_appal.setText( object.getString("user_description"));
+
                                 tv_nav_user_name.setText(Login_preference.getuser_name(getActivity()));
                             } else {
                                 lv_withlogin_header.setVisibility(View.GONE);

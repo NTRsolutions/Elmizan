@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Fregment.Home_freg">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:id="@+id/nested_home_scroll">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ProgressBar
         android:id="@+id/progressBar_home"
         android:layout_width="50dp"
@@ -17,8 +27,21 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
         android:id="@+id/recycler_news_home"/>
 
 
+        <ProgressBar
+            android:id="@+id/progressBar_bottom_recv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/custom_progress"
+            android:visibility="gone" />
+
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

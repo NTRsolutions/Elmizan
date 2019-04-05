@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +42,9 @@ public class About_us extends Fragment {
 
     View v;
     TextView tv_detail1,tv_detail,tv_balance_detail,tv_about_us;
-    LinearLayout lv_back_image;
+    LinearLayout lv_back_image,lv_about;
     ImageView iv_au_img;
+    ProgressBar progressBar_about;
 
     public About_us() {
         // Required empty public constructor
@@ -53,6 +55,11 @@ public class About_us extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v= inflater.inflate(R.layout.fragment_about_us, container, false);
+        Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
+        Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
+
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.about_us));
 
         AllocateMemory(v);
         callAboutUsApi();
@@ -61,6 +68,8 @@ public class About_us extends Fragment {
     }
 
     private void callAboutUsApi() {
+        lv_about.setVisibility(View.GONE);
+        progressBar_about.setVisibility(View.VISIBLE);
 
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> getabout_us = api.get_about_us();
@@ -70,6 +79,9 @@ public class About_us extends Fragment {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response", "" + response.body().toString());
                 //  progressBar.setVisibility(View.GONE);
+                lv_about.setVisibility(View.VISIBLE);
+
+                progressBar_about.setVisibility(View.GONE);
 
                 JSONObject jsonObject = null;
                 try {
@@ -141,6 +153,8 @@ public class About_us extends Fragment {
     }
 
     private void AllocateMemory(View v) {
+        lv_about=(LinearLayout) v.findViewById(R.id.lv_about);
+        progressBar_about=(ProgressBar) v.findViewById(R.id.progressBar_about);
         tv_about_us=(TextView)v.findViewById(R.id.tv_about_us);
         tv_balance_detail=(TextView)v.findViewById(R.id.tv_balance_detail);
         tv_detail=(TextView)v.findViewById(R.id.tv_detail);

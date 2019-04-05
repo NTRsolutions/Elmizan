@@ -8,7 +8,7 @@ public class ApiClient {
     public static final String user_type = "lawyer";
     public static final String user_status = "1";
     private static Retrofit retrofit = null;
-    public  static String  PAGE="1",PER_PAGE="100";
+    public  static String  PAGE="1",PER_PAGE="10";
 
     public static Retrofit getClient() {
         if (retrofit == null) {

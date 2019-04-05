@@ -4,9 +4,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="40dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <ImageView
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|start"
@@ -18,6 +20,7 @@
     <LinearLayout
         android:elevation="10dp"
         android:padding="10dp"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/layout_round"
@@ -33,14 +36,14 @@
             android:text="@string/country"
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/edittextline" />
+            android:background="@color/white" />
 
         <LinearLayout
             android:id="@+id/lv_country_show"
@@ -53,7 +56,7 @@
                 android:id="@+id/progressBar_country"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:indeterminateDrawable="@drawable/custom_progress"

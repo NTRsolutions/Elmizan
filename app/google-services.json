@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "1046944926915",
+    "firebase_url": "https://iheal-1a26a.firebaseio.com",
+    "project_id": "iheal-1a26a",
+    "storage_bucket": "iheal-1a26a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046944926915:android:c00589cc009f9373",
+        "android_client_info": {
+          "package_name": "com.sismatix.Elmizan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046944926915-o63k1f27dssofobjtaeul8pl64nia4tb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sismatix.Elmizan",
+            "certificate_hash": "e85e5f572ba11a355938b9a34aaa777ed40cd39e"
+          }
+        },
+        {
+          "client_id": "1046944926915-omhf28s37r540459k2id4ongtvldluvt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sismatix.Elmizan",
+            "certificate_hash": "a6a83b69dfe1a697d1c523d8a1baf3238b4b2f7e"
+          }
+        },
+        {
+          "client_id": "1046944926915-9hna8m1ucboqot161i730t5jicb77u9g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sismatix.Elmizan",
+            "certificate_hash": "17968186fcde9c6359351622d46ddc1d5f60a8ef"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6kFq6eL9FGeFVGrTFRyRUiPc2XMznu5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046944926915-rhrjqg1hf69v93gt3rj8h7iekp68h2pt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046944926915:android:4165ec627e19b72c",
+        "android_client_info": {
+          "package_name": "com.sismatix.iheal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046944926915-kd8dfksoc5jb0gmcn4s6vurr8kdbvfnn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sismatix.iheal",
+            "certificate_hash": "2ba6310a1c6013dfe1c0285808023c810e7a9fa6"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6kFq6eL9FGeFVGrTFRyRUiPc2XMznu5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046944926915-rhrjqg1hf69v93gt3rj8h7iekp68h2pt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

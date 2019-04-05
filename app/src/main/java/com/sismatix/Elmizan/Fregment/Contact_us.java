@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -31,6 +34,8 @@ public class Contact_us extends Fragment {
 
     TextView tv_gmail,tv_no,tv_instagram,tv_twitter;
     ImageView iv_cu;
+    ProgressBar progressBar_contact;
+    LinearLayout lv_contact;
 
     View v;
     public Contact_us() {
@@ -43,6 +48,8 @@ public class Contact_us extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v= inflater.inflate(R.layout.fragment_contact_us, container, false);
+        Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setVisibility(View.GONE);
 
         AllocateMemory(v);
         callContactUsApi();
@@ -51,6 +58,9 @@ public class Contact_us extends Fragment {
     }
 
     private void callContactUsApi() {
+
+        progressBar_contact.setVisibility(View.VISIBLE);
+        lv_contact.setVisibility(View.GONE);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> getabout_us = api.get_contact_us();
 
@@ -60,6 +70,9 @@ public class Contact_us extends Fragment {
                 Log.e("response", "" + response.body().toString());
                 //  progressBar.setVisibility(View.GONE);
 
+
+                progressBar_contact.setVisibility(View.GONE);
+                lv_contact.setVisibility(View.VISIBLE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
@@ -141,6 +154,8 @@ public class Contact_us extends Fragment {
 
     private void AllocateMemory(View v) {
 
+        progressBar_contact = (ProgressBar) v.findViewById(R.id.progressBar_contact);
+        lv_contact = (LinearLayout) v.findViewById(R.id.lv_contact);
         tv_gmail = (TextView)v.findViewById(R.id.tv_gmail);
         tv_no = (TextView)v.findViewById(R.id.tv_no);
         tv_instagram = (TextView)v.findViewById(R.id.tv_instagram);

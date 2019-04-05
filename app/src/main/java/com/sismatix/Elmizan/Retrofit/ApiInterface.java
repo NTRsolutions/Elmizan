@@ -72,6 +72,14 @@ public interface ApiInterface {
     Call<ResponseBody> get_article_detail(@Field("article_id") String Article_id,
                                           @Field("user_id") String user_id);
 
+    //article delete api
+    //https://elmizan.demoproject.info/api/article_delete.php
+    @POST("article_delete.php")
+    @FormUrlEncoded
+    Call<ResponseBody> article_delete(@Field("article_id") String Article_id,
+                                          @Field("user_id") String user_id);
+
+
 
     //Article add comment
     //https://elmizan.demoproject.info/api/article_comment_add.php
@@ -137,7 +145,7 @@ public interface ApiInterface {
     //Get country list
     //https://elmizan.demoproject.info/api/country_list.php
     @GET("country_list.php")
-    Call<ResponseBody> get_country_list();
+    Call<ResponseBody> get_country_list(@Query("country_status[]") String country_status);
 
     //Add article
     //article_update.php
@@ -255,6 +263,10 @@ public interface ApiInterface {
 
     @GET("contact_us.php")
     Call<ResponseBody> get_contact_us();
+
+    @POST("user_media.php")
+    @FormUrlEncoded
+    Call<ResponseBody> getMedia(@Field("user_id") String user_id);
 
 
 }

@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.TAb_PAGER_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Librarytablist_model;
@@ -64,7 +65,10 @@ public class New_Library_freg extends Fragment implements ViewPager.OnPageChange
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         v = inflater.inflate(R.layout.fragment_new_library_freg, container, false);
+        Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setVisibility(View.GONE);
 
         //tab layout
         tabLayout = v.findViewById(R.id.tabs);

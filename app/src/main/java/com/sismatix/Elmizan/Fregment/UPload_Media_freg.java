@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -69,7 +70,7 @@ import static android.content.ContentValues.TAG;
 public class UPload_Media_freg extends Fragment implements View.OnClickListener {
 
     View v;
-    LinearLayout lv_choose_img, lv_upload_youtube_link, lv_upload_photos_media;
+    LinearLayout lv_choose_img, lv_upload_youtube_link, lv_upload_photos_media,lv_upload_click;
     TextView tv_choose_img, tv_youtube_link, tv_upload_media;
     // private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 6384;
@@ -85,13 +86,14 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
     //private ProgressBar mProgressBar;
     public static final int RequestPermissionCode = 7;
 
-    LinearLayout lv_add_youtube_link_3, lv_add_youtube_link_2, lv_add_youtube_link_1;
+    LinearLayout lv_add_youtube_link_3, lv_add_youtube_link_2, lv_add_youtube_link_1,lv_upload_parent;
     ImageView iv_add_youtube_3, iv_add_youtube_2, iv_add_youtube_1;
     EditText edt_youtube_link_3, edt_youtube_link_2, edt_youtube_link_1;
     MyAdapter mAdapter;
     String youtube_link_1, youtube_link_2, youtube_link_3;
     String expression = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     boolean ytb_one = true, ytb_two = true, ytb_three = true;
+
 
     public UPload_Media_freg() {
         // Required empty public constructor
@@ -103,6 +105,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_upload__media_freg, container, false);
         AllocateMemory(v);
+        setupUI(lv_upload_parent);
 
         lv_upload_photos_media.setOnClickListener(this);
         lv_choose_img.setOnClickListener(this);
@@ -116,6 +119,8 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         arrayList.clear();
         youtubearrayList.clear();
 
+
+
        /* if (expression.matches(youtube_link_1)&&expression.matches(youtube_link_2)&&expression.matches(youtube_link_3)){
             Toast.makeText(getContext(), "Valid Url", Toast.LENGTH_SHORT).show();
         }else {
@@ -128,10 +133,8 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int position, long arg3) {
                 removeItemFromList(position);
-
                 return true;
             }
-
         });*/
 
         return v;
@@ -184,6 +187,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                             currentItem = currentItem + 1;
                             Log.d("Uri Selected", imageUri.toString());
                             try {
+
                                 // Get the file path from the URI
                                 String path = FileUtils.getPath(getActivity(), imageUri);
                                 Log.d("Multiple File Selected", path);
@@ -220,9 +224,13 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                         }
                     }
                 }
+
                 break;
+
         }
+
         super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     private void showChooser() {
@@ -298,6 +306,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
 
         showProgress();
+        lv_upload_click.setVisibility(View.GONE);
 
         // create list of file parts (photo, video, ...)
         List<MultipartBody.Part> parts = new ArrayList<>();
@@ -344,17 +353,29 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                 hideProgress();
                 Log.e("response_upload_media", "" + response);
 
+                lv_upload_click.setVisibility(View.VISIBLE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
                     Log.e("response_534", "" + jsonObject);
                     String status = jsonObject.getString("status");
                     Log.e("add_article", "" + status);
-                    String message = jsonObject.getString("msg");
-                    JSONObject files = jsonObject.getJSONObject("files");
+                   /* JSONObject files = jsonObject.getJSONObject("files");
                     Log.e("files", "" + files);
-                    if (status.equalsIgnoreCase("success")) {
+                   */ if (status.equalsIgnoreCase("success")) {
+                        String message = jsonObject.getString("msg");
+
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
+                        Fragment myFragment = new Premimum_Lawyer_freg();
+
+                        Bundle b=new Bundle();
+                        b.putString("user_id",Login_preference.getuser_id(getActivity()));
+                        Log.e("user_id",""+Login_preference.getuser_id(getActivity()));
+                        myFragment.setArguments(b);
+                        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                                0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+
 
                     } else {
                         Log.e("media_upload_error", "err");
@@ -375,6 +396,26 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             }
         });
 
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Login_freg.hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 
     private void showProgress() {
@@ -421,6 +462,8 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
 
         mProgressBar = (ProgressBar) v.findViewById(R.id.progressBar);
+        lv_upload_click = (LinearLayout) v.findViewById(R.id.lv_upload_click);
+        lv_upload_parent = (LinearLayout) v.findViewById(R.id.lv_upload_parent);
         lv_add_youtube_link_3 = (LinearLayout) v.findViewById(R.id.lv_add_youtube_link_3);
         lv_add_youtube_link_2 = (LinearLayout) v.findViewById(R.id.lv_add_youtube_link_2);
         lv_add_youtube_link_1 = (LinearLayout) v.findViewById(R.id.lv_add_youtube_link_1);
@@ -446,7 +489,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             if (edt_youtube_link_1.getVisibility() == View.VISIBLE) {
 
                 youtube_link_1 = edt_youtube_link_1.getText().toString();
-
                 if (youtube_link_1.length() != 0) {
                     youtubearrayList.add(youtube_link_1);
 
@@ -483,6 +525,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
             Log.e("uplodyoutube", "vcxv");
             lv_add_youtube_link_1.setVisibility(View.VISIBLE);
+            lv_upload_youtube_link.setEnabled(false);
 
         } else if (view == iv_add_youtube_1) {
             ytb_one = false;

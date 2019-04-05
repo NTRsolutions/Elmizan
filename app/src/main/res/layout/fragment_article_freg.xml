@@ -7,6 +7,12 @@
     android:orientation="vertical">
 
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nested_scroll_article">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +44,21 @@
         android:layout_margin="20dp"
         android:padding="30dp"/>
 
+
+
+        <ProgressBar
+            android:id="@+id/progressBar_bottom_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/custom_progress"
+            android:visibility="gone" />
+
+
     </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     <View
         android:id="@+id/shadowView"
         android:layout_width="match_parent"

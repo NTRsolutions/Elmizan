@@ -42,14 +42,16 @@
 
     <string name="SKIP">تخطى</string>
 
-
+    <string name="log_in">تسجيل الدخول</string>
+    <string name="Create_an_account">إنشاء حساب</string>
     <!--home news-->
     <string name="date">10 يوليو ، 2019</string>
     <string name="news_title">عنوان الخبر</string>
     <string name="news_detail">   المنظمة من آلاف الناشرينالمنظمة من المنظمة من آلاف الناشرينالمنظمة من المنظمة من آلاف الناشرينالمنظمة من آلاف الناشرين والمجلات</string>
 
     <!--News detail-->
-    <string name="single_news_page">صفحة أخبار واحدة</string>
+    <string name="single_news_page">صفحة الأخبار
+</string>
     <string name="add_comment">أضف تعليق</string>
     <string name="send">إرسال</string>
 
@@ -149,5 +151,26 @@
     <string name="twitter_link">رابط تويتر
 </string>
 
+
+    <string name="phone_noo">Eأدخل رقم الهاتف</string>
+    <string name="address_s">أدخل العنوان
+</string>
+    <string name="emailll">أدخل البريد الإلكتروني
+</string>
+    <string name="siteee">دخول الموقع
+</string>
+
+    <string name="Upload_photos_media">تحميل الصور والوسائط
+</string>
+    <string name="choose_image">اختر صورة
+</string>
+    <string name="multiple_file">تحميل ملفات متعددة
+</string>
+    <string name="internal_storage">التخزين الداخلي
+</string>
+    <string name="Add_youtube_link">إضافة رابط يوتيوب
+</string>
+    <string name="delete_article">حذف المادة
+</string>
 
 </resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/lv_news_parent"
     tools:context=".Fregment.News_Detail_freg">
 
     <LinearLayout
@@ -165,7 +166,7 @@
                             <LinearLayout
                                 android:id="@+id/lv_image_details"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="150dp"
                                 android:orientation="vertical"
                                 android:visibility="visible">
 
@@ -216,7 +217,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center|start"
-                            android:text="@string/date"
                             android:textColor="@color/bottom_icon"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -383,6 +383,15 @@
             fab:fab_colorNormal="@color/yellow"
             fab:fab_colorPressed="@color/yellow"
             fab:fab_label="@string/edit_article"
+            fab:fab_size="mini" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_delete_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_white_24dp"
+            fab:fab_colorNormal="@color/yellow"
+            fab:fab_colorPressed="@color/yellow"
+            fab:fab_label="@string/delete_article"
             fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>

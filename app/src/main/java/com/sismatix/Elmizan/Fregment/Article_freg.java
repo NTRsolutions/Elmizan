@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,12 +58,18 @@ public class Article_freg extends Fragment {
     private List<Article_model> article_models = new ArrayList<Article_model>();
     private Articles_Adapter articles_adapter;
 
-    ProgressBar progressBar_article;
+    ProgressBar progressBar_article,progressBar_bottom_article;
     String user_id;
     TextView tv_article;
     Bundle bundle;
     FloatingActionMenu fab_menu;
     FloatingActionButton fab_add_article;
+    NestedScrollView nested_scroll_article;
+    GridLayoutManager layoutManager;
+    boolean isLoading = true;
+    int page_no=1,page;
+
+    int pastvisibleitem, visibleitemcount, totalitemcount, previous_total = 0;
 
     public Article_freg() {
         // Required empty public constructor
@@ -99,7 +106,7 @@ public class Article_freg extends Fragment {
 
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
-            CALL_Article_API(user_id);
+            CALL_Article_API(user_id,page_no);
         } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -107,8 +114,8 @@ public class Article_freg extends Fragment {
 
         articles_adapter = new Articles_Adapter(getActivity(), article_models);
         // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-
-        recycler_article.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        layoutManager=new GridLayoutManager(getActivity(), 2);
+        recycler_article.setLayoutManager(layoutManager);
         recycler_article.setItemAnimator(new DefaultItemAnimator());
         // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler_article.setAdapter(articles_adapter);
@@ -228,18 +235,19 @@ public class Article_freg extends Fragment {
         }
     }
 
-    private void CALL_Article_API(String user_idd) {
+    private void CALL_Article_API(final String user_idd, int page_no) {
         progressBar_article.setVisibility(View.VISIBLE);
         article_models.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         final Call<ResponseBody> article_list;
         if (bundle==null) {
             Log.e("user_id_97", "" +user_idd);
-            article_list = api.get_article_list(ApiClient.PAGE, ApiClient.PER_PAGE, ApiClient.user_status, "");
+            article_list = api.get_article_list(String.valueOf(page_no), ApiClient.PER_PAGE, ApiClient.user_status, "");
         } else {
             Log.e("user_id_101", "" + user_idd);
-            article_list = api.get_article_list(ApiClient.PAGE, ApiClient.PER_PAGE, ApiClient.user_status, user_idd);
+            article_list = api.get_article_list(String.valueOf(page_no), ApiClient.PER_PAGE, ApiClient.user_status, user_idd);
         }
+        page=page_no;
 
         article_list.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -265,6 +273,7 @@ public class Article_freg extends Fragment {
                             try {
                                 JSONObject news_object = data_array.getJSONObject(i);
                                 Log.e("Name", "" + news_object.getString("article_id"));
+
 
                                 String article_media_url = news_object.getString("article_media_urls");
                                 Log.e("article_media_urls", "" + article_media_url);
@@ -309,12 +318,14 @@ public class Article_freg extends Fragment {
                                         news_object.getString("article_created_at_format_month") + " " +
                                         news_object.getString("article_created_at_format_year");
 
+
+
                                 article_models.add(new Article_model(news_object.getString("article_id"),
                                         news_object.getString("article_title"),
                                         news_object.getString("article_description"),
                                         image,
                                         news_object.getString("article_status"),
-                                        date,video
+                                        date,video,news_object.getString("inserted_by_user")
                                 ));
 
                             } catch (Exception e) {
@@ -344,15 +355,173 @@ public class Article_freg extends Fragment {
             }
         });
 
+
+        ///pagination
+        nested_scroll_article.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (v.getChildAt(v.getChildCount() - 1) != null) {
+                    if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                            scrollY > oldScrollY) {
+
+                        visibleitemcount = layoutManager.getChildCount();
+                        totalitemcount = layoutManager.getItemCount();
+                        pastvisibleitem = layoutManager.findFirstVisibleItemPosition();
+
+                        if (isLoading) {
+
+                            if ((visibleitemcount + pastvisibleitem) >= totalitemcount) {
+                                page++;
+                                Log.e("isloading", "loadscroll" + page);
+                                progressBar_bottom_article.setVisibility(View.VISIBLE);
+
+                                PerformPagination(page,user_idd);
+                                //  isLoading=true;
+//                        Load Your Data
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void PerformPagination(int page, String user_idd) {
+        Log.e("pagination_390", "" +page);
+        progressBar_bottom_article.setVisibility(View.VISIBLE);
+
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        final Call<ResponseBody> article_list;
+        if (bundle==null) {
+            Log.e("user_id_97", "" +user_idd);
+            article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, "");
+        } else {
+            Log.e("user_id_101", "" + user_idd);
+            article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, user_idd);
+        }
+        page=page_no;
+
+        article_list.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("responsearticle", "" + response.body().toString());
+                progressBar_bottom_article.setVisibility(View.GONE);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_articel", "" + status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message", "" + message);
+                    if (status.equalsIgnoreCase("success")) {
+                        tv_article.setVisibility(View.GONE);
+                        recycler_article.setVisibility(View.VISIBLE);
+
+                        JSONArray data_array = jsonObject.getJSONArray("data");
+                        String image = null,video=null;
+
+                        for (int i = 0; i < data_array.length(); i++) {
+
+                            try {
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                Log.e("Name", "" + news_object.getString("article_id"));
+
+
+                                String article_media_url = news_object.getString("article_media_urls");
+                                Log.e("article_media_urls", "" + article_media_url);
+
+
+                                if (article_media_url.equalsIgnoreCase("false") == true) {
+                                    image = "";
+                                    video="";
+                                } else {
+                                    JSONObject image_obj = news_object.getJSONObject("article_media_urls");
+                                    JSONArray imag_array = image_obj.getJSONArray("image");
+                                    if (imag_array != null && imag_array.isNull(0) != true) {
+                                        Log.e("imag_array", "" + imag_array);
+
+                                        for (int j = 0; j < imag_array.length(); j++) {
+                                            image = imag_array.getString(j);
+                                            Log.e("image_article", "" + image);
+
+                                        }
+                                    } else {
+                                        Log.e("imag_array_else", "" + imag_array);
+                                        image = "";
+                                    }
+
+                                    JSONArray video_array = image_obj.getJSONArray("video");
+                                    if (video_array != null && video_array.isNull(0) != true) {
+                                        Log.e("video_array", "" + video_array);
+
+                                        for (int j = 0; j < video_array.length(); j++) {
+                                            video = video_array.getString(j);
+                                            Log.e("video_article", "" + video);
+
+                                        }
+                                    } else {
+                                        Log.e("videp_array_else", "" + video_array);
+                                        video = "";
+                                    }
+
+
+                                }
+                                String date = news_object.getString("article_created_at_format_day") + " " +
+                                        news_object.getString("article_created_at_format_month") + " " +
+                                        news_object.getString("article_created_at_format_year");
+
+
+
+                                article_models.add(new Article_model(news_object.getString("article_id"),
+                                        news_object.getString("article_title"),
+                                        news_object.getString("article_description"),
+                                        image,
+                                        news_object.getString("article_status"),
+                                        date,video,news_object.getString("inserted_by_user")
+                                ));
+
+                            } catch (Exception e) {
+                                Log.e("Exception", "" + e);
+                            } finally {
+                                articles_adapter.notifyItemChanged(i);
+                            }
+
+                        }
+
+                    } else if (status.equalsIgnoreCase("error")) {
+                        tv_article.setTypeface(Navigation_activity.typeface);
+                        progressBar_bottom_article.setVisibility(View.GONE);
+
+                        Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+                        tv_article.setVisibility(View.GONE);
+                        //tv_article.setText(message);
+                     //   recycler_article.setVisibility(View.GONE);
+                    }
+
+                } catch (Exception e) {
+                    Log.e("", "" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 
     private void AllocateMemory(View view) {
         recycler_article = (RecyclerView) view.findViewById(R.id.recycler_article);
         progressBar_article = view.findViewById(R.id.progressBar_article);
+        progressBar_bottom_article = view.findViewById(R.id.progressBar_bottom_article);
         tv_article = view.findViewById(R.id.tv_article);
         fab_menu = (FloatingActionMenu) view.findViewById(R.id.fab_menu);
         fab_add_article = (FloatingActionButton) view.findViewById(R.id.fab_add_article);
         shadowView = (View) view.findViewById(R.id.shadowView);
+        nested_scroll_article = (NestedScrollView) view.findViewById(R.id.nested_scroll_article);
 
     }
 
