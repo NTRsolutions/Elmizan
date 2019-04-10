@@ -105,7 +105,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
 
-       // inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
       // inputManager.hideSoftInputFromWindow(new View(this).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -187,7 +187,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                                 JSONObject user_object = data_array.getJSONObject(i);
                                 Log.e("Name", "" + user_object.getString("user_id"));
 
-                                My_Preference.set_premium_lawyer(getActivity(), user_object.getString("basic_premium"));
+                             //   My_Preference.set_premium_lawyer(getActivity(), user_object.getString("basic_premium"));
 
                                 directory_model.add(new Directory_Model(user_object.getString("user_id"),
                                         user_object.getString("user_name"),
@@ -395,7 +395,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         return false;
     }
 
-   /* @Override
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -416,5 +416,5 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                 return false;
             }
         });
-    }*/
+    }
 }

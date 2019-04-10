@@ -34,7 +34,6 @@
                     android:queryBackground="@android:color/transparent"
                     android:queryHint="@string/search">
 
-                    <requestFocus />
                 </SearchView>
 
             </LinearLayout>

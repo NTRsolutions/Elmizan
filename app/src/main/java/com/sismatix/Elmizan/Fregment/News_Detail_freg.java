@@ -162,45 +162,56 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 if (!b) {
 
-                    YPlayer = youTubePlayer;
-                    YPlayer.setFullscreen(false);
-                    //YPlayer.cueVideo("HPW5EKRIaCw");
-                    YPlayer.loadVideo(video_id);
-                    //holder.YPlayer.cueVideo(videoid);
-                    YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                        @Override
-                        public void onLoading() {
 
+                    if (video_id != null ) {
+                        if (YPlayer != null) {
+                            try {
+
+                                YPlayer = youTubePlayer;
+                                YPlayer.setFullscreen(false);
+                                //YPlayer.cueVideo("HPW5EKRIaCw");
+                                YPlayer.loadVideo(video_id);
+                                //holder.YPlayer.cueVideo(videoid);
+                                YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                                    @Override
+                                    public void onLoading() {
+
+                                    }
+
+                                    @Override
+                                    public void onLoaded(String s) {
+                                        YPlayer.pause();
+                                    }
+
+                                    @Override
+                                    public void onAdStarted() {
+
+                                    }
+
+                                    @Override
+                                    public void onVideoStarted() {
+
+                                    }
+
+                                    @Override
+                                    public void onVideoEnded() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                                    }
+                                });
+                                YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                                YPlayer.setShowFullscreenButton(true);
+                                YPlayer.getCurrentTimeMillis();
+                            } catch (IllegalStateException e) {
+                                //initialize(API_KEY, this);
+                            }
                         }
+                    }
 
-                        @Override
-                        public void onLoaded(String s) {
-                            YPlayer.pause();
-                        }
-
-                        @Override
-                        public void onAdStarted() {
-
-                        }
-
-                        @Override
-                        public void onVideoStarted() {
-
-                        }
-
-                        @Override
-                        public void onVideoEnded() {
-
-                        }
-
-                        @Override
-                        public void onError(YouTubePlayer.ErrorReason errorReason) {
-
-                        }
-                    });
-                    YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
-                    YPlayer.setShowFullscreenButton(true);
-                    YPlayer.getCurrentTimeMillis();
                 }
             }
 
@@ -950,24 +961,29 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         YPlayer.pause();
     }*/
 
-    /*@Override
+  /*  @Override
     public void onStop() {
         super.onStop();
-        YPlayer.pause();
+       if(YPlayer!=null) {
+           YPlayer.pause();
+        }
     }*/
 
-  /*  @Override
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        YPlayer.pause();
-    }*/
+        if(YPlayer!=null) {
+            YPlayer.pause();
+        }
+    }
 
-   /* @Override
+    @Override
     public void onDetach() {
         super.onDetach();
-        YPlayer.pause();
+        if(YPlayer!=null) {
+            YPlayer.pause();
+        }
     }
-*/
     public void loadFragment(Fragment fragment) {
         Log.e("clickone", "");
         android.support.v4.app.FragmentManager manager = getFragmentManager();

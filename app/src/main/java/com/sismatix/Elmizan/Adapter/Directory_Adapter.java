@@ -28,6 +28,7 @@ import com.sismatix.Elmizan.Fregment.News_Detail_freg;
 import com.sismatix.Elmizan.Fregment.Premimum_Lawyer_freg;
 import com.sismatix.Elmizan.Model.Directory_Model;
 import com.sismatix.Elmizan.Model.News_Model;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_directory_appeal, directory_model.getUser_description());
 
+
+       // My_Preference.set_premium_lawyer(context, directory_model.getBasic_premium());
         // holder.tv_directory_offline_onnline.setText(directory_model.getNews_detail());
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 

@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -55,6 +57,7 @@ public class Directory_of_lawyers_freg extends Fragment {
         Allocate_Memory(v);
         bundle = this.getArguments();
 
+        hideSoftKeyboard();
         if(bundle!=null){
             user_id=bundle.getString("user_id");
             Log.e("user_id_58",""+user_id);
@@ -68,6 +71,10 @@ public class Directory_of_lawyers_freg extends Fragment {
         return v;
     }
 
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
     private void CALL_USER_DETAIL_API() {
         progressBar_user_detail.setVisibility(View.VISIBLE);
         lv_user_detail.setVisibility(View.GONE);
@@ -146,7 +153,7 @@ public class Directory_of_lawyers_freg extends Fragment {
 
     }
 
-    /*@Override
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -167,6 +174,6 @@ public class Directory_of_lawyers_freg extends Fragment {
                 return false;
             }
         });
-    }*/
+    }
 
 }

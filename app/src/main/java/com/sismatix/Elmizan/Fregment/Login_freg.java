@@ -518,6 +518,13 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         }
     }
 
+   /* @Override
+    public void onPause() {
+        super.onPause();
+        googleApiClient.stopAutoManage(getActivity());
+        googleApiClient.disconnect();
+    }
+*/
     @Override
     public void onStop() {
         if (googleApiClient != null && googleApiClient.isConnected()) {

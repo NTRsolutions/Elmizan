@@ -45,6 +45,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.sismatix.Elmizan.Adapter.Country_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Fregment.About_us;
@@ -76,7 +82,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Navigation_activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
     public  BottomNavigationView bottom_navigation;
     DrawerLayout drawer;
@@ -102,6 +108,7 @@ public class Navigation_activity extends AppCompatActivity
 
     private List<Country_model> country_model = new ArrayList<Country_model>();
     private Country_Adapter country_adapter;
+    GoogleApiClient googleApiClient;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -112,8 +119,15 @@ public class Navigation_activity extends AppCompatActivity
         AllocateMemory();
         setSupportActionBar(toolbar);
         SET_FONT_STYLE();
+       /* GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
-
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+*/
         android_deviceid = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.e("deviceid_117", "" + android_deviceid);
@@ -541,7 +555,7 @@ public class Navigation_activity extends AppCompatActivity
                 break;
 
             case R.id.bottom_nav_library:
-                pushFragment(new New_Library_freg(),"Cart");
+                pushFragment(new New_Library_freg(),"library");
 
                 break;
             case R.id.bottom_nav_myaccount:
@@ -636,12 +650,15 @@ public class Navigation_activity extends AppCompatActivity
                 }
             }, 2000);
         } else {
-            String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
+
+            getSupportFragmentManager().popBackStack();
+            Log.e("count_629",""+count);
+
+           /* String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
             Log.e("count_629",""+count);
             super.onBackPressed();
-
-          //  super.onBackPressed();
-            Log.e("onBackPressetitle", "" + title);
+         */ //  super.onBackPressed();
+           // Log.e("onBackPressetitle", "" + title);
         }
 
 
@@ -767,6 +784,27 @@ public class Navigation_activity extends AppCompatActivity
 
                         String lo = "0";
                         Login_preference.setLogin_flag(Navigation_activity.this, lo);
+
+                       /* Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+
+                            @Override
+                            public void onResult(@NonNull Status status) {
+                                if (status.isSuccess()) {
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            Intent intent = new Intent(Navigation_activity.this, Navigation_activity.class);
+                                            startActivity(intent);
+
+                                        }
+                                    }, 50);
+                                }else {
+                                    Toast.makeText(Navigation_activity.this, "There are some problem", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+*/
                         Intent intent = new Intent(Navigation_activity.this, Navigation_activity.class);
                         startActivity(intent);
 
@@ -786,4 +824,6 @@ public class Navigation_activity extends AppCompatActivity
         });
 
     }
+
+
 }
