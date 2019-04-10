@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.sismatix.Elmizan.Adapter.MyAdapter;
 import com.sismatix.Elmizan.FileUtils;
 import com.sismatix.Elmizan.Preference.Login_preference;
@@ -39,6 +41,7 @@ import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,6 +86,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
     private ArrayList<Uri> arrayList;
     private ArrayList<String> youtubearrayList;
+    private ArrayList<String> old_media_List;
     //private ProgressBar mProgressBar;
     public static final int RequestPermissionCode = 7;
 
@@ -90,10 +94,10 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
     ImageView iv_add_youtube_3, iv_add_youtube_2, iv_add_youtube_1;
     EditText edt_youtube_link_3, edt_youtube_link_2, edt_youtube_link_1;
     MyAdapter mAdapter;
-    String youtube_link_1, youtube_link_2, youtube_link_3;
+    String youtube_link_1, user_id,youtube_link_2, youtube_link_3,old_image_video_pass,oldurl_pass_imag,old_video;
     String expression = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     boolean ytb_one = true, ytb_two = true, ytb_three = true;
-
+    boolean validation_ok=true;
 
     public UPload_Media_freg() {
         // Required empty public constructor
@@ -107,18 +111,41 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         AllocateMemory(v);
         setupUI(lv_upload_parent);
 
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null) {
+
+            old_image_video_pass = bundle.getString("old_image_video_pass");
+            user_id = bundle.getString("user_id");
+
+            Log.e("old_image_up_115", "" + old_image_video_pass);
+
+        }else {
+            Log.e("old_image_up_00", "" + bundle);
+
+        }
+
         lv_upload_photos_media.setOnClickListener(this);
         lv_choose_img.setOnClickListener(this);
         lv_upload_youtube_link.setOnClickListener(this);
-        iv_add_youtube_1.setOnClickListener(this);
-        iv_add_youtube_2.setOnClickListener(this);
-        iv_add_youtube_3.setOnClickListener(this);
+        tv_upload_media.setOnClickListener(this);
+       // iv_add_youtube_1.setOnClickListener(this);
+       // iv_add_youtube_2.setOnClickListener(this);
+       // iv_add_youtube_3.setOnClickListener(this);
 
         arrayList = new ArrayList<>();
         youtubearrayList = new ArrayList<>();
+        old_media_List = new ArrayList<>();
         arrayList.clear();
         youtubearrayList.clear();
+        old_media_List.clear();
 
+
+
+        if(bundle!=null)
+        {
+            Call_GET_old_Media_API();
+        }
 
 
        /* if (expression.matches(youtube_link_1)&&expression.matches(youtube_link_2)&&expression.matches(youtube_link_3)){
@@ -138,6 +165,81 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         });*/
 
         return v;
+    }
+
+    private void Call_GET_old_Media_API() {
+
+
+        try {
+            JSONObject obj = new JSONObject(old_image_video_pass);
+            Log.e("obj_160",""+obj);
+
+            JSONObject media_obj=obj.getJSONObject("arr_user_media_content");
+            Log.e("media_obj",""+media_obj);
+
+            ///get images....
+            JSONArray jsonArray_image = media_obj.getJSONArray("image");
+            Log.e("json_image_168", "" + jsonArray_image);
+
+            if (jsonArray_image.equals("[]") == true) {
+                Log.e("jsonarray_blanck", "" + jsonArray_image);
+
+            } else {
+                for (int i = 0; i < jsonArray_image.length(); i++) {
+                    try {
+                        String image = jsonArray_image.getString(i);
+
+                        if (image.equalsIgnoreCase("") == true || image.equalsIgnoreCase("null") == true
+                                || image == null) {
+                            Log.e("image_null", "" + image);
+                        } else {
+                            oldurl_pass_imag = jsonArray_image.getString(i);
+                            Log.e("oldurl_pass_183", "" + oldurl_pass_imag);
+                            old_media_List.add(oldurl_pass_imag);
+                        }
+                    } catch (Exception e) {
+                        Log.e("Exception", "" + e);
+                    } finally {
+                    }
+
+                }
+            }
+
+
+
+            ///get video....
+            JSONArray jsonArray_video = media_obj.getJSONArray("video");
+            Log.e("json_video_168", "" + jsonArray_video);
+
+            if (jsonArray_video.equals("[]") == true) {
+                Log.e("jsonarray_blanck", "" + jsonArray_video);
+
+            } else {
+                for (int j = 0; j < jsonArray_video.length(); j++) {
+                    try {
+                        String video = jsonArray_video.getString(j);
+
+                        if (video.equalsIgnoreCase("") == true || video.equalsIgnoreCase("null") == true
+                                || video == null) {
+                            Log.e("image_null", "" + video);
+                        } else {
+                            old_video = jsonArray_video.getString(j);
+                            Log.e("old_video_183", "" + old_video);
+                            youtubearrayList.add(old_video);
+                        }
+                    } catch (Exception e) {
+                        Log.e("Exception", "" + e);
+                    } finally {
+                    }
+
+                }
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // method to remove list item
@@ -299,7 +401,13 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                 WRITE_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED;
 
     }
-
+    public boolean isvalid_youtube_url(String youtube) {
+        String ePattern = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(youtube);
+        Log.e("youtube_link",""+m.matches());
+        return m.matches();
+    }
 
     private void uploadImagesToServer() {
         String user_id = Login_preference.getuser_id(getActivity());
@@ -311,6 +419,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         // create list of file parts (photo, video, ...)
         List<MultipartBody.Part> parts = new ArrayList<>();
         List<RequestBody> youtube = new ArrayList<>();
+        List<RequestBody> old_media = new ArrayList<>();
 
         // create upload service client
         // ApiService service = retrofit.create(ApiService.class);
@@ -332,8 +441,19 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         }
 
 
+        if (old_media_List != null) {
+            for (int i = 0; i < old_media_List.size(); i++) {
+
+                old_media.add(createPartFromString(old_media_List.get(i)));
+                //  parts.add(prepareFilePart("user_media_images[]", arrayList.get(i)));
+            }
+        }
+
+
+
         Log.e("parts", "" + parts);
         Log.e("youtubearrayList_272", "" + youtubearrayList);
+        Log.e("old_media_415", "" + old_media);
 
 
         // create a map of data to pass along
@@ -341,11 +461,11 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         //RequestBody video_url = RequestBody.create(MediaType.parse("text/plain"), youtube);
         Log.e("video_url", "" + youtube);
         RequestBody userid_pass = RequestBody.create(MediaType.parse("text/plain"), user_id);
-        RequestBody useridold_images = RequestBody.create(MediaType.parse("text/plain"), "");
+        //RequestBody useridold_images = RequestBody.create(MediaType.parse("text/plain"), "");
         RequestBody insertedby = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(user_id));
 
         // finally, execute the request
-        Call<ResponseBody> call = api.uploadMultiple_files(youtube, insertedby, useridold_images, userid_pass, parts);
+        Call<ResponseBody> call = api.uploadMultiple_files(youtube, insertedby, old_media, userid_pass, parts);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -459,8 +579,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
     }
 
     private void AllocateMemory(View v) {
-
-
         mProgressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         lv_upload_click = (LinearLayout) v.findViewById(R.id.lv_upload_click);
         lv_upload_parent = (LinearLayout) v.findViewById(R.id.lv_upload_parent);
@@ -484,50 +602,108 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
-        if (view == lv_upload_photos_media) {
+        if (view == tv_upload_media || view==lv_upload_photos_media ) {
 
             if (edt_youtube_link_1.getVisibility() == View.VISIBLE) {
-
                 youtube_link_1 = edt_youtube_link_1.getText().toString();
                 if (youtube_link_1.length() != 0) {
-                    youtubearrayList.add(youtube_link_1);
-
+                    if(isvalid_youtube_url(youtube_link_1)==true) {
+                        Log.e("youtube_link_1_496",""+youtube_link_1);
+                        youtubearrayList.add(youtube_link_1);
+                    }else {
+                        Toast.makeText(getActivity(), "Enter Valid Youtube Url", Toast.LENGTH_SHORT).show();
+                        validation_ok=false;
+                    }
+                }else{
+                    //validation_ok=false;
                 }
+            }else{
+                validation_ok=false;
             }
 
             if (edt_youtube_link_2.getVisibility() == View.VISIBLE) {
                 youtube_link_2 = edt_youtube_link_2.getText().toString();
                 if (youtube_link_2.length() != 0) {
-                    youtubearrayList.add(youtube_link_2);
+
+                    if(isvalid_youtube_url(youtube_link_2)==true) {
+                        Log.e("youtube_link_1_497", "" + youtube_link_2);
+
+                        youtubearrayList.add(youtube_link_2);
+                    }else {
+                        Toast.makeText(getActivity(), "Enter Valid Youtube Url", Toast.LENGTH_SHORT).show();
+                        validation_ok=false;
+                        Log.e("youtube_link_1_626", "" + youtube_link_2);
+
+                    }
+                }else{
+                   // validation_ok=false;
+                    Log.e("youtube_link_1_627", "" + youtube_link_2);
+
                 }
+            }else{
+                validation_ok=false;
+                Log.e("youtube_link_1_628", "" + youtube_link_2);
+
             }
 
             if (edt_youtube_link_3.getVisibility() == View.VISIBLE) {
                 youtube_link_3 = edt_youtube_link_3.getText().toString();
 
                 if (youtube_link_3.length() != 0) {
-                    youtubearrayList.add(youtube_link_3);
+
+                    if(isvalid_youtube_url(youtube_link_2)==true) {
+                        Log.e("youtube_link_1_496", "" + youtube_link_1);
+
+                        youtubearrayList.add(youtube_link_3);
+                    }else {
+                        Toast.makeText(getActivity(), "Enter Valid Youtube Url", Toast.LENGTH_SHORT).show();
+                        validation_ok=false;
+
+                    }
+                }else{
+                    //validation_ok=false;
+                    Log.e("youtube_link_1_629", "" + youtube_link_2);
                 }
+            }else{
+                validation_ok=false;
+                Log.e("youtube_link_1_630", "" + youtube_link_2);
+
+
+            }
+            Log.e("youtube_arraylist", "" + youtubearrayList);
+
+
+            if(validation_ok==true) {
+                Log.e("546_validation_ok == ", "" + validation_ok);
+                uploadImagesToServer();
+            }else{
+                Log.e("549_validation_ok == ", "" + validation_ok);
             }
 
 
-            Log.e("youtube_arraylist", "" + youtubearrayList);
-            uploadImagesToServer();
         } else if (view == lv_choose_img) {
-            if (CheckingPermissionIsEnabledOrNot()) {
+           /* if (CheckingPermissionIsEnabledOrNot()) {
                 Toast.makeText(getActivity(), "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
             } else {
                 //Calling method to enable permission.
                 RequestMultiplePermission();
             }
-            showChooser();
+           */ if(CheckingPermissionIsEnabledOrNot())
+            {
+                showChooser();
+            }else {
+                RequestMultiplePermission();
+            }
+
         } else if (view == lv_upload_youtube_link) {
 
             Log.e("uplodyoutube", "vcxv");
             lv_add_youtube_link_1.setVisibility(View.VISIBLE);
+            lv_add_youtube_link_2.setVisibility(View.VISIBLE);
+            lv_add_youtube_link_3.setVisibility(View.VISIBLE);
             lv_upload_youtube_link.setEnabled(false);
 
-        } else if (view == iv_add_youtube_1) {
+        }/* else if (view == iv_add_youtube_1) {
             ytb_one = false;
             iv_add_youtube_1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -560,10 +736,10 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                 }
             });
             Toast.makeText(getActivity(), "You Can Upload only 3 youtube link", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -573,13 +749,25 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    loadFragment(new Premimum_Lawyer_freg());
+
+
+                    Fragment myFragment = new Premimum_Lawyer_freg();
+                    Bundle b=new Bundle();
+                    b.putString("user_id",user_id);
+                    Log.e("user_id_748",""+user_id);
+                    myFragment.setArguments(b);
+                    getFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+
+///                    loadFragment(new Premimum_Lawyer_freg());
+
+
                     return true;
                 }
                 return false;
             }
         });
-    }
+    }*/
 
     public void loadFragment(Fragment fragment) {
         Log.e("clickone", "");

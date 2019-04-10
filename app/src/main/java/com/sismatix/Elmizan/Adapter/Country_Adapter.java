@@ -1,6 +1,8 @@
 package com.sismatix.Elmizan.Adapter;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Model.Country_model;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
@@ -60,9 +64,27 @@ import java.util.List;
                     image=rmd.getCountry_image_url();
                     Glide.with(context).load(rmd.getCountry_image_url()).into(Navigation_activity.iv_nav_country_image);
                     Navigation_activity.popup.dismiss();
+
+
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    Fragment myFragment = new Directory_freg();
+                    activity.getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out).setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack("directory").commit();
+
                 }
             });
-            Glide.with(context).load(rmd.getCountry_image_url()).into(holder.ivflag);
+
+
+
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.drawable.app_icon);
+            requestOptions.error(R.drawable.app_icon);
+            Glide.with(context)
+                    .setDefaultRequestOptions(requestOptions)
+                    .load(rmd.getCountry_image_url()).into(holder.ivflag);
+
+            //Glide.with(context).load(rmd.getCountry_image_url()).into(holder.ivflag);
 
         }
 

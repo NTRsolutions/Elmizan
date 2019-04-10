@@ -2,12 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     defaultConfig {
         applicationId "com.sismatix.Elmizan"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -34,7 +38,6 @@ dependencies {
     implementation 'com.koushikdutta.ion:ion:1.1.5'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation 'com.android.volley:volley:1.1.0'
-    implementation 'com.google.android.gms:play-services-auth:9.8.0'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.koushikdutta.ion:ion:1.1.5'
@@ -42,4 +45,22 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'me.relex:circleindicator:1.2.2@aar'
+
+    implementation 'com.google.android.gms:play-services-auth:16.0.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+   // implementation 'com.google.android.gms:play-services-auth:9.8.0'
+
+
+   // implementation 'com.google.android.gms:play-services-auth:16.0.0'
+   // implementation 'com.google.firebase:firebase-auth:16.0.3'
+
+
+
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+
+
 }
+apply plugin: 'com.google.gms.google-services'

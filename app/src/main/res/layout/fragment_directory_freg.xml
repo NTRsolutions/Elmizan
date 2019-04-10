@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
+    android:id="@+id/lv_directory_parent"
     tools:context=".Fregment.Directory_freg">
 
     <android.support.v4.widget.NestedScrollView

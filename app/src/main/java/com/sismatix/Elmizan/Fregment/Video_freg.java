@@ -129,7 +129,7 @@ public class Video_freg extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -150,5 +150,5 @@ public class Video_freg extends Fragment {
                 return false;
             }
         });
-    }
+    }*/
 }

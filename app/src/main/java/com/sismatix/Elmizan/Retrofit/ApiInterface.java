@@ -246,7 +246,27 @@ public interface ApiInterface {
     Call<ResponseBody> uploadMultiple_files(
             @Part("video_url[]") List<RequestBody> video_url,
             @Part("inserted_by") RequestBody inserted_by,
-            @Part("old_user_media_images[]") RequestBody old_user_media_images,
+            @Part("old_user_media_images[]") List<RequestBody> old_user_media_images,
+            @Part("user_id") RequestBody user_id,
+            @Part List<MultipartBody.Part> files);
+
+
+    //delete media api
+
+    @POST("user_media_delete.php")
+    @FormUrlEncoded
+    Call<ResponseBody> Call_delete_api(@Field("user_id") String user_id,
+                                       @Field("del_user_media_image") String del_user_media_image,
+                                       @Field("del_user_media_video") String del_user_media_video);
+
+
+    //upload photos and media
+    @Multipart
+    @POST("user_media_update.php")
+    Call<ResponseBody> delete_files(
+            @Part("video_url[]") List<RequestBody> video_url,
+            @Part("inserted_by") RequestBody inserted_by,
+            @Part("old_user_media_images[]") List<RequestBody> old_user_media_images,
             @Part("user_id") RequestBody user_id,
             @Part List<MultipartBody.Part> files);
 
@@ -267,6 +287,26 @@ public interface ApiInterface {
     @POST("user_media.php")
     @FormUrlEncoded
     Call<ResponseBody> getMedia(@Field("user_id") String user_id);
+
+
+    //Get Device token
+    //{{api_url}}firebase_token_update.php
+    @POST("firebase_token_update.php")
+    @FormUrlEncoded
+    Call<ResponseBody> Get_Device_Token(@Field("firebase_device_token") String firebase_device_token,
+                                        @Field("device_id") String device_id);
+
+
+
+
+
+    //logout
+    //user_logout.php
+
+    @POST("user_logout.php")
+    @FormUrlEncoded
+    Call<ResponseBody> Logout(@Field("user_id") String user_id);
+
 
 
 }

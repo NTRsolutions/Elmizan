@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,6 +29,7 @@ import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Articles_Adapter;
 import com.sismatix.Elmizan.Adapter.Video_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
+import com.sismatix.Elmizan.DotsIndicatorDecoration;
 import com.sismatix.Elmizan.Model.Article_model;
 import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.Model.Video_Model;
@@ -40,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,8 +106,17 @@ public class Article_freg extends Fragment {
              Log.e("user_id_89",""+user_id);
          }
 
+        if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
 
+            if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
+                fab_menu.setVisibility(View.VISIBLE);
 
+            } else {
+                fab_menu.setVisibility(View.GONE);
+            }
+        } else {
+            fab_menu.setVisibility(View.GONE);
+        }
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
             CALL_Article_API(user_id,page_no);
@@ -116,9 +129,8 @@ public class Article_freg extends Fragment {
         // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         layoutManager=new GridLayoutManager(getActivity(), 2);
         recycler_article.setLayoutManager(layoutManager);
-        recycler_article.setItemAnimator(new DefaultItemAnimator());
-        // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler_article.setAdapter(articles_adapter);
+
         return view;
     }
     private String getYoutubeID(String youtubeUrl) {
@@ -199,7 +211,8 @@ public class Article_freg extends Fragment {
             }
         });
     }
-    @Override
+
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -220,7 +233,8 @@ public class Article_freg extends Fragment {
                 return false;
             }
         });
-    }
+    }*/
+
     private void pushFragment(Fragment fragment, String add_to_backstack) {
         if (fragment == null)
             return;

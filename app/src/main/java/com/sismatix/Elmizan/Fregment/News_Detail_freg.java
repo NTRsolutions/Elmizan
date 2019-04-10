@@ -32,7 +32,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
-import com.sismatix.Elmizan.Config;
+import com.sismatix.Elmizan.Configgg;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
@@ -69,7 +69,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     String article_inserted_by;
     LinearLayout lv_image_details, lv_video_details;
 
-    private YouTubePlayer YPlayer;
+    public static YouTubePlayer YPlayer;
     String video, image, video_idd, video_id, spl;
 
     public News_Detail_freg() {
@@ -157,7 +157,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.youtube_fragment, youTubePlayerFragment).commit();
-        youTubePlayerFragment.initialize(Config.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+        youTubePlayerFragment.initialize(Configgg.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 if (!b) {
@@ -167,6 +167,37 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                     //YPlayer.cueVideo("HPW5EKRIaCw");
                     YPlayer.loadVideo(video_id);
                     //holder.YPlayer.cueVideo(videoid);
+                    YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onLoading() {
+
+                        }
+
+                        @Override
+                        public void onLoaded(String s) {
+                            YPlayer.pause();
+                        }
+
+                        @Override
+                        public void onAdStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoEnded() {
+
+                        }
+
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                        }
+                    });
                     YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
                     YPlayer.setShowFullscreenButton(true);
                     YPlayer.getCurrentTimeMillis();
@@ -892,7 +923,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         });
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -903,6 +934,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
                     //YPlayer.pause();
+                    YPlayer.pause();
                     getActivity().onBackPressed();
 
                     return true;
@@ -910,8 +942,32 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                 return false;
             }
         });
-    }
+    }*/
 
+    /*@Override
+    public void onPause() {
+        super.onPause();
+        YPlayer.pause();
+    }*/
+
+    /*@Override
+    public void onStop() {
+        super.onStop();
+        YPlayer.pause();
+    }*/
+
+  /*  @Override
+    public void onDestroy() {
+        super.onDestroy();
+        YPlayer.pause();
+    }*/
+
+   /* @Override
+    public void onDetach() {
+        super.onDetach();
+        YPlayer.pause();
+    }
+*/
     public void loadFragment(Fragment fragment) {
         Log.e("clickone", "");
         android.support.v4.app.FragmentManager manager = getFragmentManager();

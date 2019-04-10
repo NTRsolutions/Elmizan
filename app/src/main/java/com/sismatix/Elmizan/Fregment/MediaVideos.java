@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.Adapter.Media_Video_Adapter;
@@ -39,9 +42,14 @@ import retrofit2.Response;
 public class MediaVideos extends Fragment {
 
 
-    RecyclerView recycler_media_videos;
-    private List<Media_Video_Model> media_video_models = new ArrayList<Media_Video_Model>();
-    private Media_Video_Adapter media_video_adapter;
+    public static RecyclerView recycler_media_videos;
+    public static List<Media_Video_Model> media_video_models = new ArrayList<Media_Video_Model>();
+    public static Media_Video_Adapter media_video_adapter;
+    public static String old_video;
+    public static Context context = null;
+    public static ProgressBar progressBar_video;
+    public static TextView tv_media_not_found;
+
 
     public MediaVideos() {
         // Required empty public constructor
@@ -55,10 +63,10 @@ public class MediaVideos extends Fragment {
         View v = inflater.inflate(R.layout.fragment_media_videos, container, false);
 
         AllocateMemory(v);
-
+        context = getActivity();
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
-            CALL_GET_MEDIAVIDEOS_API();
+            CALL_GET_MEDIAVIDEOS_API(Media.u_id);
 
 
         } else {
@@ -86,11 +94,11 @@ public class MediaVideos extends Fragment {
         return v;
     }
 
-    private void CALL_GET_MEDIAVIDEOS_API() {
-
+    public static void CALL_GET_MEDIAVIDEOS_API(String user_id) {
+        progressBar_video.setVisibility(View.VISIBLE);
         media_video_models.clear();
         ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> categorylistt = apii.getMedia(Media.u_id);
+        Call<ResponseBody> categorylistt = apii.getMedia(user_id);
         Log.e("uid", "" + Media.u_id);
 
 
@@ -102,6 +110,7 @@ public class MediaVideos extends Fragment {
 
                 JSONObject jsonObject1 = null;
                 try {
+                    progressBar_video.setVisibility(View.GONE);
                     jsonObject1 = new JSONObject(response.body().string());
                     String status = jsonObject1.getString("status");
                     Log.e("status_media_vids", "" + status);
@@ -115,6 +124,48 @@ public class MediaVideos extends Fragment {
 
                         String user_media_status = data_obj1.getString("user_media_status");
                         Log.e("user_media_status_med", "" + user_media_status);
+
+
+                        ///////////////////////////////////////////////////////////
+                        ///get video....
+                        JSONObject media_obj = data_obj1.getJSONObject("arr_user_media_content");
+                        Log.e("media_obj", "" + media_obj);
+
+                        JSONArray jsonArray_video = media_obj.getJSONArray("video");
+                        Log.e("json_video_168", "" + jsonArray_video);
+
+                        if (jsonArray_video.equals("[]") == true) {
+                            Log.e("jsonarray_blanck", "" + jsonArray_video);
+                            recycler_media_videos.setVisibility(View.GONE);
+                            tv_media_not_found.setVisibility(View.VISIBLE);
+                            tv_media_not_found.setText(context.getResources().getString(R.string.data_not_found));
+
+
+                        } else {
+                            for (int j = 0; j < jsonArray_video.length(); j++) {
+                                try {
+                                    String video = jsonArray_video.getString(j);
+
+                                    if (video.equalsIgnoreCase("") == true || video.equalsIgnoreCase("null") == true
+                                            || video == null) {
+                                        Log.e("image_null", "" + video);
+                                    } else {
+                                        old_video = jsonArray_video.getString(j);
+                                        Log.e("old_video_183", "" + old_video);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("Exception", "" + e);
+                                } finally {
+                                }
+
+                            }
+                        }
+
+
+                        //////////////////////////////////////////////////////////////////////////
+
+
+
 
                         String article_media_url = data_obj1.getString("arr_user_media_content_url");
                         Log.e("media_image", "" + article_media_url);
@@ -132,30 +183,31 @@ public class MediaVideos extends Fragment {
 
                             for (int j = 0; j < vidss_array.length(); j++) {
                                 try {
-                                    video = vidss_array.getString(0);
-                                    Log.e("video_prem", "" + video);
 
-                                    if (video == "" || video == null || video == "null" || video.equalsIgnoreCase(null)
-                                            || video.equalsIgnoreCase("null")) {
+                                    JSONObject object = vidss_array.getJSONObject(j);
+                                    Log.e("url_187", "" + object.getString("url"));
+                                    Log.e("object", "" + object);
+                                    media_video_models.add(new Media_Video_Model(object.getString("url"), old_video));
 
-                                        Toast.makeText(getActivity(), "data problem", Toast.LENGTH_SHORT).show();
-
-                                    } else {
-
-                                        Log.e("sizeeee",""+media_video_models.size());
-                                        media_video_models.add(new Media_Video_Model(video));
-                                        /*slidervideo_models.add(new slidervideo_model(video));
-                                        mPager.setAdapter(new SlidingVideo_Adapter(getActivity(), slidervideo_models));*/
-
-                                    }
                                 } catch (Exception e) {
                                     Log.e("Exception", "" + e);
                                 } finally {
                                     media_video_adapter.notifyItemChanged(j);
                                 }
                             }
+                        } else {
+                            recycler_media_videos.setVisibility(View.GONE);
+                            tv_media_not_found.setVisibility(View.VISIBLE);
+                            tv_media_not_found.setText(context.getResources().getString(R.string.data_not_found));
+
                         }
                     } else if (status.equalsIgnoreCase("error")) {
+
+                        progressBar_video.setVisibility(View.GONE);
+                        recycler_media_videos.setVisibility(View.GONE);
+                        tv_media_not_found.setVisibility(View.VISIBLE);
+                        tv_media_not_found.setText(context.getResources().getString(R.string.data_not_found));
+
                     }
 
                 } catch (Exception e) {
@@ -165,13 +217,15 @@ public class MediaVideos extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void AllocateMemory(View v) {
         recycler_media_videos = (RecyclerView) v.findViewById(R.id.recycler_media_videos);
+        tv_media_not_found = (TextView) v.findViewById(R.id.tv_media_not_found);
+        progressBar_video = (ProgressBar) v.findViewById(R.id.progressBar_video);
     }
 
 }

@@ -309,7 +309,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -330,5 +330,5 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                 return false;
             }
         });
-    }
+    }*/
 }

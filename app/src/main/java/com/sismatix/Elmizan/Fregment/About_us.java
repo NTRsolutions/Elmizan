@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -62,7 +63,14 @@ public class About_us extends Fragment {
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.about_us));
 
         AllocateMemory(v);
-        callAboutUsApi();
+
+        if (CheckNetwork.isNetworkAvailable(getActivity())) {
+            callAboutUsApi();
+        } else {
+            Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+
 
         return  v;
     }
@@ -168,7 +176,7 @@ public class About_us extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -189,6 +197,6 @@ public class About_us extends Fragment {
                 return false;
             }
         });
-    }
+    }*/
 
 }

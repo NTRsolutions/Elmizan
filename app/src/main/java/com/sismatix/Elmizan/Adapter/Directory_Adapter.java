@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Directory_of_lawyers_freg;
@@ -66,7 +67,20 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 
         // holder.tv_directory_offline_onnline.setText(directory_model.getNews_detail());
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
-        Glide.with(context).load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
+
+
+
+
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.app_icon);
+        requestOptions.error(R.drawable.app_icon);
+        Glide.with(context)
+                .setDefaultRequestOptions(requestOptions)
+                .load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
+
+
+ ///       Glide.with(context).load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
 
 
         if (directory_model.getBasic_premium().equalsIgnoreCase("premium") == true) {

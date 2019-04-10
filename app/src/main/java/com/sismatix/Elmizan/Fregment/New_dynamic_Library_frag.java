@@ -112,7 +112,6 @@ public class New_dynamic_Library_frag extends Fragment {
                 Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
             }
 
-
         }
         cat_id_list.clear();
 
@@ -344,7 +343,7 @@ public class New_dynamic_Library_frag extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -365,7 +364,7 @@ public class New_dynamic_Library_frag extends Fragment {
                 return false;
             }
         });
-    }
+    }*/
 /*
     public  void Call_Library_API(String cat_id) {
 

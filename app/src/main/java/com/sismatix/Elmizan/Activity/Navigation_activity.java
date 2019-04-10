@@ -8,8 +8,13 @@ import android.content.res.AssetManager;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,18 +46,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Adapter.Country_Adapter;
+import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Contact_us;
-import com.sismatix.Elmizan.Fregment.Demo_freg;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Edit_premium_lawyer_profile;
 import com.sismatix.Elmizan.Fregment.Home_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.New_Library_freg;
-import com.sismatix.Elmizan.Fregment.News_Detail_freg;
 import com.sismatix.Elmizan.Fregment.Register_freg;
-import com.sismatix.Elmizan.Fregment.Video_freg;
 import com.sismatix.Elmizan.Model.Country_model;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.Preference.My_Preference;
@@ -87,18 +90,20 @@ public class Navigation_activity extends AppCompatActivity
     boolean doubleBackToExitPressedOnce = false;
     public static Typeface typeface,tf,medium;
     public static LinearLayout lv_withlogin_header,lv_withoutlogin_header,withoutloginicon;
-    public static MenuItem nav_register,nav_contactus,nav_signin,nav_myaccount,nav_myarticle,nav_notification,nav_logout;
+    public static MenuItem nav_register, nav_contactus, nav_signin, nav_myaccount, nav_myarticle, nav_logout;
     public static ImageView iv_profile_image;
     Point p,c;
     ProgressDialog PD;
     RecyclerView recycler_country;
     public static PopupWindow popup;
     ProgressBar progressBar_country;
-
+    ImageView iv_nav_premium_logo;
+    private String android_deviceid;
 
     private List<Country_model> country_model = new ArrayList<Country_model>();
     private Country_Adapter country_adapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +112,12 @@ public class Navigation_activity extends AppCompatActivity
         AllocateMemory();
         setSupportActionBar(toolbar);
         SET_FONT_STYLE();
+
+
+        android_deviceid = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.e("deviceid_117", "" + android_deviceid);
+
         My_Preference.setCountry_name(Navigation_activity.this,"1");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -136,8 +147,7 @@ public class Navigation_activity extends AppCompatActivity
             tv_nav_user_name.setText(Login_preference.getuser_name(this));
 
             String desc=Login_preference.getuser_short_desc(this);
-            if(desc.equalsIgnoreCase("null")==true)
-            {
+            if (desc.equalsIgnoreCase("null") == true) {
                 tv_nav_appal.setHint("");
                 //textview.setText("Enter Value here");
             }else {
@@ -147,11 +157,21 @@ public class Navigation_activity extends AppCompatActivity
 
             //tv_nav_appal.setText(Login_preference.getuser_short_desc(this));
 
-         //   Check_String_NULL_Value(tv_nav_appal,desc, "a");
+            //   Check_String_NULL_Value(tv_nav_appal,desc, "a");
 
             Glide.with(this).load(Login_preference.getuser_profile(this)).into(iv_profile_image);
 
-        }else{
+            if (My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium") == true) {
+                lv_withlogin_header.setVisibility(View.VISIBLE);
+                //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.menu_img));
+                iv_nav_premium_logo.setImageResource(R.drawable.menu_img);
+            } else {
+                lv_withlogin_header.setVisibility(View.VISIBLE);
+                //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.grey_perimimum));
+                iv_nav_premium_logo.setImageResource(R.drawable.grey_perimimum);
+            }
+
+        } else {
             lv_withlogin_header.setVisibility(View.GONE);
             lv_withoutlogin_header.setVisibility(View.VISIBLE);
             withoutloginicon.setVisibility(View.INVISIBLE);
@@ -160,9 +180,9 @@ public class Navigation_activity extends AppCompatActivity
             nav_signin.setVisible(true);
             nav_myaccount.setVisible(false);
             nav_myarticle.setVisible(false);
-            nav_notification.setVisible(false);
             nav_logout.setVisible(false);
         }
+
 
         ////////-------bottom navigation view---------///
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -177,8 +197,7 @@ public class Navigation_activity extends AppCompatActivity
         Bootom_Navigation_view();
 
         b = getIntent().getExtras();
-        if(b!=null)
-        {
+        if (b != null) {
             Screen=getIntent().getExtras().getString("screen");
 
             Log.e("lofin",""+Screen);
@@ -196,14 +215,60 @@ public class Navigation_activity extends AppCompatActivity
             public void onClick(View view) {
                 if (c != null)
 
-                   // showPopupCurrency(Navigation_activity.this, c);
-                showPopup(Navigation_activity.this, c);
+                    // showPopupCurrency(Navigation_activity.this, c);
+                    showPopup(Navigation_activity.this, c);
 
 
             }
         });
 
+
+        if (CheckNetwork.isNetworkAvailable(Navigation_activity.this)) {
+            CALL_DEVICE_TOKEN_API();
+        } else {
+            Toast.makeText(Navigation_activity.this, "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+
+    private void CALL_DEVICE_TOKEN_API() {
+
+        ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> GetToken = apii.Get_Device_Token(Login_preference.getdevicetoken(Navigation_activity.this), android_deviceid);
+        Log.e("refreshedToken_pass", "" + Login_preference.getdevicetoken(Navigation_activity.this));
+        Log.e("android_deviceid_pass", "" + android_deviceid);
+        GetToken.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("response", "" + response.body().toString());
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status", "" + status);
+                    String meassg = jsonObject.getString("msg");
+                    Log.e("message_token", "" + meassg);
+                    if (status.equalsIgnoreCase("success")) {
+                        //Toast.makeText(Navigation_activity.this, "" + meassg, Toast.LENGTH_SHORT).show();
+
+
+                    } else if (status.equalsIgnoreCase("error")) {
+                        // Toast.makeText(Navigation_activity.this, "" + meassg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.e("", "" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(Navigation_activity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 
@@ -413,6 +478,8 @@ public class Navigation_activity extends AppCompatActivity
         iv_nav_country_image = findViewById(R.id.iv_nav_country_image);
         iv_nav_logo = findViewById(R.id.iv_nav_logo);
         tv_nav_title = findViewById(R.id.tv_nav_title);
+
+
         View header = navigationView.getHeaderView(0);
         lv_withlogin_header=(LinearLayout) header.findViewById(R.id.lv_withlogin_header);
         lv_withoutlogin_header=(LinearLayout) header.findViewById(R.id.lv_withoutlogin_header);
@@ -420,13 +487,14 @@ public class Navigation_activity extends AppCompatActivity
         tv_nav_appal=(TextView) header.findViewById(R.id.tv_nav_appal);
         iv_profile_image = (ImageView) header.findViewById(R.id.iv_profile_image);
         withoutloginicon=(LinearLayout) findViewById(R.id.withoutloginicon);
+        iv_nav_premium_logo = (ImageView)header. findViewById(R.id.iv_navigation_premium_logo);
+
         Menu menu =navigationView.getMenu();
         nav_register = menu.findItem(R.id.nav_register);
         nav_contactus = menu.findItem(R.id.nav_contactus);
         nav_signin = menu.findItem(R.id.nav_signin);
         nav_myaccount = menu.findItem(R.id.nav_my_account);
         nav_myarticle = menu.findItem(R.id.nav_my_article);
-        nav_notification = menu.findItem(R.id.nav_notification);
         nav_logout = menu.findItem(R.id.nav_logout);
 
 
@@ -466,10 +534,10 @@ public class Navigation_activity extends AppCompatActivity
                 pushFragment(new Home_freg(),"Home");
                 break;
             case R.id.bottom_nav_directory:
-                pushFragment(new Directory_freg(),"Home");
+                pushFragment(new Directory_freg(),"directory");
                 break;
             case R.id.bottom_nav_article:
-                pushFragment(new Article_freg(),"Home");
+                pushFragment(new Article_freg(),"article");
                 break;
 
             case R.id.bottom_nav_library:
@@ -479,7 +547,7 @@ public class Navigation_activity extends AppCompatActivity
             case R.id.bottom_nav_myaccount:
 
                 if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
-                    pushFragment(new Edit_premium_lawyer_profile(),"");
+                    pushFragment(new Edit_premium_lawyer_profile(),"Edit profile");
 
                 }else {
                     pushFragment(new Login_freg(),"login");
@@ -548,81 +616,13 @@ public class Navigation_activity extends AppCompatActivity
             super.onBackPressed();
         }
 
-       /* FragmentManager fragmentManager = getSupportFragmentManager();
-        //  fragmentManager.popBackStack();
-        //Here we are clearing back stack fragment entries
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
         int count = fragmentManager.getBackStackEntryCount();
-        *//* if (count == 0) {*//*
+        Log.e("count_621",""+count);
 
-        if (doubleBackToExitPressedOnce) {
-            Log.e("198",""+doubleBackToExitPressedOnce);
-            super.onBackPressed();
-            super.finish();
-            return;
-        }
-        Log.e("203",""+doubleBackToExitPressedOnce);
-        this.doubleBackToExitPressedOnce = true;
-
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("208",""+doubleBackToExitPressedOnce);
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 3000);*/
-       /* }else {
-
+        if (count == 1) {
             if (doubleBackToExitPressedOnce) {
-                Log.e("198",""+doubleBackToExitPressedOnce);
-                super.onBackPressed();
-                super.finish();
-                return;
-            }
-            Log.e("203",""+doubleBackToExitPressedOnce);
-            this.doubleBackToExitPressedOnce = true;
-
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e("208",""+doubleBackToExitPressedOnce);
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 3000);
-        }*/
-      /*  if (count == 1) {
-
-            Log.e("196",""+doubleBackToExitPressedOnce);
-            if (doubleBackToExitPressedOnce) {
-                Log.e("198",""+doubleBackToExitPressedOnce);
-                super.onBackPressed();
-                super.finish();
-                return;
-            }
-            Log.e("203",""+doubleBackToExitPressedOnce);
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e("208",""+doubleBackToExitPressedOnce);
-                    doubleBackToExitPressedOnce = false;
-                }
-            }, 3000);
-        }
-        else {
-            // String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
-
-            super.onBackPressed();
-            int countttt = fragmentManager.getBackStackEntryCount();
-            Log.e("onBackPressetitle", "aaa" );
-            Log.e("220_count_onBack", "aaa" +countttt);
-
-            //tv_title.setText(title);
-        }*//*else if (count == 0) {
-            if (doubleBackToExitPressedOnce) {
+                Log.e("count_628",""+count);
                 super.onBackPressed();
                 super.finish();
                 return;
@@ -635,10 +635,17 @@ public class Navigation_activity extends AppCompatActivity
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
-        }*/
+        } else {
+            String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
+            Log.e("count_629",""+count);
+            super.onBackPressed();
+
+          //  super.onBackPressed();
+            Log.e("onBackPressetitle", "" + title);
+        }
+
+
     }
-
-
 
 
     @Override
@@ -677,26 +684,26 @@ public class Navigation_activity extends AppCompatActivity
 
             pushFragment(new Contact_us(),"aboutus");
         } else if (id == R.id.nav_logout) {
-            Login_preference.prefsEditor.clear().apply();
-            Login_preference.prefsEditor.commit();
-            Login_preference.prefsEditor.apply();
-            String lo="0";
 
-            Login_preference.setLogin_flag(this,lo);
-            Intent intent=new Intent(this,Navigation_activity.class);
-            startActivity(intent);
+            if (CheckNetwork.isNetworkAvailable(Navigation_activity.this)) {
+                Call_LOGOUT_API();
+            } else {
+                Toast.makeText(Navigation_activity.this, "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+
+
 
         } else if (id == R.id.nav_my_account) {
 
             if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
-                if(My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium")){
+
                     Bundle b=new Bundle();
                     b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
                     Fragment myFragment = new Edit_premium_lawyer_profile();
                     myFragment.setArguments(b);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack("").commit();
 
-                }
+
             }else {
                 pushFragment(new Login_freg(),"login");
             }
@@ -708,16 +715,12 @@ public class Navigation_activity extends AppCompatActivity
                     b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
                     Fragment myFragment = new Article_freg();
                     myFragment.setArguments(b);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack("").commit();
 
                 }
             }else {
                 pushFragment(new Login_freg(),"login");
             }
-
-        } else if (id == R.id.nav_notification) {
-
-            pushFragment(new Demo_freg(),"");
 
         }
         else if (id == R.id.nav_signin) {
@@ -732,5 +735,55 @@ public class Navigation_activity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void Call_LOGOUT_API() {
+
+        Log.e("login_userid", "" + Login_preference.getuser_id(this));
+        ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> Logout = apii.Logout(Login_preference.getuser_id(this));
+
+        Logout.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("response_logout", "" + response.body().toString());
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status", "" + status);
+                    String meassg = jsonObject.getString("msg");
+                    Log.e("message_token", "" + meassg);
+                    if (status.equalsIgnoreCase("success")) {
+                        Login_preference.mPrefs = PreferenceManager.getDefaultSharedPreferences(Navigation_activity.this);
+                        Login_preference.prefsEditor = Login_preference.mPrefs.edit();
+
+                        Login_preference.prefsEditor.remove("user_id").apply();
+                        Login_preference.prefsEditor.remove("premiunm_lawyer").apply();
+                        Login_preference.prefsEditor.remove("countryid").apply();
+                        Login_preference.prefsEditor.remove("Countryname").apply();
+                        Login_preference.prefsEditor.apply();
+                        Login_preference.prefsEditor.commit();
+
+                        String lo = "0";
+                        Login_preference.setLogin_flag(Navigation_activity.this, lo);
+                        Intent intent = new Intent(Navigation_activity.this, Navigation_activity.class);
+                        startActivity(intent);
+
+
+                    } else if (status.equalsIgnoreCase("error")) {
+                        // Toast.makeText(Navigation_activity.this, "" + meassg, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.e("", "" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(Navigation_activity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

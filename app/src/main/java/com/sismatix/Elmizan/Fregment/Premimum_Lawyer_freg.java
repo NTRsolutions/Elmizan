@@ -9,10 +9,12 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,13 +31,17 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Premium_Lawyer_Video_adapter;
 import com.sismatix.Elmizan.Adapter.Premium_Lawyer_adapter;
 import com.sismatix.Elmizan.Adapter.Premium_article_adpter;
 import com.sismatix.Elmizan.CheckNetwork;
+import com.sismatix.Elmizan.DotsIndicatorDecoration;
 import com.sismatix.Elmizan.Model.Article_model;
+import com.sismatix.Elmizan.Model.Media_Video_Model;
+import com.sismatix.Elmizan.Model.Media_images_model;
 import com.sismatix.Elmizan.Model.Premium_Lawyer_Model;
 import com.sismatix.Elmizan.Model.Premium_Lawyer_Videos_Model;
 import com.sismatix.Elmizan.Preference.Login_preference;
@@ -76,8 +82,9 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     TextView tv_premium_article, tv_edit_your_profile, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
             tv_pre_country_text, tv_pre_country, tv_premium_offline, tv_premium_appeal, tv_premium_name, tv_article_data_not_found, tv_premium_online;
     ImageView iv_premium_twitter, iv_premium_insta, iv_premium_fb, iv_profile_premium, iv_add_article, iv_add_media;
-    LinearLayout lv_premium_twitter, lv_more_btn, lv_premium_insta, lv_premium_fb, lv_premium_call, lv_edit_your_profile, lv_pre_online, lv_pre_offline;
+    LinearLayout lv_premium_twitter,lv_premium_send_msg,lv_pre_chat, lv_more_btn, lv_premium_insta, lv_premium_fb, lv_premium_call, lv_edit_your_profile, lv_pre_online, lv_pre_offline;
 
+    TextView tv_media_video_not_found,tv_media_img_not_found;
     /*Timer timer;
     final long DELAY_MS = 800, PERIOD_MS = 4000;
     int currentPage = 0;
@@ -86,7 +93,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     private String URL_HOMEPAGE;*/
 
     RecyclerView recycler_prem_images;
-    private List<Premium_Lawyer_Model> premium_lawyer_models = new ArrayList<Premium_Lawyer_Model>();
+    private List<Media_images_model> premium_lawyer_models = new ArrayList<Media_images_model>();
     private Premium_Lawyer_adapter premium_lawyer_adapter;
 
     RecyclerView recycler_prem_videos;
@@ -94,6 +101,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     private Premium_Lawyer_Video_adapter premium_video_adapter;
 
     Button btn_more;
+
+    String old_image_video_pass="null",oldurl_pass_imag,old_video,screen;
 
     public Premimum_Lawyer_freg() {
 
@@ -122,11 +131,14 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         if(user_id.equalsIgnoreCase(Login_preference.getuser_id(getContext()))==true)
         {
             if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
-
-
                 lv_edit_your_profile.setVisibility(View.VISIBLE);
                 iv_add_article.setVisibility(View.VISIBLE);
                 iv_add_media.setVisibility(View.VISIBLE);
+            }else {
+
+                lv_edit_your_profile.setVisibility(View.GONE);
+                iv_add_article.setVisibility(View.GONE);
+                iv_add_media.setVisibility(View.GONE);
             }
         }else {
             lv_edit_your_profile.setVisibility(View.GONE);
@@ -154,17 +166,25 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recycler_pre_lawyer_article.setLayoutManager(mLayoutManager);
         recycler_pre_lawyer_article.setAdapter(articles_adapter);
+       /* recycler_pre_lawyer_article.setItemAnimator(new DefaultItemAnimator());
+        recycler_pre_lawyer_article.setNestedScrollingEnabled(false);
+        recycler_pre_lawyer_article.setHasFixedSize(true);
+        final int radius = getResources().getDimensionPixelSize(R.dimen.radius);
+        final int dotsHeight = getResources().getDimensionPixelSize(R.dimen.dots_height);
+        final int color = ContextCompat.getColor(getContext(), R.color.black);
+        recycler_pre_lawyer_article.addItemDecoration(new DotsIndicatorDecoration(radius, radius * 4, dotsHeight, color, color));
+        new PagerSnapHelper().attachToRecyclerView(recycler_pre_lawyer_article);
+*/
+
 
         lv_premium_call.setOnClickListener(this);
         lv_edit_your_profile.setOnClickListener(this);
         iv_add_article.setOnClickListener(this);
         iv_add_media.setOnClickListener(this);
         Log.e("user_id_110", "" + Login_preference.getuser_id(getActivity()));
+        screen="premium_lawyer";
 
-
-
-
-        premium_lawyer_adapter = new Premium_Lawyer_adapter(getActivity(), premium_lawyer_models);
+        premium_lawyer_adapter = new Premium_Lawyer_adapter(getActivity(), premium_lawyer_models,screen);
         recycler_prem_images.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recycler_prem_images.setItemAnimator(new DefaultItemAnimator());
         recycler_prem_images.setAdapter(premium_lawyer_adapter);
@@ -182,7 +202,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
 
-
+                YPlayerr.pause();
                 Bundle b=new Bundle();
                 b.putString("useridd",user_id);
                 Log.e("usid",""+user_id);
@@ -240,10 +260,62 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                     if (status.equalsIgnoreCase("success")) {
 
                         String msg_en = jsonObject.getString("data");
-                        Log.e("data_189", "" + msg_en);
+                        old_image_video_pass = jsonObject.getString("data");
+                        Log.e("old_image_video_pass", "" + old_image_video_pass);
 
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("media_data", "" + data_obj);
+                        ////////////////////////////////old media images/////////////////////////////
+                        JSONObject media_obj=data_obj.getJSONObject("arr_user_media_content");
+                        Log.e("media_obj",""+media_obj);
+
+                         if(data_obj.equals("{}")==true) {
+
+                            recycler_prem_images.setVisibility(View.GONE);
+                           // tv_media_video_not_found.setVisibility(View.VISIBLE);
+                           //  tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
+
+                        }else {
+
+
+                             ///get images....
+                            JSONArray jsonArray_image = media_obj.getJSONArray("image");
+                            Log.e("json_image_168", "" + jsonArray_image);
+
+                            if (jsonArray_image.equals("[]") == true) {
+                                Log.e("jsonarray_blanck", "" + jsonArray_image);
+
+                                recycler_prem_images.setVisibility(View.GONE);
+                             //   tv_media_video_not_found.setVisibility(View.VISIBLE);
+                             //   tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
+
+                            } else {
+
+                                for (int i = 0; i < jsonArray_image.length(); i++) {
+                                    try {
+                                        String oldimage = jsonArray_image.getString(i);
+
+                                        if (oldimage.equalsIgnoreCase("") == true || oldimage.equalsIgnoreCase("null") == true
+                                                || oldimage == null) {
+                                            Log.e("image_null", "" + oldimage);
+                                        } else {
+                                            oldurl_pass_imag = jsonArray_image.getString(i);
+                                            Log.e("oldurl_pass_183", "" + oldurl_pass_imag);
+                                        }
+                                    } catch (Exception e) {
+                                        Log.e("Exception", "" + e);
+                                    } finally {
+                                    }
+
+                                }
+                            }
+
+
+                            /////////////////////////////////////////////////////
+
+                        }
+
+
 
                         String user_media_status = data_obj.getString("user_media_status");
                         Log.e("user_media_status_med", "" + user_media_status);
@@ -272,25 +344,43 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                             }
                             for (int j = 0; j < tmp_cnt; j++) {
                                 try {
+
+
+                                    JSONObject object = imag_array.getJSONObject(j);
+
+                                    Log.e("imag_name_premi", "" + object.getString("name"));
+                                    premium_lawyer_models.add(new Media_images_model(object.getString("url"),object.getString("name")));
+
+/*
                                     image = imag_array.getString(j);
-                                    Log.e("image_prem", "" + image);
+                                    Log.e("image_premii", "" + image);
 
                                     if (image == "" || image == null || image == "null" || image.equalsIgnoreCase(null)
                                             || image.equalsIgnoreCase("null")) {
                                         Toast.makeText(getActivity(), "data problem", Toast.LENGTH_SHORT).show();
                                     } else {
 
-                                        premium_lawyer_models.add(new Premium_Lawyer_Model(image));
+                                        premium_lawyer_models.add(new Media_images_model(image,oldurl_pass_imag));
 
-                                    }
+                                    }*/
                                 } catch (Exception e) {
                                     Log.e("Exception", "" + e);
                                 } finally {
                                     premium_lawyer_adapter.notifyItemChanged(j);
                                 }
                             }
+                        }else {
+                            recycler_prem_images.setVisibility(View.GONE);
+                          //  tv_media_video_not_found.setVisibility(View.VISIBLE);
+                           // tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
+
+
                         }
                     } else if (status.equalsIgnoreCase("error")) {
+
+                        recycler_prem_images.setVisibility(View.GONE);
+                       // tv_media_img_not_found.setVisibility(View.VISIBLE);
+                      //  tv_media_img_not_found.setText(getResources().getString(R.string.data_not_found));
                     }
 
                 } catch (Exception e) {
@@ -335,6 +425,48 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                         String user_media_status = data_obj1.getString("user_media_status");
                         Log.e("user_media_status_med", "" + user_media_status);
 
+                       ////////////////////////////////////////////////////////////////////
+
+
+
+                        ///get video....
+                        JSONObject media_obj=data_obj1.getJSONObject("arr_user_media_content");
+                        Log.e("media_obj",""+media_obj);
+
+                        JSONArray jsonArray_video = media_obj.getJSONArray("video");
+                        Log.e("json_video_168", "" + jsonArray_video);
+
+                        if (jsonArray_video.equals("[]") == true) {
+                            Log.e("jsonarray_blanck", "" + jsonArray_video);
+                            recycler_prem_videos.setVisibility(View.GONE);
+                            tv_media_video_not_found.setVisibility(View.VISIBLE);
+                            tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
+
+
+                        } else {
+                            for (int j = 0; j < jsonArray_video.length(); j++) {
+                                try {
+                                    String video = jsonArray_video.getString(j);
+
+                                    if (video.equalsIgnoreCase("") == true || video.equalsIgnoreCase("null") == true
+                                            || video == null) {
+                                        Log.e("image_null", "" + video);
+                                    } else {
+                                        old_video = jsonArray_video.getString(j);
+                                        Log.e("old_video_183", "" + old_video);
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("Exception", "" + e);
+                                } finally {
+                                }
+
+                            }
+                        }
+
+
+
+                        //////////////////////////////////////////////////////////////////////////
+
                         String article_media_url = data_obj1.getString("arr_user_media_content_url");
                         Log.e("media_image", "" + article_media_url);
 
@@ -351,30 +483,30 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
                             for (int j = 0; j < vidss_array.length(); j++) {
                                 try {
-                                    video = vidss_array.getString(0);
-                                    Log.e("video_prem", "" + video);
 
-                                    if (video == "" || video == null || video == "null" || video.equalsIgnoreCase(null)
-                                            || video.equalsIgnoreCase("null")) {
+                                    JSONObject object = vidss_array.getJSONObject(0);
+                                    Log.e("sizeeee", "" + object.getString("url"));
+                                    Log.e("object", "" + object);
+                                    premium_video_models.add(new Premium_Lawyer_Videos_Model(object.getString("url"),old_video));
 
-                                        Toast.makeText(getActivity(), "data problem", Toast.LENGTH_SHORT).show();
 
-                                    } else {
-
-                                        Log.e("sizeeee", "" + premium_video_models.size());
-                                        premium_video_models.add(new Premium_Lawyer_Videos_Model(video));
-                                        /*slidervideo_models.add(new slidervideo_model(video));
-                                        mPager.setAdapter(new SlidingVideo_Adapter(getActivity(), slidervideo_models));*/
-
-                                    }
                                 } catch (Exception e) {
                                     Log.e("Exception", "" + e);
                                 } finally {
                                     premium_video_adapter.notifyItemChanged(j);
                                 }
                             }
+                        }else {
+                            recycler_prem_videos.setVisibility(View.GONE);
+                            tv_media_video_not_found.setVisibility(View.VISIBLE);
+                            tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
+
                         }
                     } else if (status.equalsIgnoreCase("error")) {
+                        recycler_prem_videos.setVisibility(View.GONE);
+                        tv_media_video_not_found.setVisibility(View.VISIBLE);
+                        tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
+
                     }
 
                 } catch (Exception e) {
@@ -430,22 +562,110 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                         Log.e("status_data_obj", "" + data_obj);
                         phone_no = data_obj.getString("user_phone");
                         Navigation_activity.Check_String_NULL_Value(tv_premium_name, data_obj.getString("user_name"));
-                        Navigation_activity.Check_String_NULL_Value(tv_premium_usernm, data_obj.getString("user_name"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_address, data_obj.getString("user_address"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_phone, data_obj.getString("user_phone"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_email, data_obj.getString("user_email"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_site, data_obj.getString("user_website"));
-                        Navigation_activity.Check_String_NULL_Value(tv_premium_descr, data_obj.getString("user_description"));
+                        Navigation_activity.Check_String_NULL_Value(tv_premium_descr, data_obj.getString("user_about"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_appeal, data_obj.getString("user_description"));
                         Navigation_activity.Check_String_NULL_Value(tv_pre_country, data_obj.getString("user_country_name"));
                         tv_pre_country_text.setText(getResources().getString(R.string.country) + " :");
+
+                        final String fb=data_obj.getString("user_facebook");
+                        final String instagram=data_obj.getString("user_twitter");
+                        final String twitter=data_obj.getString("user_instagram");
+
+                        Log.e("fb_561", "gnhjf" + fb);
+                        Log.e("insta_562", "fghf" + instagram);
+                        Log.e("twitter_563", "ghf" + twitter);
+
+                        if (fb == "" || fb == null || fb == "null" || fb.equalsIgnoreCase(null)
+                                || fb.equalsIgnoreCase("null")) {
+                            Log.e("fb_561_blank", "" + fb);
+                            lv_premium_fb.setEnabled(false);
+
+                        }else {
+                            lv_premium_fb.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(fb));
+                                    startActivity(browserIntent);
+
+                                }
+                            });
+
+                        }
+
+                        if (instagram == "" || instagram == null || instagram == "null" || instagram.equalsIgnoreCase(null)
+                                || instagram.equalsIgnoreCase("null")) {
+                            lv_premium_twitter.setEnabled(false);
+                        }else {
+
+                            lv_premium_twitter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagram));
+                                    startActivity(browserIntent);
+                                }
+                            });
+
+                        }
+
+
+
+                        if (twitter == "" || twitter == null || twitter == "null" || twitter.equalsIgnoreCase(null)
+                                || twitter.equalsIgnoreCase("null")) {
+                            lv_premium_insta.setEnabled(false);
+                        }else {
+
+                            lv_premium_insta.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitter));
+                                    startActivity(browserIntent);
+                                }
+                            });
+                        }
+
+
+                        if(data_obj.getString("basic_premium").equalsIgnoreCase("premium")==true) {
+                            if (data_obj.getString("is_online").equalsIgnoreCase("0")==true) {
+
+                                lv_pre_online.setVisibility(View.GONE);
+                                lv_pre_offline.setVisibility(View.VISIBLE);
+                                lv_premium_send_msg.setVisibility(View.VISIBLE);
+                                lv_pre_chat.setVisibility(View.GONE);
+
+                            }else if(data_obj.getString("is_online").equalsIgnoreCase("1")==true){
+                                lv_pre_online.setVisibility(View.VISIBLE);
+                                lv_pre_offline.setVisibility(View.GONE);
+
+                                lv_premium_send_msg.setVisibility(View.GONE);
+                                lv_pre_chat.setVisibility(View.VISIBLE);
+
+                            }
+                        }
+
+
+
+
+
                         /*//tv_name_dircto.setText(data_obj.getString("user_name"));
                         tv_address_dircto.setText(data_obj.getString("user_address"));
                         tv_email_direct.setText(data_obj.getString("user_email"));
                         tv_phonenumber_dircto.setText(data_obj.getString("user_phone"));
                         tv_shortdicription_dircto.setText(data_obj.getString("user_description"));
                         tv_site_dircto.setText(data_obj.getString("user_website"));*/
-                        Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(iv_profile_premium);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.app_icon);
+                        requestOptions.error(R.drawable.app_icon);
+                        Glide.with(getActivity())
+                                .setDefaultRequestOptions(requestOptions)
+                                .load(data_obj.getString("user_avatar_url")).into(iv_profile_premium);
+
+                      ///  Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(iv_profile_premium);
 
                     } else if (status.equalsIgnoreCase("error")) {
                         lv_more_btn.setVisibility(View.GONE);
@@ -589,6 +809,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         // indicator = (CircleIndicator) view.findViewById(R.id.indicator);
         btn_more = (Button) view.findViewById(R.id.btn_more);
         recycler_prem_images = (RecyclerView) view.findViewById(R.id.recycler_prem_images);
+        tv_media_video_not_found = (TextView) view.findViewById(R.id.tv_media_video_not_found);
+        tv_media_img_not_found = (TextView) view.findViewById(R.id.tv_media_img_not_found);
         tv_pre_country = (TextView) view.findViewById(R.id.tv_pre_country);
         tv_pre_country_text = (TextView) view.findViewById(R.id.tv_pre_country_text);
         tv_edit_your_profile = (TextView) view.findViewById(R.id.tv_edit_your_profile);
@@ -614,6 +836,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         iv_premium_fb = (ImageView) view.findViewById(R.id.iv_premium_fb);
         iv_profile_premium = (ImageView) view.findViewById(R.id.iv_profile_premium);
 
+        lv_premium_send_msg = (LinearLayout) view.findViewById(R.id.lv_premium_send_msg);
+        lv_pre_chat = (LinearLayout) view.findViewById(R.id.lv_pre_chat);
         lv_more_btn = (LinearLayout) view.findViewById(R.id.lv_more_btn);
         lv_premium_twitter = (LinearLayout) view.findViewById(R.id.lv_premium_twitter);
         lv_premium_insta = (LinearLayout) view.findViewById(R.id.lv_premium_insta);
@@ -653,7 +877,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view==lv_edit_your_profile)
-        {
+        {              //  YPlayerr.pause();
+
             pushFragment(new Edit_premium_lawyer_profile());
 
 /*
@@ -667,6 +892,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         }else if(view==iv_add_article)
         {
 
+          //  YPlayerr.pause();
 
                     pushFragment(new Add_Article_Freg());
 
@@ -683,12 +909,30 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 */
         }else if(view==iv_add_media)
         {
+           // YPlayerr.pause();
+
+            Log.e("old_image__686", "" + old_image_video_pass);
 
 
 
+          if(old_image_video_pass.equalsIgnoreCase("null")==true || old_image_video_pass==null)
+          {
+              Log.e("old_image_909", "" + old_image_video_pass);
                 pushFragment(new UPload_Media_freg());
 
+          }else {
 
+              Bundle b=new Bundle();
+              b.putString("old_image_video_pass",old_image_video_pass);
+              b.putString("user_id",user_id);
+              Log.e("old_image_video_pass",""+old_image_video_pass);
+              Log.e("user_id",""+user_id);
+              Fragment myFragment = new UPload_Media_freg();
+              myFragment.setArguments(b);
+              getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
+                      0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+
+          }
 
 
         }
@@ -709,7 +953,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -724,14 +968,32 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    YPlayerr.release();
+                    YPlayerr.pause();
                     getActivity().onBackPressed();
                     return true;
                 }
                 return false;
             }
         });
+    }*/
+
+    @Override
+    public void onPause() {
+        super.onPause();
+//        YPlayerr.pause();
     }
+
+    /*@Override
+    public void onStop() {
+        super.onStop();
+        YPlayerr.pause();
+    }*/
+
+    /*@Override
+    public void onDetach() {
+        super.onDetach();
+        YPlayerr.pause();
+    }*/
 
     @Override
     public void onPageScrolled(int i, float v, int i1) {

@@ -1,7 +1,6 @@
 package com.sismatix.Elmizan.Fregment;
 
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.sismatix.Elmizan.Config;
+import com.sismatix.Elmizan.Configgg;
 import com.sismatix.Elmizan.R;
 
 import static com.sismatix.Elmizan.Adapter.Premium_Lawyer_Video_adapter.MyViewHolder.YPlayerr;
@@ -60,7 +59,7 @@ public class YouTubeVideoPlayer extends Fragment {
         final AppCompatActivity activity = (AppCompatActivity) getActivity();
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.youtube_fragment_mp, youTubePlayerFragment).commit();
-        youTubePlayerFragment.initialize(Config.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+        youTubePlayerFragment.initialize(Configgg.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 if (!b) {

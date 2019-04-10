@@ -3,6 +3,7 @@ package com.sismatix.Elmizan.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,20 +19,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.sismatix.Elmizan.CheckNetwork;
+import com.sismatix.Elmizan.FirebaseInstances.MyFirebaseInstanceIDService;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
+
+import org.json.JSONObject;
 
 import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Splash_screen extends AppCompatActivity {
     Button btn_create_account,btn_login;
     LinearLayout lv_splash,lv_skip;
     ImageView iv_splash_icon;
     Spinner spinner_theme;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +54,16 @@ public class Splash_screen extends AppCompatActivity {
         if(getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
         if (Login_preference.getLogin_flag(this).equalsIgnoreCase("1")){
             Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
             startActivity(i);
+            finish();
         }
         AllocateMemory();
+
+
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +72,7 @@ public class Splash_screen extends AppCompatActivity {
                 i.putExtra("screen","Login");
                 //i.putExtras(b);
                 startActivity(i);
+                finish();
             }
         });
         btn_create_account.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +83,7 @@ public class Splash_screen extends AppCompatActivity {
                 b.putString("screen","register");
                 i.putExtras(b);
                 startActivity(i);
+                finish();
             }
         });
         lv_skip.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +91,7 @@ public class Splash_screen extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
                 startActivity(i);
+                finish();
             }
         });
         String[] countries=getResources().getStringArray(R.array.theme_array);
@@ -114,20 +134,16 @@ public class Splash_screen extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+
+
+
+
+
+
     }
-    private void pushFragment(Fragment fragment, String add_to_backstack) {
-        if (fragment == null)
-            return;
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager != null) {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (ft != null) {
-                ft.replace(R.id.main_fram_layout, fragment);
-                ft.addToBackStack(add_to_backstack);
-                ft.commit();
-            }
-        }
-    }
+
+
     private void AllocateMemory() {
         btn_create_account=(Button)findViewById(R.id.btn_create_account);
         btn_login=(Button)findViewById(R.id.btn_login);

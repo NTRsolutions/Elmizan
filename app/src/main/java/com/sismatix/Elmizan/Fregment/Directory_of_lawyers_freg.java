@@ -146,7 +146,7 @@ public class Directory_of_lawyers_freg extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -167,6 +167,6 @@ public class Directory_of_lawyers_freg extends Fragment {
                 return false;
             }
         });
-    }
+    }*/
 
 }

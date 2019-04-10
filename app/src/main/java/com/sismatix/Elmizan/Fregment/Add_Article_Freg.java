@@ -356,6 +356,15 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
     }
 
+
+    public boolean isvalid_youtube_url(String youtube) {
+        String ePattern = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(youtube);
+        Log.e("youtube_link",""+m.matches());
+        return m.matches();
+    }
+
     public void Check_Validation() {
         final String article_title = edt_title.getText().toString();
         final String article_detail = edt_article_detail.getText().toString();
@@ -373,6 +382,8 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 if(edt_youtube_link.getText().length()==0)
                 {
                     Toast.makeText(getContext(), "Please enter your Youtube Link", Toast.LENGTH_SHORT).show();
+                }else if(isvalid_youtube_url(edt_youtube_link.getText().toString())==false){
+                    Toast.makeText(getContext(), "Enter valid Youtube Link", Toast.LENGTH_SHORT).show();
                 }else {
                     CALL_ADD_ARTICLE_API(article_title, article_detail, youtube_link, path);
                 }

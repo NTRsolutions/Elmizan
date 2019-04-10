@@ -7,8 +7,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.sismatix.Elmizan.Adapter.Premium_Lawyer_adapter;
+import com.sismatix.Elmizan.Fregment.MediaImages;
+import com.sismatix.Elmizan.Fregment.Premimum_Lawyer_freg;
 import com.sismatix.Elmizan.R;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -18,7 +22,8 @@ public class MediaImageSlider extends AppCompatActivity implements ViewPager.OnP
     private ViewPager mPager;
     private CircleIndicator indicator;
     ImageButton left_nav, right_nav;
-    String position;
+    String position,old_image;
+    ImageView delete_img_slide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +36,28 @@ public class MediaImageSlider extends AppCompatActivity implements ViewPager.OnP
         position = String.valueOf(getIntent().getExtras().getInt("pos"));
         Log.e("positionmis", "" + position);
 
+      //  delete_img_slide = (ImageView) findViewById(R.id.delete_img_slide);
         left_nav = (ImageButton) findViewById(R.id.left_nav);
         right_nav = (ImageButton) findViewById(R.id.right_nav);
         mPager = (ViewPager) findViewById(R.id.pager_img);
         indicator = (CircleIndicator) findViewById(R.id.indicator_img);
         mPager.addOnPageChangeListener(this);
         //startAutoScrollViewPager();
-        mPager.setAdapter(new Sliding_media_img_Adapter(MediaImageSlider.this, Premium_Lawyer_adapter.models));
+        mPager.setAdapter(new Sliding_media_img_Adapter(MediaImageSlider.this, MediaImages.premium_lawyer_models));
         mPager.setCurrentItem(Integer.parseInt(position));
         indicator.setViewPager(mPager);
+
+
+       /* delete_img_slide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                old_image=MediaImages.premium_lawyer_models.get(Integer.parseInt(position)).getOld_img();
+                Log.e("old_img_62",""+old_image);
+                Log.e("old_img_56",""+Integer.parseInt(position));
+                Toast.makeText(MediaImageSlider.this, old_image+"old_imag=>>"+old_image, Toast.LENGTH_SHORT).show();
+
+            }
+        });*/
 
         left_nav.setOnClickListener(new View.OnClickListener() {
             @Override

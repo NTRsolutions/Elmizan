@@ -47,7 +47,7 @@
                 android:visibility="gone"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/lv_thumbnail">
+                android:id="@+id/lv_thumbnailll">
 
                 <ImageView
                     android:layout_width="match_parent"

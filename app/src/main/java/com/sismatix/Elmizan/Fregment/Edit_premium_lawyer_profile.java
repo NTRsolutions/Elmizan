@@ -43,6 +43,7 @@ import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Country_model;
 import com.sismatix.Elmizan.Preference.Login_preference;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -79,7 +80,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             lv_edit_social_media, lv_edit_personal_detail, lv_edit_fb, lv_edit_twitter, lv_edit_insta, lv_edit_pre_profile_click, lv_edit_parent;
     View v;
     CircleImageView iv_edit_lawyer_profile;
-    ImageView iv_edit_camera;
+    ImageView iv_edit_camera,iv_edit_image;
     ProgressBar progressBar_edit__premium;
     Spinner spinner_edit_country;
 
@@ -101,14 +102,11 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
     boolean flag_appeal = true;
     boolean flag_detail = true;
 
-
     String fullname, short_desc, phone, email, address, site, country_id_pass, fb_url, twitter_url, inst_url, description;
-
 
     public Edit_premium_lawyer_profile() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,9 +116,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.Edit_your_profile));
-
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
-
 
         AllocateMemory(v);
         setupUI(lv_edit_parent);
@@ -130,11 +126,12 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         country_name.clear();
         country_name_code.clear();
         old_img = "test";
+
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             CALL_USER_DETAIL_API();
-
             CALL_COUNTRY_API();
+
         } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -170,6 +167,18 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             }
 
         });
+
+
+
+        if (My_Preference.get_premium_lawyer(getActivity()).equalsIgnoreCase("premium") == true) {
+
+            //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.menu_img));
+            iv_edit_image.setImageResource(R.drawable.menu_img);
+        } else {
+
+            //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.grey_perimimum));
+            iv_edit_image.setImageResource(R.drawable.grey_perimimum);
+        }
 
 
         return v;
@@ -267,15 +276,13 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                        /// Navigation_activity.tv_nav_appal.setText( data_obj.getString("user_description"));
                         Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
                         Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
-                        /*Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, fb_url);
+                       /* Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, fb_url);
                         Navigation_activity.Check_Editext_NULL_Value(edt_twitter_url, twitter_url);
                         Navigation_activity.Check_Editext_NULL_Value(edt_insta_url, inst_url);
-                        */
-
+*/
                         edt_fb_url.setText(fb_url);
                         edt_twitter_url.setText(twitter_url);
                         edt_insta_url.setText(inst_url);
-
 
                         Navigation_activity.Check_Editext_NULL_Value(edt_full_name, fullname);
                         Navigation_activity.Check_Editext_NULL_Value(edt_appeal, short_desc);
@@ -456,13 +463,11 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 edt_fb_url.setText(tv_edit_facebook.getText().toString());
                 edt_twitter_url.setText(tv_edit_twitter.getText().toString());
                 edt_insta_url.setText(tv_edit_instagram.getText().toString());
-/*
 
-                Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, tv_edit_facebook.getText().toString());
+               /* Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, tv_edit_facebook.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_twitter_url, tv_edit_twitter.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_insta_url, tv_edit_instagram.getText().toString());
 */
-
                 flag_social = false;
 
             }else if (lv_edit_social_media.isClickable() == true && flag_social == false) {
@@ -627,7 +632,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             validation_ok = false;
         }
 
-        if (edt_fb_url.getVisibility() == View.VISIBLE) {
+        if (lv_edit_fb.getVisibility() == View.VISIBLE) {
             if (isValid_facebook_url(edt_fb_url.getText().toString()) == false) {
                 Log.e("fb_url_598", "" + edt_fb_url.getText().toString());
                 Toast.makeText(getContext(), "Please enter valid Facebook Url", Toast.LENGTH_SHORT).show();
@@ -636,14 +641,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         }
 
 
-        if (edt_twitter_url.getVisibility() == View.VISIBLE) {
+        if (lv_edit_twitter.getVisibility() == View.VISIBLE) {
             if (isValid_twitter_url(edt_twitter_url.getText().toString()) == false) {
                 Log.e("twitterurl_598", "" + edt_twitter_url.getText().toString());
                 Toast.makeText(getContext(), "Please enter valid Twitter Url", Toast.LENGTH_SHORT).show();
                 validation_ok = false;
             }
         }
-        if (edt_insta_url.getVisibility() == View.VISIBLE) {
+        if (lv_edit_insta.getVisibility() == View.VISIBLE) {
             if (isValid_instagram_url(edt_insta_url.getText().toString()) == false) {
                 Log.e("instagram_598", "" + edt_insta_url.getText().toString());
                 Toast.makeText(getContext(), "Please enter valid Instagram Url", Toast.LENGTH_SHORT).show();
@@ -798,6 +803,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
     private void AllocateMemory(View v) {
 
+        iv_edit_image = (ImageView) v.findViewById(R.id.iv_edit_image);
         iv_edit_camera = (ImageView) v.findViewById(R.id.iv_edit_camera);
         spinner_edit_country = (Spinner) v.findViewById(R.id.spinner_edit_country);
 
@@ -1075,35 +1081,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    loadFragment(new Home_freg());
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
-    public void loadFragment(Fragment fragment) {
-        Log.e("clickone", "");
-        android.support.v4.app.FragmentManager manager = getFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.fade_in,
-                0, 0, R.anim.fade_out);
-        transaction.replace(R.id.main_fram_layout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-    }
 
 
 

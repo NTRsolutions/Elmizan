@@ -164,5 +164,8 @@
     <string name="internal_storage">Internal storage</string>
     <string name="Add_youtube_link">Add Youtube Link</string>
     <string name="delete_article">Delete article</string>
+    <string name="Description">Description</string>
+    <string name="my_images">My Images</string>
+    <string name="my_videos">MY Videos</string>
 
 </resources>

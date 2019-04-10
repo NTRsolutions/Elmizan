@@ -31,8 +31,8 @@ public class Media extends Fragment {
         View v = inflater.inflate(R.layout.fragment_media, container, false);
 
         final TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("My Images"));
-        tabLayout.addTab(tabLayout.newTab().setText("MY Videos"));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_images)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_videos)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         Bundle bundle = this.getArguments();

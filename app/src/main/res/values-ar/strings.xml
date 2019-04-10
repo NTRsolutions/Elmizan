@@ -172,5 +172,9 @@
 </string>
     <string name="delete_article">حذف المادة
 </string>
+    <string name="Description">وصف</string>
+    <string name="my_images">صوري</string>
+    <string name="my_videos">أشرطة الفيديو الخاصة بي
+</string>
 
 </resources>

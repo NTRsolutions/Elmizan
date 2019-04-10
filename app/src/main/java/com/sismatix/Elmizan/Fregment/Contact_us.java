@@ -164,7 +164,7 @@ public class Contact_us extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -185,5 +185,5 @@ public class Contact_us extends Fragment {
                 return false;
             }
         });
-    }
+    }*/
 }

@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -10,8 +11,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -49,6 +54,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
     ProgressBar progressBar_directory,progressBar_bottom_directory;
     NestedScrollView nested_directory_scroll;
     SearchView searchView;
+    LinearLayout lv_directory_parent;
 
     WrapContentLinearLayoutManager layoutManager;
     int page_no=1,page;
@@ -70,6 +76,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
 
         AllocateMemory(view);
+        setupUI(lv_directory_parent);
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
@@ -91,6 +98,39 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
         return view;
     }
+    public static void hideSoftKeyboard(Activity activity,View view) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+
+       // inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+      // inputManager.hideSoftInputFromWindow(new View(this).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+    }
+    public void setupUI(final View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity(),view);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
     private void CALL_Directory_API(final String text, String pageeno) {
         String serched_text=text;
         Log.e("serched_text_83",""+serched_text);
@@ -146,6 +186,9 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                             try {
                                 JSONObject user_object = data_array.getJSONObject(i);
                                 Log.e("Name", "" + user_object.getString("user_id"));
+
+                                My_Preference.set_premium_lawyer(getActivity(), user_object.getString("basic_premium"));
+
                                 directory_model.add(new Directory_Model(user_object.getString("user_id"),
                                         user_object.getString("user_name"),
                                         user_object.getString("user_email"),
@@ -173,9 +216,8 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
                     } else if (status.equalsIgnoreCase("error")) {
                         tv_data_not_found.setTypeface(Navigation_activity.typeface);
-
                         tv_data_not_found.setVisibility(View.VISIBLE);
-                        recycler_directory.setVisibility(View.GONE);
+                       // recycler_directory.setVisibility(View.GONE);
                         tv_data_not_found.setText(message);
                         Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                     }
@@ -260,7 +302,6 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                 progressBar_directory.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
-                    directory_model.clear();
                     tv_data_not_found.setVisibility(View.GONE);
                     recycler_directory.setVisibility(View.VISIBLE);
 
@@ -303,10 +344,10 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
-                        tv_data_not_found.setTypeface(Navigation_activity.typeface);
+                      //  tv_data_not_found.setTypeface(Navigation_activity.typeface);
                         progressBar_bottom_directory.setVisibility(View.GONE);
 
-                        tv_data_not_found.setVisibility(View.VISIBLE);
+                      //  tv_data_not_found.setVisibility(View.VISIBLE);
                      //   recycler_directory.setVisibility(View.GONE);
                        // tv_data_not_found.setText(message);
                         Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
@@ -332,6 +373,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         searchView = (SearchView) view.findViewById(R.id.search); // inititate a search view
         tv_data_not_found = (TextView) view.findViewById(R.id.tv_data_not_found); // inititate a search view
         nested_directory_scroll = (NestedScrollView) view.findViewById(R.id.nested_directory_scroll); // inititate a search view
+        lv_directory_parent = (LinearLayout) view.findViewById(R.id.lv_directory_parent); // inititate a search view
 
     }
 
@@ -352,7 +394,8 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         }
         return false;
     }
-    @Override
+
+   /* @Override
     public void onResume() {
         super.onResume();
 
@@ -373,5 +416,5 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                 return false;
             }
         });
-    }
+    }*/
 }

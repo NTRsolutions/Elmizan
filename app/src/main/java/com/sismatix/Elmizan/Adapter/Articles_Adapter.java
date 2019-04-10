@@ -78,6 +78,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.app_icon);
         requestOptions.error(R.drawable.app_icon);
+
         holder.lv_article_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -238,7 +239,7 @@ Youtube(holder);
             tv_article_date = (TextView) view.findViewById(R.id.tv_article_date);
             tv_more_article = (TextView) view.findViewById(R.id.tv_more_article);
             lv_article_click = (LinearLayout) view.findViewById(R.id.lv_article_click);
-            lv_thumbnail = (LinearLayout) view.findViewById(R.id.lv_thumbnail);
+            lv_thumbnail = (LinearLayout) view.findViewById(R.id.lv_thumbnailll);
             lv_image = (LinearLayout) view.findViewById(R.id.lv_image);
             iv_article_image = (ImageView) view.findViewById(R.id.iv_article_image);
             iv_thumb = (ImageView) view.findViewById(R.id.iv_thumb);

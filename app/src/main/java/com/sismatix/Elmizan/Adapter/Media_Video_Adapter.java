@@ -3,6 +3,10 @@ package com.sismatix.Elmizan.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,9 +27,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Activity.YPlayer;
-import com.sismatix.Elmizan.Config;
+import com.sismatix.Elmizan.Configgg;
+import com.sismatix.Elmizan.Fregment.Login_freg;
+import com.sismatix.Elmizan.Fregment.MediaVideos;
 import com.sismatix.Elmizan.Model.Media_Video_Model;
+import com.sismatix.Elmizan.Preference.Login_preference;
+import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
+import com.sismatix.Elmizan.Retrofit.ApiClient;
+import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +44,10 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapter.MyViewHolder> {
     private Context context;
@@ -66,6 +80,7 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
         getVideoInfo(video_id,holder);
 
         Log.e("videooooiddd_med", "" + tst1);
+        Log.e("idddd_82", "" + media_video_model.getVideo());
 
         Glide.with(context)
                 .load("http://img.youtube.com/vi/" + tst1 + "/hqdefault.jpg")
@@ -74,29 +89,119 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
         holder.lv_media_videos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Toast.makeText(context, video_id, Toast.LENGTH_SHORT).show();
+                final AppCompatActivity activity = (AppCompatActivity) v.getContext();
+
+
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
 
-                        Intent intent = new Intent(context, YPlayer.class);
-                        intent.putExtra("videoId", video_id);
-                        context.startActivity(intent);
 
-                        /*Bundle b=new Bundle();
-                        b.putString("videoId",video_id);
-                        Log.e("vididbun",""+video_id);
-                        AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                        Fragment myFragment = new YouTubeVideoPlayer();
-                        myFragment.setArguments(b);
-                        activity.getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
-                                0, 0, R.anim.fade_out).setCustomAnimations(R.anim.fade_in,
-                                0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();*/
+
+                        String video_id_pass = getYoutubeID(media_video_model.getVideo());
+
+                        Log.e("video_id_pass",""+video_id_pass);
+                       // Toast.makeText(context, video_id_pass, Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(context, YPlayer.class);
+                        intent.putExtra("videoId", video_id_pass);
+                        activity.startActivity(intent);
+                       // activity.finish();
+
                     }
                 }, 1000);
             }
         });
 
+
+        if (Login_preference.getLogin_flag(context).equalsIgnoreCase("1")) {
+
+            if (My_Preference.get_premium_lawyer(context).equals("premium") == true) {
+                String user_id=Login_preference.getuser_id(context);
+
+                //  Toast.makeText(getActivity(), article_id+"delete article"+user_id, Toast.LENGTH_SHORT).show();
+
+                holder.delete_video.setVisibility(View.VISIBLE);
+            }else {
+                holder.delete_video.setVisibility(View.GONE);
+            }
+        } else {
+            holder.delete_video.setVisibility(View.GONE);
+        }
+
+        holder.delete_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String old_video=media_video_model.getVideo();
+                Log.e("old_video_80", "" + old_video);
+
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+
+                if (Login_preference.getLogin_flag(context).equalsIgnoreCase("1")) {
+
+                    if (My_Preference.get_premium_lawyer(context).equals("premium") == true) {
+                        String user_id=Login_preference.getuser_id(context);
+
+                        //  Toast.makeText(getActivity(), article_id+"delete article"+user_id, Toast.LENGTH_SHORT).show();
+
+                        Call_Delete_Video_api(old_video,user_id,activity);
+                    }
+                } else {
+
+                    FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    FragmentTransaction ft = manager.beginTransaction();
+                    ft.setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out);
+                    Fragment newFragment = new Login_freg();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack(null).commit();
+
+                }
+
+                }
+        });
+
+
+    }
+
+
+    private void Call_Delete_Video_api(String old_video, final String user_id, final AppCompatActivity activity) {
+
+        ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
+
+        Call<ResponseBody> register = apii.Call_delete_api(user_id,"",old_video);
+        Log.e("old_video_171", "" + old_video);
+        register.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                Log.e("response_deletevideo", "" + response);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status", "" + status);
+                    Log.e("jsonObject_delete_173", "" + jsonObject);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message", "" + message);
+                    if (status.equalsIgnoreCase("success")) {
+
+                        MediaVideos.CALL_GET_MEDIAVIDEOS_API(user_id);
+                        Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
+
+
+
+                    } else if (status.equalsIgnoreCase("error")) {
+                        Toast.makeText(context, "" + message, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Log.e("", "" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void getVideoInfo(String video_id, final MyViewHolder holder) {
@@ -104,7 +209,7 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET,
                 "https://www.googleapis.com/youtube/v3/videos?id=" + video_id+ "&key=" +
-                        Config.YOUTUBE_API_KEY +
+                        Configgg.YOUTUBE_API_KEY +
                         "&part=snippet,contentDetails,statistics,status",
                 new Response.Listener<String>() {
                     @Override
@@ -193,7 +298,7 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView  iv_thumb;
+        ImageView  iv_thumb,delete_video;
         TextView vid_title;
         LinearLayout lv_media_videos;
         View view;
@@ -202,6 +307,7 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
             super(view);
 
             iv_thumb = (ImageView) view.findViewById(R.id.iv_thumbnail);
+            delete_video = (ImageView) view.findViewById(R.id.delete_video);
             vid_title = (TextView) view.findViewById(R.id.vid_title);
             lv_media_videos = (LinearLayout)view.findViewById(R.id.lv_media_videos);
 

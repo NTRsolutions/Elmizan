@@ -5,11 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Fregment.MediaVideos">
+    <ProgressBar
+        android:id="@+id/progressBar_video"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="200dp"
+        android:indeterminateDrawable="@drawable/custom_progress"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_media_videos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_media_not_found"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/edittextline"
+        android:layout_margin="20dp"
+        android:padding="30dp"/>
 
 </LinearLayout>

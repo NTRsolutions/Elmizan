@@ -18,11 +18,11 @@
             android:id="@+id/nav_my_article"
             android:icon="@drawable/my_articles"
             android:title="@string/my_articles" />
-        <item
+       <!-- <item
             android:id="@+id/nav_notification"
             android:icon="@drawable/notification"
             android:title="@string/notification" />
-
+-->
         //visible if user not login
 
         <item

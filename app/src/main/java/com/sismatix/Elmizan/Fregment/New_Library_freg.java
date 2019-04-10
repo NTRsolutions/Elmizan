@@ -213,7 +213,7 @@ public class New_Library_freg extends Fragment implements ViewPager.OnPageChange
     }
 
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -234,7 +234,7 @@ public class New_Library_freg extends Fragment implements ViewPager.OnPageChange
                 return false;
             }
         });
-    }
+    }*/
 
    /* class ViewPagerAdapter extends FragmentPagerAdapter {
         New_dynamic_Library_frag frag;

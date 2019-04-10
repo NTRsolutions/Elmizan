@@ -9,16 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.sismatix.Elmizan.Config;
-import com.sismatix.Elmizan.Model.Premium_Lawyer_Model;
+import com.sismatix.Elmizan.Configgg;
 import com.sismatix.Elmizan.Model.Premium_Lawyer_Videos_Model;
 import com.sismatix.Elmizan.R;
 
@@ -67,7 +63,7 @@ public class Premium_Lawyer_Video_adapter extends RecyclerView.Adapter<Premium_L
         final AppCompatActivity activity = (AppCompatActivity) context;
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.youtube_fragment_prem, youTubePlayerFragment).commit();
-        youTubePlayerFragment.initialize(Config.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+        youTubePlayerFragment.initialize(Configgg.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 if (!b) {
@@ -75,6 +71,37 @@ public class Premium_Lawyer_Video_adapter extends RecyclerView.Adapter<Premium_L
                     holder.YPlayerr = youTubePlayer;
                     holder.YPlayerr.setFullscreen(false);
                     holder.YPlayerr.loadVideo(video_idd);
+                    holder.YPlayerr.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onLoading() {
+
+                        }
+
+                        @Override
+                        public void onLoaded(String s) {
+                            holder.YPlayerr.pause();
+                        }
+
+                        @Override
+                        public void onAdStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoEnded() {
+
+                        }
+
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                        }
+                    });
                     holder.YPlayerr.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
                     holder.YPlayerr.setShowFullscreenButton(true);
                     holder.YPlayerr.getCurrentTimeMillis();

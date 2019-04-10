@@ -52,7 +52,6 @@ import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_contactus;
 import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_logout;
 import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_myaccount;
 import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_myarticle;
-import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_notification;
 import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_register;
 import static com.sismatix.Elmizan.Activity.Navigation_activity.nav_signin;
 import static com.sismatix.Elmizan.Activity.Navigation_activity.tv_nav_user_name;
@@ -331,7 +330,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                                 nav_signin.setVisible(true);
                                 nav_myaccount.setVisible(false);
                                 nav_myarticle.setVisible(false);
-                                nav_notification.setVisible(false);
+
                                 nav_logout.setVisible(false);
                             }
                             if (screen.equalsIgnoreCase("news_details")) {
@@ -392,6 +391,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                             startActivity(intent);
                             getActivity().finish();
                         }*/
+
                         Intent intent = new Intent(getActivity(), Navigation_activity.class);
                         startActivity(intent);
                         getActivity().finish();
@@ -538,7 +538,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
 
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
@@ -559,5 +559,5 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                 return false;
             }
         });
-    }
+    }*/
 }
