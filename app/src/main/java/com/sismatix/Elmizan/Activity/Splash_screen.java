@@ -153,7 +153,7 @@ public class Splash_screen extends AppCompatActivity {
         spinner_theme=(Spinner) findViewById(R.id.spinner_theme);
     }
     //-----convert english to arabic----
-    public void lang_arbi() {
+    public  void lang_arbi() {
             String languageToLoad = "ar";
             Locale locale = new Locale(languageToLoad);
             Locale.setDefault(locale);

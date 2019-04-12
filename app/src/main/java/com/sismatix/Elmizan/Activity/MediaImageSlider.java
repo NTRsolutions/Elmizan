@@ -43,7 +43,7 @@ public class MediaImageSlider extends AppCompatActivity implements ViewPager.OnP
         indicator = (CircleIndicator) findViewById(R.id.indicator_img);
         mPager.addOnPageChangeListener(this);
         //startAutoScrollViewPager();
-        mPager.setAdapter(new Sliding_media_img_Adapter(MediaImageSlider.this, MediaImages.premium_lawyer_models));
+        mPager.setAdapter(new Sliding_media_img_Adapter(MediaImageSlider.this, Premimum_Lawyer_freg.premium_lawyer_models));
         mPager.setCurrentItem(Integer.parseInt(position));
         indicator.setViewPager(mPager);
 

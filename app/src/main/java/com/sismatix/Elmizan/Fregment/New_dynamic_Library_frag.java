@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -85,7 +87,7 @@ public class New_dynamic_Library_frag extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cat_id_list.clear();
-
+        lang_arbi();
         ALLOCATEMEMORY(view);
 
         if (getArguments() != null) {
@@ -115,9 +117,20 @@ public class New_dynamic_Library_frag extends Fragment {
         }
         cat_id_list.clear();
 
-
+       /* adapter = new Library_adapter(getActivity(), itemArrayList);
+        layoutManager=new WrapContentLinearLayoutManager(getActivity());
+        recyclerviewSubCategory.setLayoutManager(layoutManager);
+        recyclerviewSubCategory.setAdapter(adapter);
+*/
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private void ALLOCATEMEMORY(View view) {
         textView = (TextView) view.findViewById(R.id.textView);
         //recycler view
@@ -128,9 +141,7 @@ public class New_dynamic_Library_frag extends Fragment {
         nested_scroll_library =(NestedScrollView) view.findViewById(R.id.nested_scroll_library);
         //text view
         tvNoDataFound = view.findViewById(R.id.tv_data_not_found_library);
-
-
-    }
+        }
 
     private void CALL_LIBRARY_LIST_API(final String category_id1, int page_no) {
         Log.e("category_id_108", "" + category_id1);
@@ -188,6 +199,7 @@ public class New_dynamic_Library_frag extends Fragment {
                             layoutManager=new WrapContentLinearLayoutManager(getActivity());
                             recyclerviewSubCategory.setLayoutManager(layoutManager);
                             recyclerviewSubCategory.setAdapter(adapter);
+                            Log.e("model_size_200",""+itemArrayList.size());
                             if (itemArrayList.size() == 0) {
                                 tvNoDataFound.setVisibility(View.VISIBLE);
                             } else {
@@ -196,7 +208,7 @@ public class New_dynamic_Library_frag extends Fragment {
 
                         } else {
 
-                            recyclerviewSubCategory.setVisibility(View.GONE);
+                            //recyclerviewSubCategory.setVisibility(View.GONE);
                             tvNoDataFound.setText(message);
                             tvNoDataFound.setVisibility(View.VISIBLE);
                         }
@@ -219,7 +231,7 @@ public class New_dynamic_Library_frag extends Fragment {
         });
 
 
-        ////pagination
+       /* ////pagination
         nested_scroll_library.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -239,7 +251,7 @@ public class New_dynamic_Library_frag extends Fragment {
                                 progressBar_bottom_library.setVisibility(View.VISIBLE);
 
 
-                                PerformPagination(page,category_id1);
+                                PerformPagination(page,category_id1,itemArrayList);
                                 //  isLoading=true;
 //                        Load Your Data
                             }
@@ -248,12 +260,14 @@ public class New_dynamic_Library_frag extends Fragment {
                 }
             }
         });
-
+*/
 
 
     }
 
-    private void PerformPagination(int page, String category_id1) {
+    private void PerformPagination(int page, String category_id1, List<Library_model> itemArrayList) {
+
+        Log.e("itemarray_271",""+itemArrayList);
 
         progressBar_bottom_library.setVisibility(View.VISIBLE);
 
@@ -300,13 +314,17 @@ public class New_dynamic_Library_frag extends Fragment {
                                         date,
                                         library_status, object.getString("library_description"));
 
-                                itemArrayList.add(model);
+                                New_dynamic_Library_frag.itemArrayList.add(model);
                             }
-                            adapter = new Library_adapter(getActivity(), itemArrayList);
+                        /*    adapter = new Library_adapter(getActivity(), itemArrayList);
                             layoutManager=new WrapContentLinearLayoutManager(getActivity());
                             recyclerviewSubCategory.setLayoutManager(layoutManager);
                             recyclerviewSubCategory.setAdapter(adapter);
-                            if (itemArrayList.size() == 0) {
+
+                        */    Log.e("model_pagiination_300",""+ New_dynamic_Library_frag.itemArrayList.size());
+
+
+                            if (New_dynamic_Library_frag.itemArrayList.size() == 0) {
                                 Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
 
                                 // tvNoDataFound.setVisibility(View.VISIBLE);

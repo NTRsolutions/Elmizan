@@ -70,6 +70,7 @@ public class Premium_Lawyer_Video_adapter extends RecyclerView.Adapter<Premium_L
 
                     holder.YPlayerr = youTubePlayer;
                     holder.YPlayerr.setFullscreen(false);
+                    holder.YPlayerr.setShowFullscreenButton(false);
                     holder.YPlayerr.loadVideo(video_idd);
                     holder.YPlayerr.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                         @Override
@@ -103,7 +104,6 @@ public class Premium_Lawyer_Video_adapter extends RecyclerView.Adapter<Premium_L
                         }
                     });
                     holder.YPlayerr.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
-                    holder.YPlayerr.setShowFullscreenButton(true);
                     holder.YPlayerr.getCurrentTimeMillis();
 
                 }

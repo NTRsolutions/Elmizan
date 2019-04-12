@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -73,7 +75,7 @@ public class Home_freg extends Fragment {
         Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
 
-
+        lang_arbi();
         Allocate_Memory(view);
 
         category_title.clear();
@@ -322,7 +324,14 @@ public class Home_freg extends Fragment {
             }
         }
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     /*@Override
     public void onResume() {
         super.onResume();

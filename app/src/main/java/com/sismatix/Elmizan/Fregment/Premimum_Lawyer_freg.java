@@ -4,6 +4,7 @@ package com.sismatix.Elmizan.Fregment;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,6 +58,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,7 +98,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     private String URL_HOMEPAGE;*/
 
     RecyclerView recycler_prem_images;
-    private List<Media_images_model> premium_lawyer_models = new ArrayList<Media_images_model>();
+    public static List<Media_images_model> premium_lawyer_models = new ArrayList<Media_images_model>();
     private Premium_Lawyer_adapter premium_lawyer_adapter;
 
     RecyclerView recycler_prem_videos;
@@ -115,6 +118,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_premimum_lawyer_freg, container, false);
+       lang_arbi();
+
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
@@ -253,6 +258,14 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     public void hideSoftKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
     private void CALL_GET_MEDIAIMAGES_API() {
         premium_lawyer_models.clear();
@@ -577,7 +590,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
                         phone_no = data_obj.getString("user_phone");
-                        Navigation_activity.Check_String_NULL_Value(tv_premium_name, data_obj.getString("user_name"));
+                        Navigation_activity.Check_String_NULL_Value(tv_premium_name, data_obj.getString("user_fullname"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_address, data_obj.getString("user_address"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_phone, data_obj.getString("user_phone"));
                         Navigation_activity.Check_String_NULL_Value(tv_premium_email, data_obj.getString("user_email"));
@@ -587,9 +600,25 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                         Navigation_activity.Check_String_NULL_Value(tv_pre_country, data_obj.getString("user_country_name"));
                         tv_pre_country_text.setText(getResources().getString(R.string.country) + " :");
 
+                        if(user_id.equalsIgnoreCase(Login_preference.getuser_id(getActivity()))==true) {
+
+                            Log.e("premiumP_5922", "gnhjf" + user_id+"==="+Login_preference.getuser_id(getActivity()));
+                            My_Preference.set_premium_lawyer(getActivity(), data_obj.getString("basic_premium"));
+                        }
+
+                        if (My_Preference.get_premium_lawyer(getActivity()).equalsIgnoreCase("premium") == true) {
+                            //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.menu_img));
+                           Navigation_activity.iv_nav_premium_logo.setImageResource(R.drawable.menu_img);
+                        } else {
+                            //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.grey_perimimum));
+                            Navigation_activity.iv_nav_premium_logo.setImageResource(R.drawable.grey_perimimum);
+                        }
+
+
+
                         final String fb=data_obj.getString("user_facebook");
-                        final String instagram=data_obj.getString("user_twitter");
-                        final String twitter=data_obj.getString("user_instagram");
+                        final String twitter=data_obj.getString("user_twitter");
+                        final String instagram=data_obj.getString("user_instagram");
 
                         Log.e("fb_561", "gnhjf" + fb);
                         Log.e("insta_562", "fghf" + instagram);
@@ -626,7 +655,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                             lv_premium_twitter.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagram));
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitter));
                                     startActivity(browserIntent);
                                 }
                             });
@@ -635,7 +664,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
 
 
-                        if (instagram == "" || instagram == null || instagram == "null" || fb.equalsIgnoreCase(null)
+                        if (instagram == "" || instagram == null || instagram == "null" || instagram.equalsIgnoreCase(null)
                                 || instagram.equalsIgnoreCase("null") || instagram.equalsIgnoreCase("")) {
                             lv_premium_insta.setEnabled(false);
                             lv_premium_insta.setVisibility(View.GONE);
@@ -646,7 +675,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                             lv_premium_insta.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitter));
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagram));
                                     startActivity(browserIntent);
                                 }
                             });

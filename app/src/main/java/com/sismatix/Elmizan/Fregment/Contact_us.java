@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,8 @@ import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -50,7 +53,7 @@ public class Contact_us extends Fragment {
         v= inflater.inflate(R.layout.fragment_contact_us, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
-
+        lang_arbi();
         AllocateMemory(v);
         callContactUsApi();
 
@@ -163,7 +166,14 @@ public class Contact_us extends Fragment {
         iv_cu = (ImageView)v.findViewById(R.id.iv_cu);
 
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     /*@Override
     public void onResume() {
         super.onResume();

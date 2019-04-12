@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -72,7 +74,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.Create_an_account));
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
-
+        lang_arbi();
         AllocateMemory(v);
         setupUI(lv_register_parent);
         btn_register.setOnClickListener(this);
@@ -308,27 +310,12 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         return m.matches();
     }
 
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-
-        if(getView() == null){
-            return;
-        }
-
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK){
-                    getActivity().onBackPressed();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }*/
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
 }

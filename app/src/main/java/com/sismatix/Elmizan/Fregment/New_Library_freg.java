@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -69,7 +71,7 @@ public class New_Library_freg extends Fragment implements ViewPager.OnPageChange
         v = inflater.inflate(R.layout.fragment_new_library_freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
-
+        lang_arbi();
         //tab layout
         tabLayout = v.findViewById(R.id.tabs);
         progressBar_lib = v.findViewById(R.id.progressBar_lib);
@@ -182,6 +184,14 @@ public class New_Library_freg extends Fragment implements ViewPager.OnPageChange
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(category_list.size());
 
+    }
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
 
     @Override

@@ -6,7 +6,10 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,9 +50,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -110,7 +117,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         v = inflater.inflate(R.layout.fragment_upload__media_freg, container, false);
         AllocateMemory(v);
         setupUI(lv_upload_parent);
-
+        lang_arbi();
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -166,7 +173,14 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
         return v;
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private void Call_GET_old_Media_API() {
 
 
@@ -287,16 +301,29 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                             Uri imageUri = data.getClipData().getItemAt(currentItem).getUri();
                             //do something with the image (save it to some directory or whatever you need to do with it here)
                             currentItem = currentItem + 1;
-                            Log.d("Uri Selected", imageUri.toString());
+                            Log.e("Uri Selected", imageUri.toString());
                             try {
 
                                 // Get the file path from the URI
                                 String path = FileUtils.getPath(getActivity(), imageUri);
-                                Log.d("Multiple File Selected", path);
+                                Log.e("Multiple_FileSelected",""+ path);
 
-                                arrayList.add(imageUri);
-                                MyAdapter mAdapter = new MyAdapter(getActivity(), arrayList);
-                                listView.setAdapter(mAdapter);
+                                long length = saveBitmapToFile(new File(path)).length();
+                                length = length / (1024 * 1024);
+                                Log.e("length_320",""+length);
+
+
+                                if (length <= 5) {
+                                    if (!TextUtils.isEmpty(path)) {
+                                        arrayList.add(imageUri);
+                                        MyAdapter mAdapter = new MyAdapter(getActivity(), arrayList);
+                                        listView.setAdapter(mAdapter);
+
+                                    }
+                                } else {
+                                    Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
+
+                                }
 
                             } catch (Exception e) {
                                 Log.e(TAG, "File select error", e);
@@ -312,11 +339,27 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                             // Get the file path from the URI
 
                             final String path = FileUtils.getPath(getContext(), uri);
-                            Log.d("Single File Selected", path);
+                            Log.d("Single_File_Selected", path);
 
-                            arrayList.add(uri);
-                            mAdapter = new MyAdapter(getActivity(), arrayList);
-                            listView.setAdapter(mAdapter);
+
+                            long length = saveBitmapToFile(new File(path)).length();
+                            length = length / (1024 * 1024);
+                            Log.e("length_320",""+length);
+
+
+                            if (length <= 5) {
+                                if (!TextUtils.isEmpty(path)) {
+                                    arrayList.add(uri);
+                                    mAdapter = new MyAdapter(getActivity(), arrayList);
+                                    listView.setAdapter(mAdapter);
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+
 
                             //   mAdapter.notifyDataSetChanged();
                             //  mAdapter.notifyDataSetInvalidated();
@@ -333,6 +376,48 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    public File saveBitmapToFile(File file) {
+        try {
+
+// BitmapFactory options to downsize the image
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            o.inSampleSize = 6;
+// factor of downsizing the image
+
+            FileInputStream inputStream = new FileInputStream(file);
+            BitmapFactory.decodeStream(inputStream, null, o);
+            inputStream.close();
+
+// The new size we want to scale to
+            final int REQUIRED_SIZE = 75;
+
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE
+                    && o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            inputStream = new FileInputStream(file);
+
+            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream,
+                    null, o2);
+            inputStream.close();
+
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                    outputStream);
+
+            return file;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private void showChooser() {

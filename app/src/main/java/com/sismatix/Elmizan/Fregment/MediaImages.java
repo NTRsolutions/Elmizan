@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -61,7 +63,7 @@ public class MediaImages extends Fragment {
 
         context=getActivity();
         AllocateMemory(v);
-
+        lang_arbi();
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             CALL_GET_MEDIAIMAGES_API(Media.u_id);
@@ -259,6 +261,14 @@ public class MediaImages extends Fragment {
                 Toast.makeText(context, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
 
     private void AllocateMemory(View v) {

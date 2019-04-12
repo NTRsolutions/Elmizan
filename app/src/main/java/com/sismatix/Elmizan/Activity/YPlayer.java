@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Activity;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.sismatix.Elmizan.Configgg;
 import com.sismatix.Elmizan.R;
 
+import java.util.Locale;
+
 public class YPlayer extends AppCompatActivity {
 
     String vidId;
@@ -23,10 +26,19 @@ public class YPlayer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yplayer);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        lang_arbi();
         vidId= getIntent().getStringExtra("videoId");
         Youtube(vidId);
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
     private void Youtube(final String vidId) {
         Log.e("vidsYT", "" + vidId);
         YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();

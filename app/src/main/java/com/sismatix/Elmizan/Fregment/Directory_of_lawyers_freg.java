@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,6 +27,8 @@ import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -56,7 +59,7 @@ public class Directory_of_lawyers_freg extends Fragment {
         View v=inflater.inflate(R.layout.fragment_directory_of_lawyers_freg, container, false);
         Allocate_Memory(v);
         bundle = this.getArguments();
-
+        lang_arbi();
         hideSoftKeyboard();
         if(bundle!=null){
             user_id=bundle.getString("user_id");
@@ -110,7 +113,7 @@ public class Directory_of_lawyers_freg extends Fragment {
 
 
 
-                        Navigation_activity.Check_String_NULL_Value(tv_name_dircto,data_obj.getString("user_name"));
+                        Navigation_activity.Check_String_NULL_Value(tv_name_dircto,data_obj.getString("user_fullname"));
                         Navigation_activity.Check_String_NULL_Value(tv_address_dircto,data_obj.getString("user_address"));
                         Navigation_activity.Check_String_NULL_Value(tv_phonenumber_dircto,data_obj.getString("user_phone"));
                         Navigation_activity.Check_String_NULL_Value(tv_email_direct,data_obj.getString("user_email"));
@@ -152,7 +155,14 @@ public class Directory_of_lawyers_freg extends Fragment {
         progressBar_user_detail=(ProgressBar) v.findViewById(R.id.progressBar_user_detail);
 
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     @Override
     public void onResume() {
         super.onResume();

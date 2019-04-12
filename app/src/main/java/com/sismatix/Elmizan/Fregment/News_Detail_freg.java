@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -42,6 +43,7 @@ import com.sismatix.Elmizan.Retrofit.ApiInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,7 +86,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
-
+        lang_arbi();
         Allocate_Memory(view);
         setupUI(lv_news_parent);
 
@@ -160,58 +162,54 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         youTubePlayerFragment.initialize(Configgg.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                if (!b) {
+                if (video_id != null) {
+                    if (YPlayer != null) {
+                        try {
 
+                            YPlayer = youTubePlayer;
+                            YPlayer.setFullscreen(true);
+//YPlayer.cueVideo("HPW5EKRIaCw");
+                            YPlayer.loadVideo(video_id);
+                            YPlayer.setShowFullscreenButton(false);
+//holder.YPlayer.cueVideo(videoid);
+                            YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                                @Override
+                                public void onLoading() {
 
-                    if (video_id != null ) {
-                        if (YPlayer != null) {
-                            try {
+                                }
 
-                                YPlayer = youTubePlayer;
-                                YPlayer.setFullscreen(false);
-                                //YPlayer.cueVideo("HPW5EKRIaCw");
-                                YPlayer.loadVideo(video_id);
-                                //holder.YPlayer.cueVideo(videoid);
-                                YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                                    @Override
-                                    public void onLoading() {
+                                @Override
+                                public void onLoaded(String s) {
+                                    YPlayer.pause();
+                                }
 
-                                    }
+                                @Override
+                                public void onAdStarted() {
 
-                                    @Override
-                                    public void onLoaded(String s) {
-                                        YPlayer.pause();
-                                    }
+                                }
 
-                                    @Override
-                                    public void onAdStarted() {
+                                @Override
+                                public void onVideoStarted() {
 
-                                    }
+                                }
 
-                                    @Override
-                                    public void onVideoStarted() {
+                                @Override
+                                public void onVideoEnded() {
 
-                                    }
+                                }
 
-                                    @Override
-                                    public void onVideoEnded() {
+                                @Override
+                                public void onError(YouTubePlayer.ErrorReason errorReason) {
 
-                                    }
-
-                                    @Override
-                                    public void onError(YouTubePlayer.ErrorReason errorReason) {
-
-                                    }
-                                });
-                                YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
-                                YPlayer.setShowFullscreenButton(true);
-                                YPlayer.getCurrentTimeMillis();
-                            } catch (IllegalStateException e) {
-                                //initialize(API_KEY, this);
-                            }
+                                }
+                            });
+                            YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                            YPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
+                            YPlayer.getCurrentTimeMillis();
+                        } catch (IllegalStateException e) {
+//initialize(API_KEY, this);
                         }
                     }
-
                 }
             }
 
@@ -555,6 +553,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                     Log.e("status_news_comment", "" + status);
                     if (status.equalsIgnoreCase("success")) {
 
+                        edt_news_detail_comment.getText().clear();
 
                         String message = jsonObject.getString("msg");
                         Log.e("msg", "" + message);
@@ -816,6 +815,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                     Log.e("status_article_comment", "" + status);
                     if (status.equalsIgnoreCase("success")) {
                         String message = jsonObject.getString("msg");
+                        edt_news_detail_comment.getText().clear();
                         Log.e("msg", "" + message);
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                     }
@@ -958,10 +958,12 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     /*@Override
     public void onPause() {
         super.onPause();
-        YPlayer.pause();
+        if(YPlayer!=null) {
+            YPlayer.pause();
+        }
     }*/
 
-  /*  @Override
+    /*@Override
     public void onStop() {
         super.onStop();
        if(YPlayer!=null) {
@@ -994,6 +996,15 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         transaction.addToBackStack(null);
         transaction.commit();
 
+    }
+
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
 
 }

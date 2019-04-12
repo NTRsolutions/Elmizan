@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,11 +18,10 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.sismatix.Elmizan.Configgg;
 import com.sismatix.Elmizan.R;
 
+import java.util.Locale;
+
 import static com.sismatix.Elmizan.Adapter.Premium_Lawyer_Video_adapter.MyViewHolder.YPlayerr;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class YouTubeVideoPlayer extends Fragment {
 
     String vidId;
@@ -38,11 +38,10 @@ public class YouTubeVideoPlayer extends Fragment {
         View v = inflater.inflate(R.layout.fragment_you_tube_video_player, container, false);
         //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Bundle bundle = this.getArguments();
-
+        lang_arbi();
         if (bundle != null) {
 
             vidId = bundle.getString("videoId");
-
             Log.e("videoooooyt", "" + vidId);
 
         }
@@ -51,7 +50,14 @@ public class YouTubeVideoPlayer extends Fragment {
 
         return v;
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private void Youtube(final String vidId) {
         Log.e("vidsYT", "" + vidId);
 

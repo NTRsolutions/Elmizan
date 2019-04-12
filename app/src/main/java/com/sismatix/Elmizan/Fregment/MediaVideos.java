@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -64,6 +66,7 @@ public class MediaVideos extends Fragment {
 
         AllocateMemory(v);
         context = getActivity();
+        lang_arbi();
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             CALL_GET_MEDIAVIDEOS_API(Media.u_id);
@@ -221,7 +224,14 @@ public class MediaVideos extends Fragment {
             }
         });
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private void AllocateMemory(View v) {
         recycler_media_videos = (RecyclerView) v.findViewById(R.id.recycler_media_videos);
         tv_media_not_found = (TextView) v.findViewById(R.id.tv_media_not_found);

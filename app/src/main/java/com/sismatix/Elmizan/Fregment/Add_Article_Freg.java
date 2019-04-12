@@ -2,12 +2,14 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,12 +29,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +49,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.koushikdutta.ion.Ion;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.Adapter.MyAdapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.R;
@@ -56,9 +61,11 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -116,13 +123,12 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_add_article__freg, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
-
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
 
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.add_Page_article));
         Allocate_Memory(v);
-
+        lang_arbi();
 
         setupUI(lv_add_article_parent);
         oldurl_pass="test";
@@ -550,18 +556,38 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 bitmap = (Bitmap) data.getExtras().get("data");
                 // encodedImage = imgBitMapToString(bitmap);
                 Log.e("camera_imagess", "" + encodedImage);
+                Log.e("bitmap_559", "" + bitmap);
                 RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(getResources(), bitmap);
                 circularBitmapDrawable.setCircular(true);
-                iv_upload_image.setImageBitmap(bitmap);
 
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
                 Uri tempUri = getImageUri(getActivity(), bitmap);
 
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
                 File finalFile = new File(getRealPathFromURI(tempUri));
-                path = String.valueOf(finalFile);
-                filename = path.substring(path.lastIndexOf("/") + 1);
+                 String  path_pass = String.valueOf(finalFile);
+
+                Log.e("length_567",""+saveBitmapToFile(new File(path_pass)).length());
+
+                long length = saveBitmapToFile(new File(path_pass)).length();
+                length = length / (1024 * 1024);
+                Log.e("length_570",""+length);
+
+                if (length <= 5) {
+                        path = String.valueOf(finalFile);
+
+                        Log.e("length_580",""+path);
+                        filename = path.substring(path.lastIndexOf("/") + 1);
+                        iv_upload_image.setImageBitmap(bitmap);
+
+
+                } else {
+                    Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
+
+                }
+
+
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
@@ -572,15 +598,33 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 c.close();
                 bitmap = (BitmapFactory.decodeFile(imagePath));
                 Log.e("path of image from gallery..*************...", imagePath);
-
                 File imagefile = new File(imagePath);
-                path = String.valueOf(imagefile);
-                Log.e("pathhhhhhh_profilepic", "" + path);
-                filename = path.substring(path.lastIndexOf("/") + 1);
-                Log.e("pat_gallery_filenm", "" + filename);
 
-                BitmapDrawable d = new BitmapDrawable(getResources(), imagefile.getAbsolutePath());
-                iv_upload_image.setImageDrawable(d);
+                String   path_pass = String.valueOf(imagefile);
+
+
+                long length = saveBitmapToFile(new File(path_pass)).length();
+                length = length / (1024 * 1024);
+                Log.e("length_610",""+length);
+
+
+                if (length <= 5) {
+
+                        path = String.valueOf(imagefile);
+                        Log.e("pathhhhhhh_profilepic", "" + path);
+                        filename = path.substring(path.lastIndexOf("/") + 1);
+                        Log.e("pat_gallery_filenm", "" + filename);
+
+
+                    BitmapDrawable d = new BitmapDrawable(getResources(), imagefile.getAbsolutePath());
+                    iv_upload_image.setImageDrawable(d);
+                } else {
+                    Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
 
               /*  RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(getResources(), imagefile.getAbsolutePath());
@@ -589,7 +633,14 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
             }
         }
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
@@ -611,7 +662,47 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         Log.e("PathURLLLLLLLLLLLL", "" + Uri.parse(path));
         return Uri.parse(path);
     }
+    public File saveBitmapToFile(File file) {
+        try {
 
+// BitmapFactory options to downsize the image
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            o.inSampleSize = 6;
+// factor of downsizing the image
+
+            FileInputStream inputStream = new FileInputStream(file);
+            BitmapFactory.decodeStream(inputStream, null, o);
+            inputStream.close();
+
+// The new size we want to scale to
+            final int REQUIRED_SIZE = 75;
+
+            int scale = 1;
+            while (o.outWidth / scale / 2 >= REQUIRED_SIZE
+                    && o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+                scale *= 2;
+            }
+
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = scale;
+            inputStream = new FileInputStream(file);
+
+            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream,
+                    null, o2);
+            inputStream.close();
+
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                    outputStream);
+
+            return file;
+        } catch (Exception e) {
+            return null;
+        }
+    }
     private void selectImage() {
         final CharSequence[] items = {"Take Photo", "Choose from Gallery", "Remove Photo",
                 "Cancel"};
@@ -651,13 +742,23 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         });
         builder.show();
     }
+
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-                    Login_freg.hideSoftKeyboard(getActivity());
+                    hideSoftKeyboard(getActivity());
                     return false;
                 }
             });
@@ -761,35 +862,6 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    loadFragment(new Home_freg());
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
-    public void loadFragment(Fragment fragment) {
-        Log.e("clickone", "");
-        android.support.v4.app.FragmentManager manager = getFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.fade_in,
-                0, 0, R.anim.fade_out);
-        transaction.replace(R.id.main_fram_layout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-    }
 
 
 }

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -55,6 +56,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -117,7 +119,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.Edit_your_profile));
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
-
+        lang_arbi();
         AllocateMemory(v);
         setupUI(lv_edit_parent);
         user_id = Login_preference.getuser_id(getContext());
@@ -183,19 +185,33 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
         return v;
     }
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
 
-
-    public boolean isValid_facebook_url(String fb) {
+  /*  public boolean isValid_facebook_url(String fb) {
         String ePattern = "(?:(?:http|https):\\/\\/)?(?:www.)?facebook.com\\/(?:(?:\\w)*#!\\/)?(?:pages\\/)?(?:[?\\w\\-]*\\/)?(?:profile.php\\?id=(?=\\d.*))?([\\w\\-]*)?";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(fb);
         Log.e("facebook validation == ",""+m.matches());
         return m.matches();
-    }
-
+    }*/
+  public boolean isValid_facebook_url(String fb) {
+      String ePattern = "https?:\\/\\/(www\\.)?facebook\\.com\\/([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\\.(?!\\.))){0,28}(?:[A-Za-z0-9_]))?)";
+      java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+      java.util.regex.Matcher m = p.matcher(fb);
+      Log.e("facebook validation == ",""+m.matches());
+      return m.matches();
+  }
 
     public boolean isValid_twitter_url(String twitter) {
-        String ePattern = "http(?:s)?:\\/\\/(?:www\\.)?twitter\\.com\\/([a-zA-Z0-9_]+)";
+        //String ePattern = "http(?:s)?:\\/\\/(?:www\\.)?twitter\\.com\\/([a-zA-Z0-9_]+)";
+        String ePattern = "https?:\\/\\/(www\\.)?twitter\\.com\\/([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\\.(?!\\.))){0,28}(?:[A-Za-z0-9_]))?)";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(twitter);
         Log.e("twitter_validation == ",""+m.matches());
@@ -632,7 +648,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             validation_ok = false;
         }
 
-        if (lv_edit_fb.getVisibility() == View.VISIBLE) {
+        if (lv_edit_fb.getVisibility() == View.VISIBLE && edt_fb_url.getText().length() > 0) {
             if (isValid_facebook_url(edt_fb_url.getText().toString()) == false) {
                 Log.e("fb_url_598", "" + edt_fb_url.getText().toString());
                 Toast.makeText(getContext(), "Please enter valid Facebook Url", Toast.LENGTH_SHORT).show();
@@ -641,14 +657,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         }
 
 
-        if (lv_edit_twitter.getVisibility() == View.VISIBLE) {
+        if (lv_edit_twitter.getVisibility() == View.VISIBLE && edt_twitter_url.getText().length() > 0) {
             if (isValid_twitter_url(edt_twitter_url.getText().toString()) == false) {
                 Log.e("twitterurl_598", "" + edt_twitter_url.getText().toString());
                 Toast.makeText(getContext(), "Please enter valid Twitter Url", Toast.LENGTH_SHORT).show();
                 validation_ok = false;
             }
         }
-        if (lv_edit_insta.getVisibility() == View.VISIBLE) {
+        if (lv_edit_insta.getVisibility() == View.VISIBLE && edt_insta_url.getText().length() > 0) {
             if (isValid_instagram_url(edt_insta_url.getText().toString()) == false) {
                 Log.e("instagram_598", "" + edt_insta_url.getText().toString());
                 Toast.makeText(getContext(), "Please enter valid Instagram Url", Toast.LENGTH_SHORT).show();
@@ -923,7 +939,8 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("DATATATATAT===========", "==" + data.getExtras().get("data"));
                 bitmap = (Bitmap) data.getExtras().get("data");
                 // encodedImage = imgBitMapToString(bitmap);
-                Log.e("camera_imagess", "" + encodedImage);
+                Log.e("camera_imagess", "" + bitmap);
+
                 RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(getResources(), bitmap);
                 circularBitmapDrawable.setCircular(true);

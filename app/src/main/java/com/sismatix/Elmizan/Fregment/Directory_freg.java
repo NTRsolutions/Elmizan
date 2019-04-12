@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -74,7 +76,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.directory));
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
-
+        lang_arbi();
         AllocateMemory(view);
         setupUI(lv_directory_parent);
 
@@ -98,6 +100,14 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
         return view;
     }
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     public static void hideSoftKeyboard(Activity activity,View view) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
@@ -110,13 +120,21 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
       // inputManager.hideSoftInputFromWindow(new View(this).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
     }
-    public void setupUI(final View view) {
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(getActivity(),view);
+                    hideSoftKeyboard(getActivity());
                     return false;
                 }
             });
@@ -130,6 +148,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
             }
         }
     }
+
 
     private void CALL_Directory_API(final String text, String pageeno) {
         String serched_text=text;

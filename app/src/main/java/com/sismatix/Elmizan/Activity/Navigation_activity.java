@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,6 +60,7 @@ import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Contact_us;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Fregment.Edit_premium_lawyer_profile;
+import com.sismatix.Elmizan.Fregment.Final_Library_fregment;
 import com.sismatix.Elmizan.Fregment.Home_freg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
 import com.sismatix.Elmizan.Fregment.New_Library_freg;
@@ -103,7 +106,7 @@ public class Navigation_activity extends AppCompatActivity
     RecyclerView recycler_country;
     public static PopupWindow popup;
     ProgressBar progressBar_country;
-    ImageView iv_nav_premium_logo;
+    public  static ImageView iv_nav_premium_logo,iv_nav_twitter;
     private String android_deviceid;
 
     private List<Country_model> country_model = new ArrayList<Country_model>();
@@ -115,7 +118,7 @@ public class Navigation_activity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-
+        lang_arbi();
         AllocateMemory();
         setSupportActionBar(toolbar);
         SET_FONT_STYLE();
@@ -243,9 +246,25 @@ public class Navigation_activity extends AppCompatActivity
             Toast.makeText(Navigation_activity.this, "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
+        iv_nav_twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("almizakwt@"));
+                startActivity(browserIntent);
+            }
+        });
+
     }
 
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
     private void CALL_DEVICE_TOKEN_API() {
 
         ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
@@ -490,6 +509,7 @@ public class Navigation_activity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         bottom_navigation = findViewById(R.id.bottom_navigation);
         iv_nav_country_image = findViewById(R.id.iv_nav_country_image);
+        iv_nav_twitter = findViewById(R.id.iv_nav_twitter);
         iv_nav_logo = findViewById(R.id.iv_nav_logo);
         tv_nav_title = findViewById(R.id.tv_nav_title);
 
@@ -555,7 +575,7 @@ public class Navigation_activity extends AppCompatActivity
                 break;
 
             case R.id.bottom_nav_library:
-                pushFragment(new New_Library_freg(),"library");
+                pushFragment(new Final_Library_fregment(),"library");
 
                 break;
             case R.id.bottom_nav_myaccount:

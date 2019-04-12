@@ -1,6 +1,7 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +46,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,7 +90,7 @@ public class Article_freg extends Fragment {
         Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
-
+        lang_arbi();
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
         String youtubeUrl = "https://www.youtube.com/watch?v=O3aemJ9eAAA";
         Log.e("yid",""+youtubeUrl);
@@ -248,7 +250,14 @@ public class Article_freg extends Fragment {
             }
         }
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private void CALL_Article_API(final String user_idd, int page_no) {
         progressBar_article.setVisibility(View.VISIBLE);
         article_models.clear();

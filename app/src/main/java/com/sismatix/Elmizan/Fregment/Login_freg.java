@@ -4,6 +4,7 @@ package com.sismatix.Elmizan.Fregment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,6 +41,8 @@ import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
 
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -96,7 +99,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.log_in));
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
-
+        lang_arbi();
         AllocateMemory(v);
 
         setupUI(lv_login_parent);
@@ -179,7 +182,14 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
-
+    public  void lang_arbi() {
+        String languageToLoad = "ar";
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+    }
     private void GOOGLE_LOGIN(View v) {
 
         gLogin=(LinearLayout)v.findViewById(R.id.google_login);
