@@ -162,54 +162,45 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         youTubePlayerFragment.initialize(Configgg.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                if (video_id != null) {
-                    if (YPlayer != null) {
-                        try {
+                if (!b) {
 
-                            YPlayer = youTubePlayer;
-                            YPlayer.setFullscreen(true);
-//YPlayer.cueVideo("HPW5EKRIaCw");
-                            YPlayer.loadVideo(video_id);
-                            YPlayer.setShowFullscreenButton(false);
-//holder.YPlayer.cueVideo(videoid);
-                            YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
-                                @Override
-                                public void onLoading() {
+                    YPlayer = youTubePlayer;
+                    YPlayer.setFullscreen(false);
+                    YPlayer.setShowFullscreenButton(false);
+                    YPlayer.loadVideo(video_id);
+                    YPlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                        @Override
+                        public void onLoading() {
 
-                                }
-
-                                @Override
-                                public void onLoaded(String s) {
-                                    YPlayer.pause();
-                                }
-
-                                @Override
-                                public void onAdStarted() {
-
-                                }
-
-                                @Override
-                                public void onVideoStarted() {
-
-                                }
-
-                                @Override
-                                public void onVideoEnded() {
-
-                                }
-
-                                @Override
-                                public void onError(YouTubePlayer.ErrorReason errorReason) {
-
-                                }
-                            });
-                            YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
-                            YPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.MINIMAL);
-                            YPlayer.getCurrentTimeMillis();
-                        } catch (IllegalStateException e) {
-//initialize(API_KEY, this);
                         }
-                    }
+
+                        @Override
+                        public void onLoaded(String s) {
+                            YPlayer.pause();
+                        }
+
+                        @Override
+                        public void onAdStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoStarted() {
+
+                        }
+
+                        @Override
+                        public void onVideoEnded() {
+
+                        }
+
+                        @Override
+                        public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                        }
+                    });
+                    YPlayer.setFullscreenControlFlags(YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI);
+                    YPlayer.getCurrentTimeMillis();
                 }
             }
 
@@ -594,6 +585,8 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                 progressBar_newsdetail.setVisibility(View.GONE);
                 lv_news_detail.setVisibility(View.VISIBLE);
+                tv_posted_by.setVisibility(View.GONE);
+                tv_posted.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
@@ -612,7 +605,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         Log.e("news_description", "" + data_obj.getString("news_description"));
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml(data_obj.getString("news_description"))));
-                        Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
+                       // Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
+
+
                         String check_if_news_liked = data_obj.getString("check_if_news_liked");
                         if (check_if_news_liked.equalsIgnoreCase("true") == true) {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumb_up_black_36dp));
@@ -935,27 +930,6 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     }
 
     /*@Override
-    public void onResume() {
-        super.onResume();
-
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    //YPlayer.pause();
-                    YPlayer.pause();
-                    getActivity().onBackPressed();
-
-                    return true;
-                }
-                return false;
-            }
-        });
-    }*/
-
-    /*@Override
     public void onPause() {
         super.onPause();
         if(YPlayer!=null) {
@@ -963,7 +937,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         }
     }*/
 
-    /*@Override
+  /*  @Override
     public void onStop() {
         super.onStop();
        if(YPlayer!=null) {
@@ -986,17 +960,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             YPlayer.pause();
         }
     }
-    public void loadFragment(Fragment fragment) {
-        Log.e("clickone", "");
-        android.support.v4.app.FragmentManager manager = getFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.fade_in,
-                0, 0, R.anim.fade_out);
-        transaction.replace(R.id.main_fram_layout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
 
-    }
 
     public  void lang_arbi() {
         String languageToLoad = "ar";

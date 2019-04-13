@@ -58,6 +58,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
         holder.tv_article_description.setTypeface(Navigation_activity.typeface);
         holder.tv_article_title.setTypeface(Navigation_activity.typeface);
         holder.tv_article_date.setTypeface(Navigation_activity.typeface);
+        holder.tv_more_article.setTypeface(Navigation_activity.typeface);
 
         youtubeUrl = article_model.getVideo();
         Log.e("yid", "" + youtubeUrl);
@@ -95,7 +96,7 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
                         ft.setCustomAnimations(R.anim.fade_in,
                                 0, 0, R.anim.fade_out);
                         Fragment newFragment = new News_Detail_freg();
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack(null).commit();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack("Newsdetail").commit();
                         newFragment.setArguments(b);
 // Start the animated transition.
                         ft.commit();
@@ -125,7 +126,7 @@ activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_l
                                 0, 0, R.anim.fade_out);
                         Fragment newFragment = new News_Detail_freg();
                         newFragment.setArguments(b);
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack(null).commit();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack("Newsdetail").commit();
 // Start the animated transition.
                         ft.commit();
 

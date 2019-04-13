@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Activity.MediaImageSlider;
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Fregment.MediaImages;
 import com.sismatix.Elmizan.Model.Media_images_model;
 import com.sismatix.Elmizan.Preference.Login_preference;
@@ -60,6 +61,9 @@ public class Premium_Lawyer_adapter extends RecyclerView.Adapter<Premium_Lawyer_
         final Media_images_model product_model = models.get(position);
 
         Glide.with(context).load(product_model.getImages()).into(holder.imageview);
+        holder.tv_img.setTypeface(Navigation_activity.typeface);
+
+
 
         holder.delete_img.setOnClickListener(new View.OnClickListener() {
             @Override

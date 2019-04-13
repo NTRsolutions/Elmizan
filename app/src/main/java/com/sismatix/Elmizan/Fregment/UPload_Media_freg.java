@@ -19,6 +19,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -37,6 +40,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.Adapter.Image_adapter;
 import com.sismatix.Elmizan.Adapter.MyAdapter;
 import com.sismatix.Elmizan.FileUtils;
 import com.sismatix.Elmizan.Preference.Login_preference;
@@ -105,7 +110,8 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
     String expression = "^.*((youtu.be" + "\\/)" + "|(v\\/)|(\\/u\\/w\\/)|(embed\\/)|(watch\\?))\\??v?=?([^#\\&\\?]*).*"; // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     boolean ytb_one = true, ytb_two = true, ytb_three = true;
     boolean validation_ok=true;
-
+    RecyclerView recycler_image;
+    Image_adapter image_adapter;
     public UPload_Media_freg() {
         // Required empty public constructor
     }
@@ -118,6 +124,14 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         AllocateMemory(v);
         setupUI(lv_upload_parent);
         lang_arbi();
+
+        Navigation_activity.iv_nav_logo.setVisibility(View.GONE);
+        Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
+
+        Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.multiple_file));
+
+
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -316,8 +330,10 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                                 if (length <= 5) {
                                     if (!TextUtils.isEmpty(path)) {
                                         arrayList.add(imageUri);
-                                        MyAdapter mAdapter = new MyAdapter(getActivity(), arrayList);
-                                        listView.setAdapter(mAdapter);
+                                        Image_adapter mAdapter = new Image_adapter(getActivity(), arrayList);
+                                        LinearLayoutManager layoutManager=new GridLayoutManager(getActivity(),3);
+                                        recycler_image.setLayoutManager(layoutManager);
+                                        recycler_image.setAdapter(mAdapter);
 
                                     }
                                 } else {
@@ -349,9 +365,16 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
                             if (length <= 5) {
                                 if (!TextUtils.isEmpty(path)) {
-                                    arrayList.add(uri);
+                                    arrayList.add(uri);/*
                                     mAdapter = new MyAdapter(getActivity(), arrayList);
+
                                     listView.setAdapter(mAdapter);
+*/
+
+                                    Image_adapter mAdapter = new Image_adapter(getActivity(), arrayList);
+                                    LinearLayoutManager layoutManager=new GridLayoutManager(getActivity(),3);
+                                    recycler_image.setLayoutManager(layoutManager);
+                                    recycler_image.setAdapter(mAdapter);
                                 }
                             } else {
                                 Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
@@ -683,6 +706,8 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         edt_youtube_link_3 = (EditText) v.findViewById(R.id.edt_youtube_link_3);
         edt_youtube_link_2 = (EditText) v.findViewById(R.id.edt_youtube_link_2);
         edt_youtube_link_1 = (EditText) v.findViewById(R.id.edt_youtube_link_1);
+
+        recycler_image=(RecyclerView)v.findViewById(R.id.recycler_image);
     }
 
     @Override

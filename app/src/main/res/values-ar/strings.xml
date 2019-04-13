@@ -12,7 +12,7 @@
     <!--createaccont-->
     <string name="fullname">الإسم بالكامل</string>
     <string name="Emailaddress">الإيميل</string>
-    <string name="password">كلمة السر</string>
+    <string name="password">كلمة المرور</string>
     <string name="telephonenumber">رقم الهاتف</string>
     <string name="state">الدولة</string>
     <string name="createyouraccount">أنشئ حسابك</string>
@@ -52,7 +52,7 @@
     <!--News detail-->
     <string name="single_news_page">صفحة الأخبار
 </string>
-    <string name="add_comment">أضف تعليق</string>
+    <string name="add_comment">أكتب تعليقك</string>
     <string name="send">إرسال</string>
 
     <!--directory-->
@@ -62,12 +62,12 @@
     <string name="send_message">ارسال رسالة</string>
     <string name="more">المزيد</string>
     <string name="user_name">اسم المستخدم</string>
-    <string name="offline">غير متصل على الانترنت</string>
+    <string name="offline">Offline</string>
     <string name="bullet">\u2022</string>
 
     <!--Creataccount_sign-->
-    <string name="sign_name">الاسم بالكام</string>
-    <string name="email">الايميل</string>
+    <string name="sign_name">الإسم</string>
+    <string name="email">البريد الإلكتروني</string>
     <string name="phone">الهاتف</string>
     <string name="sign_in_google">تسجيل الدخول بحساب جوجل</string>
     <string name="sign_in_email">تسجيل الدخول بالبريد الالكتروني</string>
@@ -89,7 +89,7 @@
     <string name="media">وسائل الإعلام
 </string>
     <string name="photos"><![CDATA[فيديوهات وصور]]></string>
-    <string name="posted_by">منشور من طرف :</string>
+    <string name="posted_by">بواسطة :</string>
     <string name="premimum_lawyer">المحامي المتميز</string>
 
 
@@ -101,7 +101,8 @@
     <string name="email_direct">الإيميل :</string>
     <string name="sitee">الموقع :</string>
     <string name="data_not_found">لم يتم العثور على بيانات</string>
-    <string name="country"> بلد</string>
+    <string name="country"> الدولة</string>
+    <string name="Select"> اختر</string>
 
 
 
@@ -116,7 +117,7 @@
     <string name="detail_last">يهدف الميزان إلى اللإرتقاء بكل من وضع نفسه في موضع الدفاع عن القانون والمجتمع ككل.</string>
     <string name="contact_data">بيانات الإتصال</string>
     <string name="about_usss">عن الميزان</string>
-    <string name="online">عبر الانترنت</string>
+    <string name="online">Online</string>
 
 
     <!--Add article-->
@@ -153,28 +154,26 @@
 
 
     <string name="phone_noo">Eأدخل رقم الهاتف</string>
-    <string name="address_s">أدخل العنوان
-</string>
-    <string name="emailll">أدخل البريد الإلكتروني
-</string>
-    <string name="siteee">دخول الموقع
-</string>
+    <string name="address_s">أدخل العنوان</string>
+    <string name="emailll">أدخل البريد الإلكتروني</string>
+    <string name="siteee">دخول الموقع</string>
 
-    <string name="Upload_photos_media">تحميل الصور والوسائط
-</string>
-    <string name="choose_image">اختر صورة
-</string>
-    <string name="multiple_file">تحميل ملفات متعددة
-</string>
-    <string name="internal_storage">التخزين الداخلي
-</string>
-    <string name="Add_youtube_link">إضافة رابط يوتيوب
-</string>
-    <string name="delete_article">حذف المادة
-</string>
+    <string name="Upload_photos_media">تحميل الصور والوسائط</string>
+    <string name="choose_image">اختر صورة</string>
+    <string name="multiple_file">تحميل ملفات متعددة</string>
+    <string name="internal_storage">التخزين الداخلي</string>
+    <string name="Add_youtube_link">إضافة رابط يوتيوب</string>
+    <string name="delete_article">حذف المادة</string>
     <string name="Description">وصف</string>
     <string name="my_images">صوري</string>
-    <string name="my_videos">أشرطة الفيديو الخاصة بي
-</string>
+    <string name="my_videos">أشرطة الفيديو الخاصة بي</string>
+
+
+    <string name="add_photo">اضافة صورة</string>
+    <string name="take_photo">كاميرا</string>
+    <string name="choose_gallery">اختيار من الجاليري</string>
+    <string name="Remove_photo">حذف الصورة</string>
+    <string name="Cancel">رجوع</string>
+
 
 </resources>

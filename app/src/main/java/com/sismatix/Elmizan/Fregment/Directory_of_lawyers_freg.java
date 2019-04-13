@@ -40,7 +40,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class Directory_of_lawyers_freg extends Fragment {
-
+    TextView phone,address,email,site;
     TextView tv_name_dircto,tv_shortdicription_dircto,tv_phonenumber_dircto,tv_address_dircto,tv_email_direct,tv_site_dircto;
     CircleImageView iv_lawyer_profile;
     ProgressBar progressBar_user_detail;
@@ -153,7 +153,23 @@ public class Directory_of_lawyers_freg extends Fragment {
 
         lv_user_detail=(LinearLayout) v.findViewById(R.id.lv_user_detail);
         progressBar_user_detail=(ProgressBar) v.findViewById(R.id.progressBar_user_detail);
+        phone=(TextView)v.findViewById(R.id.tv_phone);
+        address=(TextView)v.findViewById(R.id.tv_address);
+        email=(TextView)v.findViewById(R.id.tv_email);
+        site=(TextView)v.findViewById(R.id.tv_site);
 
+
+        tv_site_dircto.setTypeface(Navigation_activity.typeface);
+        tv_email_direct.setTypeface(Navigation_activity.typeface);
+        tv_phonenumber_dircto.setTypeface(Navigation_activity.typeface);
+        tv_shortdicription_dircto.setTypeface(Navigation_activity.typeface);
+        tv_address_dircto.setTypeface(Navigation_activity.typeface);
+        tv_name_dircto.setTypeface(Navigation_activity.typeface);
+        phone.setTypeface(Navigation_activity.typeface);
+        phone.setTypeface(Navigation_activity.typeface);
+        address.setTypeface(Navigation_activity.typeface);
+        email.setTypeface(Navigation_activity.typeface);
+        site.setTypeface(Navigation_activity.typeface);
     }
     public  void lang_arbi() {
         String languageToLoad = "ar";

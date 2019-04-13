@@ -16,4 +16,5 @@
     <color name="red">#da3838</color>
     <color name="boder">#b7b7b7</color>
     <color name="yellow">#f1c369</color>
+    <color name="light_grey">#cccccc</color>
 </resources>

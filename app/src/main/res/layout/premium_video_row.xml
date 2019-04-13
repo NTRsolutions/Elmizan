@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />-->
 
-<FrameLayout
+<RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/youtube_fragment_prem"
@@ -14,4 +14,4 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-</FrameLayout>
+</RelativeLayout>

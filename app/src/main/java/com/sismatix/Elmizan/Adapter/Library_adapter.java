@@ -43,6 +43,7 @@ import java.util.List;
             holder.tv_library_link.setTypeface(Navigation_activity.typeface);
             holder.tv_library_date.setTypeface(Navigation_activity.typeface);
             holder.tv_library_desc.setTypeface(Navigation_activity.typeface);
+            holder.tv_more.setTypeface(Navigation_activity.typeface);
 
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_title,product_model.getLibrary_title());
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_link,product_model.getLibrary_link());
@@ -52,14 +53,26 @@ import java.util.List;
             holder.tv_library_date.setText(product_model.getLibrary_date());
            // holder.tv_library_link.setText(product_model.getLibrary_link());
           //  holder.tv_library_title.setText(product_model.getLibrary_title());
-            holder.tv_more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(product_model.getLibrary_link()));
-                    context.startActivity(browserIntent);
-                }
-            });
+
+            if (product_model.getLibrary_link() == "" || product_model.getLibrary_link() == null || product_model.getLibrary_link() == "null" || product_model.getLibrary_link().equalsIgnoreCase(null)
+                    || product_model.getLibrary_link().equalsIgnoreCase("null") || product_model.getLibrary_link().equalsIgnoreCase("")) {
+
+                holder.tv_more.setVisibility(View.GONE);
+            }else {
+
+               holder.tv_more.setVisibility(View.VISIBLE);
+                holder.tv_more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(product_model.getLibrary_link()));
+                        context.startActivity(browserIntent);
+                    }
+                });
+            }
+
+
 
             //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 

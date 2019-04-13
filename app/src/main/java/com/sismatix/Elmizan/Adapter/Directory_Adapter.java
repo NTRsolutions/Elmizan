@@ -59,7 +59,11 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Directory_Model directory_model = models.get(position);
-
+        holder.call.setTypeface(Navigation_activity.typeface);
+        holder.chat.setTypeface(Navigation_activity.typeface);
+        holder.article.setTypeface(Navigation_activity.typeface);
+        holder.msg.setTypeface(Navigation_activity.typeface);
+        holder.more.setTypeface(Navigation_activity.typeface);
         holder.tv_directory_user_name.setTypeface(Navigation_activity.typeface);
         holder.tv_directory_appeal.setTypeface(Navigation_activity.typeface);
         holder.tv_directory_user_name.setText(Navigation_activity.Convert_String_First_Letter(directory_model.getUser_firstname()) );
@@ -290,7 +294,7 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
+        TextView call,chat,article,msg,more;
         TextView tv_directory_user_name, tv_directory_appeal, tv_directory_offline_onnline, tv_directory_circle;
         ImageView iv_directory_premimum_logo;
         CircleImageView iv_directory_profile_image;
@@ -312,7 +316,11 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
             iv_directory_premimum_logo = (ImageView) view.findViewById(R.id.iv_directory_premimum_logo);
             iv_directory_profile_image = (CircleImageView) view.findViewById(R.id.iv_directory_profile_image);
 
-
+            call = (TextView)view.findViewById(R.id.tv_directory_call);
+            chat = (TextView)view.findViewById(R.id.tv_directory_chat);
+            article = (TextView)view.findViewById(R.id.tv_directory_article);
+            msg = (TextView)view.findViewById(R.id.tv_directory_send_msg);
+            more = (TextView)view.findViewById(R.id.tv_directory_more);
         }
     }
 

@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.Activity.Navigation_activity;
@@ -54,7 +55,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     String  checked_value_pass,countryid;
     Spinner spinner_country;
     RelativeLayout lv_register_parent;
-
+    TextView sp_text;
 
     public static ArrayList<String> country_name_code = new ArrayList<String>();
     public static ArrayList<String> country_name = new ArrayList<String>();
@@ -109,7 +110,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                 Log.e("countryid", "" + countryid);
                 String selected_country = String.valueOf(spinner_country.getSelectedItem());
 
-                 Toast.makeText(getActivity(), selected_item_position + " " + selected_country + " => " + countryid, Toast.LENGTH_SHORT).show();
+             //    Toast.makeText(getActivity(), selected_item_position + " " + selected_country + " => " + countryid, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -160,7 +161,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                 Log.e("response_country", "" + response.body().toString());
                 //   progressBar_home.setVisibility(View.GONE);
 
-                country_name.add("Select");
+                country_name.add(getActivity().getResources().getString(R.string.Select));
                 country_name_code.add("0");
 
                 JSONObject jsonObject = null;
@@ -220,13 +221,22 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         checkbox=(CheckBox) v.findViewById(R.id.checkbox);
         spinner_country=(Spinner) v.findViewById(R.id.spinner_country);
         lv_register_parent=(RelativeLayout) v.findViewById(R.id.lv_register_parent);
+        sp_text=(TextView) v.findViewById(R.id.sp_text);
 
-        btn_register.setTypeface(Navigation_activity.typeface);
+
+        checkbox.setTypeface(Navigation_activity.typeface);
+
+
+
         editTextname_reg.setTypeface(Navigation_activity.typeface);
         editTextEmail_reg.setTypeface(Navigation_activity.typeface);
-        editTextphone_reg.setTypeface(Navigation_activity.typeface);
         editTextpassword_reg.setTypeface(Navigation_activity.typeface);
+        editTextphone_reg.setTypeface(Navigation_activity.typeface);
+        editTextname_reg.setTypeface(Navigation_activity.typeface);
+
+        sp_text.setTypeface(Navigation_activity.typeface);
         checkbox.setTypeface(Navigation_activity.typeface);
+        btn_register.setTypeface(Navigation_activity.typeface);
 
     }
 

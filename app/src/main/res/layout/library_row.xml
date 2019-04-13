@@ -10,8 +10,8 @@
         android:layout_gravity="center"
         android:gravity="center|start"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
@@ -22,15 +22,16 @@
             android:text="@string/date"
             android:textColor="@color/edittextline"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_library_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="1dp"
             android:text="@string/user_name"
             android:textColor="@color/black"
+            android:gravity="center|start"
             android:textSize="16sp"
             android:textStyle="bold" />
         <TextView
@@ -38,26 +39,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:maxLines="2"
-            android:text="@string/news_detail"
+            android:visibility="visible"
+            android:gravity="center|start"
             android:textColor="@color/edittextline"
             android:textSize="14sp"
-            android:textStyle="bold" />
-
+            android:ellipsize="end"/>
+        <TextView
+            android:gravity="start|center"
+            android:id="@+id/tv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/more"
+            android:textColor="@color/black"
+            android:layout_marginBottom="15dp"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:layout_gravity="center|start"
+            android:gravity="start|center"
+            android:visibility="gone"
             android:orientation="horizontal">
 
 
+
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_library_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:maxLines="2"
+                android:gravity="center|start"
                 android:text="@string/link"
                 android:layout_marginRight="5dp"
                 android:textColor="@color/edittextline"
@@ -65,14 +81,7 @@
                 android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/tv_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-                android:text="@string/more"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+
         </LinearLayout>
     </LinearLayout>
     <View

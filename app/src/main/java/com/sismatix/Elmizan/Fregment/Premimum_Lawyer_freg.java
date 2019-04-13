@@ -83,8 +83,10 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     View view;
     ProgressBar progressBar_premium;
     String phone_no;
+    TextView tv_premium_call,tv_premium_send_msg;
+    TextView phone,address,email,site,country,tv_media,tv_media_video_premium;
 
-    TextView tv_premium_article, tv_edit_your_profile, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
+    TextView tv_pre_chat,tv_premium_article, tv_edit_your_profile, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
             tv_pre_country_text, tv_pre_country, tv_premium_offline, tv_premium_appeal, tv_premium_name, tv_article_data_not_found, tv_premium_online;
     ImageView iv_premium_twitter, iv_premium_insta, iv_premium_fb, iv_profile_premium, iv_add_article, iv_add_media;
     LinearLayout lv_premium_twitter,lv_premium_send_msg,lv_pre_chat, lv_more_btn, lv_premium_insta, lv_premium_fb, lv_premium_call, lv_edit_your_profile, lv_pre_online, lv_pre_offline;
@@ -857,6 +859,14 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     }
 
     private void AllocateMemory(View view) {
+        tv_premium_call = (TextView) view.findViewById(R.id.tv_premium_call);
+
+        phone = (TextView) view.findViewById(R.id.tv_phone_title);
+        address = (TextView) view.findViewById(R.id.tv_Address_title);
+        email = (TextView) view.findViewById(R.id.tv_email_title);
+        site = (TextView) view.findViewById(R.id.tv_site_title);
+        tv_media = (TextView) view.findViewById(R.id.tv_media);
+        tv_media_video_premium = (TextView) view.findViewById(R.id.tv_media_video_premium);
 
         //mPager = (ViewPager) view.findViewById(R.id.pager);
         // indicator = (CircleIndicator) view.findViewById(R.id.indicator);
@@ -865,7 +875,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         tv_media_video_not_found = (TextView) view.findViewById(R.id.tv_media_video_not_found);
         tv_media_img_not_found = (TextView) view.findViewById(R.id.tv_media_img_not_found);
         tv_pre_country = (TextView) view.findViewById(R.id.tv_pre_country);
-        tv_pre_country_text = (TextView) view.findViewById(R.id.tv_pre_country_text);
+        tv_pre_country_text = (TextView) view.findViewById(R.id.tv_premium_country_text);
         tv_edit_your_profile = (TextView) view.findViewById(R.id.tv_edit_your_profile);
         tv_premium_article = (TextView) view.findViewById(R.id.tv_premium_article);
         tv_premium_descr = (TextView) view.findViewById(R.id.tv_premium_descr);
@@ -899,6 +909,10 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         lv_edit_your_profile = (LinearLayout) view.findViewById(R.id.lv_edit_your_profile);
         lv_pre_online = (LinearLayout) view.findViewById(R.id.lv_pre_online);
         lv_pre_offline = (LinearLayout) view.findViewById(R.id.lv_pre_offline);
+        tv_premium_send_msg = (TextView) view.findViewById(R.id.tv_premium_send_msg);
+        tv_pre_chat = (TextView) view.findViewById(R.id.tv_pre_chat);
+
+
 
 
         recycler_pre_lawyer_article = (RecyclerView) view.findViewById(R.id.recycler_pre_lawyer_article);
@@ -906,9 +920,10 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         lv_primium_click = view.findViewById(R.id.lv_primium_click);
         progressBar_premium = view.findViewById(R.id.progressBar_premium);
         indicater = view.findViewById(R.id.recyclerview_pager_indicator);
-
+        tv_media = (TextView) view.findViewById(R.id.tv_media);
         recycler_prem_videos = (RecyclerView) view.findViewById(R.id.recycler_prem_videos);
 
+        tv_media_video_premium.setTypeface(Navigation_activity.typeface);
         tv_premium_article.setTypeface(Navigation_activity.typeface);
         tv_premium_descr.setTypeface(Navigation_activity.typeface);
         tv_premium_usernm.setTypeface(Navigation_activity.typeface);
@@ -923,6 +938,24 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         tv_premium_appeal.setTypeface(Navigation_activity.typeface);
         tv_premium_name.setTypeface(Navigation_activity.typeface);
         tv_article_data_not_found.setTypeface(Navigation_activity.typeface);
+        tv_premium_call.setTypeface(Navigation_activity.typeface);
+        tv_premium_send_msg.setTypeface(Navigation_activity.typeface);
+        tv_pre_chat.setTypeface(Navigation_activity.typeface);
+        tv_media_video_not_found.setTypeface(Navigation_activity.typeface);
+        tv_media_img_not_found.setTypeface(Navigation_activity.typeface);
+
+
+
+        tv_media.setTypeface(Navigation_activity.typeface);
+
+
+
+        tv_pre_country_text.setTypeface(Navigation_activity.typeface);
+        phone.setTypeface(Navigation_activity.typeface);
+        email.setTypeface(Navigation_activity.typeface);
+        site.setTypeface(Navigation_activity.typeface);
+        address.setTypeface(Navigation_activity.typeface);
+
 
     }
 

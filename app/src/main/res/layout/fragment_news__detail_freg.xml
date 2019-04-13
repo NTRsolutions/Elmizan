@@ -166,9 +166,9 @@
                             <LinearLayout
                                 android:id="@+id/lv_image_details"
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
+                                android:layout_height="150dp"
                                 android:orientation="vertical"
-                                android:visibility="visible">
+                                android:visibility="gone">
 
                                 <ImageView
                                     android:id="@+id/iv_news_detail_image"
@@ -181,15 +181,15 @@
                             <LinearLayout
                                 android:id="@+id/lv_video_details"
                                 android:layout_width="match_parent"
-                                android:layout_height="250dp"
+                                android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:visibility="gone">
 
-                                <FrameLayout
+                                <RelativeLayout
                                     android:id="@+id/youtube_fragment"
                                     android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
                                     android:layout_width="match_parent"
-                                    android:layout_height="250dp" />
+                                    android:layout_height="match_parent" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -284,11 +284,12 @@
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:overScrollMode="always"
-                            android:padding="15dp"
+                            android:padding="12dp"
+                            android:textColorHint="@color/bottom_icon"
                             android:scrollbarStyle="insideInset"
                             android:scrollbars="vertical"
                             android:textColor="@color/bottom_icon"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textStyle="normal" />
                     </LinearLayout>
 

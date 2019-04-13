@@ -27,18 +27,16 @@ public class Category_Adapter extends RecyclerView.Adapter<Category_Adapter.MyVi
     private Context context;
     LayoutInflater inflater;
     public static String name, image;
-    int selectedposition = -1;
+    int selectedposition = 0;
     int pageno = 1;
     private int selectedItem;
 
-    public static  String category_id;
+
 
 
     public Category_Adapter(Context context, List<Category_Model> model) {
         this.context = context;
         this.model = model;
-        selectedItem = 0;
-
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -56,19 +54,17 @@ public class Category_Adapter extends RecyclerView.Adapter<Category_Adapter.MyVi
 
         holder.tv_category_title.setTypeface(Navigation_activity.typeface);
         Log.e("cate_id_78", "" + category_model.getCategory_id());
-        category_id=model.get(0).getCategory_id();
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_category_title, category_model.getCategory_title());
 
-        /*if (selectedItem == position) {
-            Log.e("cate_id_888", "" + category_model.getCategory_id());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                holder.tv_category_title.setTextColor(context.getColor(R.color.colorPrimary));
-            }
+        if(position == selectedposition){
+            holder.itemView.setSelected(true);
+            Log.e("cate_id_62", "" + category_model.getCategory_id());
             Final_Library_fregment.CALL_LIBRARY_LIST_API(category_model.getCategory_id(), pageno);
-            holder.category_view_line.setVisibility(View.VISIBLE);
-        }*/
 
+        } else {
+            holder.itemView.setSelected(false);
+        }
         //  holder.tv_country.setText(rmd.getCountry_name());
 
         holder.lv_category_click.setOnClickListener(new View.OnClickListener() {

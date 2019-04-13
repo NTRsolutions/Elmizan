@@ -25,10 +25,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -55,6 +58,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.sismatix.Elmizan.Adapter.Country_Adapter;
 import com.sismatix.Elmizan.CheckNetwork;
+import com.sismatix.Elmizan.CustomTypefaceSpan;
 import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Contact_us;
@@ -91,13 +95,13 @@ public class Navigation_activity extends AppCompatActivity
     DrawerLayout drawer;
     public static Toolbar toolbar;
     NavigationView navigationView;
-    public  static ImageView iv_nav_country_image,iv_nav_logo;
+    public static ImageView iv_nav_country_image, iv_nav_logo, iv_nav_instagram;
     public  static TextView tv_nav_title,tv_nav_user_name,tv_nav_appal;
     Bundle b;
     String Screen,register;
     public static AssetManager am ;
     boolean doubleBackToExitPressedOnce = false;
-    public static Typeface typeface,tf,medium;
+    public static Typeface typeface, Cairo_Regular;
     public static LinearLayout lv_withlogin_header,lv_withoutlogin_header,withoutloginicon;
     public static MenuItem nav_register, nav_contactus, nav_signin, nav_myaccount, nav_myarticle, nav_logout;
     public static ImageView iv_profile_image;
@@ -122,15 +126,7 @@ public class Navigation_activity extends AppCompatActivity
         AllocateMemory();
         setSupportActionBar(toolbar);
         SET_FONT_STYLE();
-       /* GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
-                .build();
-*/
         android_deviceid = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.e("deviceid_117", "" + android_deviceid);
@@ -242,19 +238,122 @@ public class Navigation_activity extends AppCompatActivity
 
         if (CheckNetwork.isNetworkAvailable(Navigation_activity.this)) {
             CALL_DEVICE_TOKEN_API();
+            CALL_CAONTACT_US_API();
         } else {
             Toast.makeText(Navigation_activity.this, "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
-        iv_nav_twitter.setOnClickListener(new View.OnClickListener() {
+       /* iv_nav_twitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("almizakwt@"));
                 startActivity(browserIntent);
             }
-        });
+        });*/
 
+
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem mi = menu.getItem(i);
+            SubMenu subMenu = mi.getSubMenu();
+            if (subMenu != null && subMenu.size() > 0) {
+                for (int j = 0; j < subMenu.size(); j++) {
+                    MenuItem subMenuItem = subMenu.getItem(j);
+                    applyFontToMenuItem(subMenuItem);
+                }
+            }
+//the method we have create in activity
+            applyFontToMenuItem(mi);
+        }
+
+        tv_nav_appal.setTypeface(typeface);
+
+    }
+
+    private void CALL_CAONTACT_US_API() {
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> getabout_us = api.get_contact_us();
+
+        getabout_us.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("response", "" + response.body().toString());
+                //  progressBar.setVisibility(View.GONE);
+
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_contactus", "" + status);
+                    if (status.equalsIgnoreCase("success")) {
+
+                        JSONObject data_obj = jsonObject.getJSONObject("data");
+                        Log.e("data_contat", "" + data_obj);
+
+                        final JSONObject twitter_obj = data_obj.getJSONObject("contact_twitter");
+                        Log.e("data_twiter", "" + twitter_obj);
+
+                        final String twitter_link = twitter_obj.getString("global_content");
+                        Log.e("twitter_link", "" + twitter_link);
+
+
+                        final JSONObject instagram_obj = data_obj.getJSONObject("contact_insta");
+                        Log.e("data_insta", "" + twitter_obj);
+
+                        final String instagram_link = instagram_obj.getString("global_content");
+                        Log.e("instagram_link", "" + twitter_link);
+
+                        if (twitter_link == "" || twitter_link == null || twitter_link == "null" || twitter_link.equalsIgnoreCase(null)
+                                || twitter_link.equalsIgnoreCase("null") || twitter_link.equalsIgnoreCase("")) {
+                            iv_nav_twitter.setVisibility(View.GONE);
+                        } else {
+                            iv_nav_twitter.setVisibility(View.VISIBLE);
+                            iv_nav_twitter.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + twitter_link));
+                                    startActivity(browserIntent);
+                                }
+                            });
+                        }
+
+
+                        if (instagram_link == "" || instagram_link == null || instagram_link == "null" || instagram_link.equalsIgnoreCase(null)
+                                || instagram_link.equalsIgnoreCase("null") || instagram_link.equalsIgnoreCase("")) {
+                            iv_nav_instagram.setVisibility(View.GONE);
+                        } else {
+                            iv_nav_instagram.setVisibility(View.VISIBLE);
+                            iv_nav_instagram.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/" + instagram_link));
+                                    startActivity(browserIntent);
+                                }
+                            });
+                        }
+
+                    } else if (status.equalsIgnoreCase("error")) {
+                    }
+
+                } catch (Exception e) {
+                    Log.e("", "" + e);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(Navigation_activity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void applyFontToMenuItem(MenuItem mi) {
+        Typeface font = Typeface.createFromAsset(getAssets(), "Cairo-SemiBold.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
     }
 
     public  void lang_arbi() {
@@ -351,86 +450,6 @@ public class Navigation_activity extends AppCompatActivity
         int OFFSET_X;
         int OFFSET_Y;
         popup.setBackgroundDrawable(new BitmapDrawable());
-
-       /* if (width > 1300) {
-            popupHeight = 950;
-            popup.setHeight(popupHeight);
-            OFFSET_X = -538;
-            OFFSET_Y = 80;
-            Log.e("abc","abc8");
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 1200 && width <= 1300) {
-            popupWidth = 900;
-            popupHeight = 1100;
-            popup.setHeight(popupHeight);
-            popup.setWidth(popupWidth);
-            OFFSET_X = -560;
-            OFFSET_Y = 90;
-            Log.e("abc","abc1");
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 1100 && width <= 1200) {
-            popupWidth = 900;
-            popupHeight = 1100;
-            Log.e("abc","abc");
-            popup.setHeight(popupHeight);
-            popup.setWidth(popupWidth);
-            OFFSET_X = -975;
-            OFFSET_Y = 80;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 1020 && width <= 1100) {
-            popupHeight = 750;
-            popup.setHeight(popupHeight);
-            OFFSET_X = -550;
-            OFFSET_Y = 100;
-            Log.e("abc","abc2");
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 950 && width <= 1020) {
-            OFFSET_X = -550;
-            OFFSET_Y = 80;            Log.e("abc","abc3");
-
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 850 && width <= 950) {
-            OFFSET_X = -495;
-            OFFSET_Y = 40;
-            Log.e("abc","abc4");
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 750 && width <= 800) {
-            OFFSET_X = -420;
-            OFFSET_Y = 80;
-            Log.e("abc","abc5");
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 650 && width <= 750) {
-            OFFSET_X = -450;
-            OFFSET_Y = 80;
-            Log.e("abc","abc6");
-
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-        } else if (width > 550 && width <= 650) {
-            popup.setWidth(popupWidth);
-            OFFSET_X = -430;
-            OFFSET_Y = 40;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-
-        } else if (width >= 500 && width <= 560) {
-            popup.setWidth(popupWidth);
-            OFFSET_X = -350;
-            OFFSET_Y = 80;
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-
-        }
-*/
-
-
-       // popup.setBackgroundDrawable(new BitmapDrawable());
-     //   popup.showAtLocation(layout, Gravity.NO_GRAVITY, c.x + OFFSET_X, c.y + OFFSET_Y);
-
-
         popup.showAtLocation(layout, Gravity.CENTER,0,0);
     }
 
@@ -499,8 +518,15 @@ public class Navigation_activity extends AppCompatActivity
         am = getApplicationContext().getAssets();
         typeface = Typeface.createFromAsset(am,
                 String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));
-        tf = Typeface.createFromAsset(am,
+        /*tf = Typeface.createFromAsset(am,
                 String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));
+
+
+        Cairo_SemiBold = Typeface.createFromAsset(am,
+                String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));*/
+        Cairo_Regular = Typeface.createFromAsset(am,
+                String.format(Locale.getDefault(), "Cairo-Regular.ttf"));
+
     }
 
     private void AllocateMemory() {
@@ -510,6 +536,7 @@ public class Navigation_activity extends AppCompatActivity
         bottom_navigation = findViewById(R.id.bottom_navigation);
         iv_nav_country_image = findViewById(R.id.iv_nav_country_image);
         iv_nav_twitter = findViewById(R.id.iv_nav_twitter);
+        iv_nav_instagram = findViewById(R.id.iv_nav_instagram);
         iv_nav_logo = findViewById(R.id.iv_nav_logo);
         tv_nav_title = findViewById(R.id.tv_nav_title);
 

@@ -72,7 +72,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
     String screen, aricle_idd;
 
     Bundle bundle;
-
+    TextView tv_welcome,tv_signin,tv_forgot_pw,googletext;
     private GoogleApiClient googleApiClient;
 
     public static final int SIGN_IN_CODE = 777;
@@ -220,13 +220,30 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         tv_register = (TextView) v.findViewById(R.id.tv_register);
         forgot = (LinearLayout) v.findViewById(R.id.forgot);
         //gLogin = (LinearLayout) v.findViewById(R.id.google);
+        tv_welcome = (TextView)v.findViewById(R.id.tv_welcome);
+        tv_signin = (TextView)v.findViewById(R.id.tv_signin);
+        googletext = (TextView)v.findViewById(R.id.googletext);
+        tv_forgot_pw = (TextView)v.findViewById(R.id.tv_forgot_pw);
+
+
+
+        tv_welcome.setTypeface(Navigation_activity.typeface);
+        tv_signin.setTypeface(Navigation_activity.typeface);
+        googletext.setTypeface(Navigation_activity.typeface);
+        tv_forgot_pw.setTypeface(Navigation_activity.typeface);
+
+        et_Email_login.setTypeface(Navigation_activity.typeface);
+        et_password_login.setTypeface(Navigation_activity.typeface);
+
+        btn_create_account_login.setTypeface(Navigation_activity.typeface);
 
         tv_register.setTypeface(Navigation_activity.typeface);
-        btn_create_account_login.setTypeface(Navigation_activity.typeface);
-        et_password_login.setTypeface(Navigation_activity.typeface);
-        et_Email_login.setTypeface(Navigation_activity.typeface);
 
     }
+
+
+
+
 
     @Override
     public void onClick(View view) {
@@ -349,7 +366,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                                 b.putString("article_id", aricle_idd);
                                 Fragment myFragment = new News_Detail_freg();
                                 myFragment.setArguments(b);
-                                getActivity().getSupportFragmentManager().beginTransaction()
+                                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Newsdetail")
                                         .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
                                         .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 

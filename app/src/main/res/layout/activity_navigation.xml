@@ -35,6 +35,7 @@
             app:itemTextColor="@color/bottom_icon"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_navigation"
+            android:theme="@style/Widget.BottomNavigationView"
             />
 
 
@@ -124,6 +125,7 @@
                     android:padding="5dp">
 
                     <ImageView
+                        android:id="@+id/iv_nav_instagram"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:src="@drawable/instagram" />

@@ -704,21 +704,23 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         }
     }
     private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Gallery", "Remove Photo",
-                "Cancel"};
+        final CharSequence[] items = {getActivity().getResources().getString(R.string.take_photo)
+                ,getActivity().getResources().getString(R.string.choose_gallery)
+                ,getActivity().getResources().getString(R.string.Remove_photo),
+                getActivity().getResources().getString(R.string.Cancel)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Photo!");
+        builder.setTitle( getActivity().getResources().getString(R.string.add_photo));
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 //  boolean result = Utility.checkPermission(getActivity());
-                if (items[item].equals("Take Photo")) {
+                if (items[item].equals(getActivity().getResources().getString(R.string.take_photo))) {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, 1);
-                } else if (items[item].equals("Choose from Gallery")) {
+                } else if (items[item].equals(getActivity().getResources().getString(R.string.choose_gallery))) {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
-                } else if (items[item].equals("Remove Photo")) {
+                } else if (items[item].equals(getActivity().getResources().getString(R.string.Remove_photo))) {
 
                     bitmap = BitmapFactory.decodeResource(getActivity().getResources(),
                             R.drawable.my_profile);
@@ -735,7 +737,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                     filename = path.substring(path.lastIndexOf("/") + 1);
 
 
-                } else if (items[item].equals("Cancel")) {
+                } else if (items[item].equals( getActivity().getResources().getString(R.string.Cancel))) {
                     dialog.dismiss();
                 }
             }

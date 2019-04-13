@@ -78,7 +78,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
         lang_arbi();
         AllocateMemory(view);
-        setupUI(lv_directory_parent);
+        //setupUI(lv_directory_parent);
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
@@ -108,18 +108,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         config.locale = locale;
         getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
-    public static void hideSoftKeyboard(Activity activity,View view) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
 
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-      // inputManager.hideSoftInputFromWindow(new View(this).getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-    }
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
@@ -128,7 +117,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
-    public void setupUI(View view) {
+  /*  public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
@@ -147,7 +136,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                 setupUI(innerView);
             }
         }
-    }
+    }*/
 
 
     private void CALL_Directory_API(final String text, String pageeno) {
@@ -394,6 +383,12 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         nested_directory_scroll = (NestedScrollView) view.findViewById(R.id.nested_directory_scroll); // inititate a search view
         lv_directory_parent = (LinearLayout) view.findViewById(R.id.lv_directory_parent); // inititate a search view
 
+        tv_data_not_found.setTypeface(Navigation_activity.typeface);
+
+
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView searchText = (TextView) searchView.findViewById(id);
+        searchText.setTypeface(Navigation_activity.typeface);
     }
 
     @Override

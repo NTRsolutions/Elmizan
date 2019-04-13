@@ -94,7 +94,7 @@ public class Premium_article_adpter extends RecyclerView.Adapter<Premium_article
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         Fragment myFragment = new News_Detail_freg();
                         myFragment.setArguments(b);
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack("Newsdetail").commit();
                     }
                 }, 1000);
             }
@@ -114,7 +114,7 @@ public class Premium_article_adpter extends RecyclerView.Adapter<Premium_article
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         Fragment myFragment = new News_Detail_freg();
                         myFragment.setArguments(b);
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack("Newsdetail").commit();
                     }
                 }, 1000);
 

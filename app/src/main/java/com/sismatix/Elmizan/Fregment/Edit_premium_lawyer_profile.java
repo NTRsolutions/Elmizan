@@ -526,7 +526,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("response_country", "" + response.body().toString());
                 //   progressBar_home.setVisibility(View.GONE);
 
-                country_name.add("Select");
+                country_name.add(getActivity().getResources().getString(R.string.Select));
                 country_name_code.add("0");
 
                 JSONObject jsonObject = null;
@@ -880,7 +880,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         tv_edit_country.setTypeface(Navigation_activity.typeface);
         tv_edit_country_text.setTypeface(Navigation_activity.typeface);
         tv_edit_address.setTypeface(Navigation_activity.typeface);
-        tv_edit_your_img.setTypeface(Navigation_activity.typeface);
+
         tv_edit_user_name.setTypeface(Navigation_activity.typeface);
         tv_edit_personal_data.setTypeface(Navigation_activity.typeface);
         tv_edit_phone_text.setTypeface(Navigation_activity.typeface);
@@ -897,8 +897,11 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         tv_edit_socialmedia.setTypeface(Navigation_activity.typeface);
         edt_full_name.setTypeface(Navigation_activity.typeface);
         edt_appeal.setTypeface(Navigation_activity.typeface);
-
-    }
+         tv_edit_your_img.setTypeface(Navigation_activity.Cairo_Regular);
+        tv_edit_appeal.setTypeface(Navigation_activity.Cairo_Regular);
+        tv_edit_twitter.setTypeface(Navigation_activity.typeface);
+        tv_edit_save.setTypeface(Navigation_activity.typeface);
+  }
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(

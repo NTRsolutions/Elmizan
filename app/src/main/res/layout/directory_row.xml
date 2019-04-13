@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="5dp"
-            android:layout_weight="1.3">
+            android:layout_weight="1.5">
             <TextView
                 android:id="@+id/tv_directory_user_name"
                 android:layout_width="match_parent"
@@ -64,18 +64,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_directory_offline_onnline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                    android:textSize="14sp"
-                    android:padding="5dp"
-                    android:layout_gravity="center"
-                    android:gravity="center|start"
-                    android:textStyle="bold"
-                    android:text="@string/offline"/>
                 <TextView
                     android:id="@+id/tv_directory_circle"
                     android:layout_width="wrap_content"
@@ -87,6 +75,18 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:text="@string/bullet"/>
+                <TextView
+                    android:id="@+id/tv_directory_offline_onnline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:textSize="14sp"
+                    android:padding="5dp"
+                    android:layout_gravity="center"
+                    android:gravity="center|start"
+                    android:textStyle="bold"
+                    android:text="@string/offline"/>
+
 
             </LinearLayout>
         </LinearLayout>
@@ -111,14 +111,14 @@
             android:orientation="vertical"
             android:layout_gravity="center|top"
             android:gravity="center|top"
-            android:layout_weight="2.1">
+            android:layout_weight="1.9">
             <LinearLayout
                 android:id="@+id/lv_directory_call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_round_grey">
                 <TextView
-
+                    android:id="@+id/tv_directory_call"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -135,16 +135,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:background="@drawable/btn_round_green">
+
                 <TextView
+                    android:id="@+id/tv_directory_chat"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:padding="2dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textStyle="bold"
-                    android:text="@string/chat"/>
+                    android:padding="2dp"
+                    android:text="@string/chat"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -154,6 +156,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@drawable/btn_round_black">
                 <TextView
+                    android:id="@+id/tv_directory_article"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -172,6 +175,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@drawable/btn_round_red">
                 <TextView
+                    android:id="@+id/tv_directory_send_msg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -189,6 +193,7 @@
                 android:layout_marginTop="6dp"
                 android:background="@drawable/btn_round_grey">
                 <TextView
+                    android:id="@+id/tv_directory_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"

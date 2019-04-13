@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.R;
 
 import java.util.Locale;
@@ -33,6 +34,10 @@ public class Media extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_media, container, false);
         lang_arbi();
+        Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
+        Navigation_activity.tv_nav_title.setVisibility(View.GONE);
+
+
         final TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_images)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_videos)));

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -35,7 +36,7 @@ import retrofit2.Response;
  */
 public class Contact_us extends Fragment {
 
-    TextView tv_gmail,tv_no,tv_instagram,tv_twitter;
+    TextView tv_gmail,tv_no,tv_instagram,tv_twitter,tv_contact;
     ImageView iv_cu;
     ProgressBar progressBar_contact;
     LinearLayout lv_contact;
@@ -53,9 +54,16 @@ public class Contact_us extends Fragment {
         v= inflater.inflate(R.layout.fragment_contact_us, container, false);
         Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
+        Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
         lang_arbi();
         AllocateMemory(v);
-        callContactUsApi();
+
+        if (CheckNetwork.isNetworkAvailable(getActivity())) {
+            callContactUsApi();
+        } else {
+            Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
 
         return  v;
     }
@@ -118,7 +126,7 @@ public class Contact_us extends Fragment {
                         JSONObject contact_twitter = data_obj.getJSONObject("contact_twitter");
                         Log.e("contact_twitter",""+contact_twitter);
 
-                        String contact_twitterr = contact_insta.getString("global_content");
+                        String contact_twitterr = contact_twitter.getString("global_content");
                         Log.e("global_cont_twitter",""+contact_twitterr);
 
                         tv_twitter.setText(contact_twitterr);
@@ -156,7 +164,7 @@ public class Contact_us extends Fragment {
     }
 
     private void AllocateMemory(View v) {
-
+        tv_contact = (TextView)v.findViewById(R.id.tv_contact);
         progressBar_contact = (ProgressBar) v.findViewById(R.id.progressBar_contact);
         lv_contact = (LinearLayout) v.findViewById(R.id.lv_contact);
         tv_gmail = (TextView)v.findViewById(R.id.tv_gmail);
@@ -165,6 +173,12 @@ public class Contact_us extends Fragment {
         tv_twitter = (TextView)v.findViewById(R.id.tv_twitter);
         iv_cu = (ImageView)v.findViewById(R.id.iv_cu);
 
+
+        tv_contact.setTypeface(Navigation_activity.typeface);
+        tv_gmail.setTypeface(Navigation_activity.typeface);
+        tv_no.setTypeface(Navigation_activity.typeface);
+        tv_instagram.setTypeface(Navigation_activity.typeface);
+        tv_twitter.setTypeface(Navigation_activity.typeface);
     }
     public  void lang_arbi() {
         String languageToLoad = "ar";
