@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:id="@+id/lv_upload_parent"
     tools:context=".Fregment.UPload_Media_freg">
 
@@ -35,7 +36,7 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tv_multiplefile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -72,7 +73,7 @@
                             android:padding="10dp"
                             android:text="@string/choose_image"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -96,7 +97,7 @@
                             android:padding="10dp"
                             android:text="@string/youtube_link"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>

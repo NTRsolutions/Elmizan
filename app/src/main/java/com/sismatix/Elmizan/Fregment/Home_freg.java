@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.Activity.Navigation_activity;
@@ -53,7 +54,7 @@ public class Home_freg extends Fragment {
 
     ProgressBar progressBar_home,progressBar_bottom_recv;
     NestedScrollView nested_home_scroll;
-
+    TextView tv_data_not_found_home;
     //varible for pagination
     int page_no=1,page;
 
@@ -152,8 +153,17 @@ public class Home_freg extends Fragment {
                             }
 
                         }
+                        if (news_model.size() == 0) {
+                            tv_data_not_found_home.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_data_not_found_home.setVisibility(View.GONE);
+                        }
 
                     }else if (status.equalsIgnoreCase("error")){
+                        tv_data_not_found_home.setVisibility(View.VISIBLE);
+                        progressBar_home.setVisibility(View.GONE);
+                        recycler_news_home.setVisibility(View.GONE);
+
                     }
 
                 }catch (Exception e){
@@ -286,8 +296,12 @@ public class Home_freg extends Fragment {
 
                         }
 
+
                     }else if (status.equalsIgnoreCase("error")){
                         progressBar_bottom_recv.setVisibility(View.GONE);
+                       // Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+                        tv_data_not_found_home.setVisibility(View.VISIBLE);
+
 
                     }
 
@@ -309,6 +323,8 @@ public class Home_freg extends Fragment {
         nested_home_scroll = (NestedScrollView) view.findViewById(R.id.nested_home_scroll);
         progressBar_bottom_recv = (ProgressBar) view.findViewById(R.id.progressBar_bottom_recv);
         progressBar_home = view.findViewById(R.id.progressBar_home);
+        tv_data_not_found_home = view.findViewById(R.id.tv_data_not_found_home);
+        tv_data_not_found_home.setTypeface(Navigation_activity.typeface);
 
     }
     private void pushFragment(Fragment fragment, String add_to_backstack) {

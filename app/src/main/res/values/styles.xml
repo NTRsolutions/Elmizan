@@ -43,4 +43,14 @@
         <item name="fontFamily">@font/font_family</item>
     </style>
 
+    <style name="MenuButtonsStyle"
+        parent="Widget.Design.FloatingActionButton">
+        <item name="fontFamily">@font/font_family</item>
+    </style>
+
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/font_family</item>
+    </style>
+
 </resources>

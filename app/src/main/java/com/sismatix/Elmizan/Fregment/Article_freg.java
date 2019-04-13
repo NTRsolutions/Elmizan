@@ -194,7 +194,7 @@ public class Article_freg extends Fragment {
                 if (Login_preference.getLogin_flag(getActivity()).equalsIgnoreCase("1")) {
 
                     if (My_Preference.get_premium_lawyer(getActivity()).equals("premium") == true) {
-                        pushFragment(new Add_Article_Freg(), "login");
+                        pushFragment(new Add_Article_Freg(), "add_article");
                     }
                 } else {
 
@@ -423,7 +423,7 @@ public class Article_freg extends Fragment {
             Log.e("user_id_101", "" + user_idd);
             article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, user_idd);
         }
-        page=page_no;
+
 
         article_list.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -516,7 +516,7 @@ public class Article_freg extends Fragment {
                         tv_article.setTypeface(Navigation_activity.typeface);
                         progressBar_bottom_article.setVisibility(View.GONE);
 
-                        Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                         tv_article.setVisibility(View.GONE);
                         //tv_article.setText(message);
                      //   recycler_article.setVisibility(View.GONE);

@@ -318,7 +318,7 @@ public class Final_Library_fregment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 progressBar_librarylist.setVisibility(View.GONE);
-                Toast.makeText(context, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("Failure", "" + t.getLocalizedMessage());
             }
         });
@@ -401,6 +401,8 @@ public class Final_Library_fregment extends Fragment {
         tv_data_not_found_librarylist=v.findViewById(R.id.tv_data_not_found_librarylist);
         nested_library_final=v.findViewById(R.id.nested_library_final);
         progressBar_librarylist_bottom=v.findViewById(R.id.progressBar_librarylist_bottom);
+
+        tv_data_not_found_librarylist.setTypeface(Navigation_activity.typeface);
     }
 
 }

@@ -62,7 +62,7 @@ public class YPlayer extends AppCompatActivity {
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                Toast.makeText(activity, "Video Problemmmmm", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "Video Problem", Toast.LENGTH_SHORT).show();
             }
         });
     }

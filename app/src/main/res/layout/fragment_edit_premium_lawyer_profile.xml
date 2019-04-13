@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:id="@+id/lv_edit_parent"
     tools:context=".Fregment.Edit_premium_lawyer_profile">
 

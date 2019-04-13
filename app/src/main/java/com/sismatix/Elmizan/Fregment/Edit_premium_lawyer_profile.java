@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Country_model;
@@ -307,7 +308,12 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                         Navigation_activity.Check_Editext_NULL_Value(edt_site, site);
                         Navigation_activity.Check_Editext_NULL_Value(edt_address, address);
 
-                        Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(iv_edit_lawyer_profile);
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.app_icon);
+                        requestOptions.error(R.drawable.app_icon);
+
+
+                        Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_edit_lawyer_profile);
 
 
                     } else if (status.equalsIgnoreCase("error")) {
@@ -501,7 +507,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             }
 
 
-        } else if (view == tv_edit_save)
+        } else if (view == tv_edit_save || view==lv_save_data)
 
         {
             Log.e("click_251", "");
@@ -526,7 +532,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("response_country", "" + response.body().toString());
                 //   progressBar_home.setVisibility(View.GONE);
 
-                country_name.add(getActivity().getResources().getString(R.string.Select));
+                country_name.add(getResources().getString(R.string.Select));
                 country_name_code.add("0");
 
                 JSONObject jsonObject = null;

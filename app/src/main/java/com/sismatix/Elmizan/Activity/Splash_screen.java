@@ -1,7 +1,9 @@
 package com.sismatix.Elmizan.Activity;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sismatix.Elmizan.CheckNetwork;
@@ -41,15 +44,20 @@ import retrofit2.Response;
 
 public class Splash_screen extends AppCompatActivity {
     Button btn_create_account,btn_login;
-    LinearLayout lv_splash,lv_skip;
+    LinearLayout lv_splash,lv_skip,lv_login,lv_signup;
     ImageView iv_splash_icon;
     Spinner spinner_theme;
+    TextView tv_skip_splash,tv_login,tv_signup;
+    public  AssetManager am ;
+    public  Typeface typeface, Cairo_Regular;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplicationContext().setTheme(android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         lang_arbi();
+        SET_FONT_STYLE();
         setContentView(R.layout.activity_splash_screen);
         if(getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -64,7 +72,7 @@ public class Splash_screen extends AppCompatActivity {
 
 
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        lv_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
@@ -75,7 +83,7 @@ public class Splash_screen extends AppCompatActivity {
                 finish();
             }
         });
-        btn_create_account.setOnClickListener(new View.OnClickListener() {
+        lv_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(Splash_screen.this,Navigation_activity.class);
@@ -136,13 +144,22 @@ public class Splash_screen extends AppCompatActivity {
         });
 
 
+        }
+
+    private void SET_FONT_STYLE() {
+        am = getApplicationContext().getAssets();
+        typeface = Typeface.createFromAsset(am,
+                String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));
+        /*tf = Typeface.createFromAsset(am,
+                String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));
 
 
-
-
+        Cairo_SemiBold = Typeface.createFromAsset(am,
+                String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));*/
+        Cairo_Regular = Typeface.createFromAsset(am,
+                String.format(Locale.getDefault(), "Cairo-Regular.ttf"));
 
     }
-
 
     private void AllocateMemory() {
         btn_create_account=(Button)findViewById(R.id.btn_create_account);
@@ -151,6 +168,17 @@ public class Splash_screen extends AppCompatActivity {
         lv_skip=(LinearLayout) findViewById(R.id.lv_skip);
         iv_splash_icon=(ImageView) findViewById(R.id.iv_splash_icon);
         spinner_theme=(Spinner) findViewById(R.id.spinner_theme);
+        tv_skip_splash=(TextView) findViewById(R.id.tv_skip_splash);
+        tv_signup=(TextView) findViewById(R.id.tv_signup);
+        tv_login=(TextView) findViewById(R.id.tv_login);
+        lv_login=(LinearLayout) findViewById(R.id.lv_login);
+        lv_signup=(LinearLayout) findViewById(R.id.lv_signup);
+
+        tv_skip_splash.setTypeface(typeface);
+        tv_signup.setTypeface(typeface);
+        tv_login.setTypeface(typeface);
+
+
     }
     //-----convert english to arabic----
     public  void lang_arbi() {

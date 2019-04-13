@@ -361,7 +361,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                         //getActivity().finish();
                     } else if (status.equalsIgnoreCase("error")) {
-                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.e("", "" + e);
@@ -370,7 +370,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

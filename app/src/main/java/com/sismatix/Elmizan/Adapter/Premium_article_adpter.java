@@ -50,6 +50,7 @@ public class Premium_article_adpter extends RecyclerView.Adapter<Premium_article
         holder.tv_article_description.setTypeface(Navigation_activity.typeface);
         holder.tv_article_title.setTypeface(Navigation_activity.typeface);
         holder.tv_article_date.setTypeface(Navigation_activity.typeface);
+        holder.tv_more_article.setTypeface(Navigation_activity.typeface);
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_description, article_model.getArticle_description());
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_title, article_model.getArticle_title());

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.R;
@@ -147,7 +148,11 @@ public class Contact_us extends Fragment {
                             }
                         });*/
 
-                        Glide.with(getActivity()).load(global_content4).into(iv_cu);
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.app_icon);
+                        requestOptions.error(R.drawable.app_icon);
+
+                        Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(global_content4).into(iv_cu);
 
                     }else if (status.equalsIgnoreCase("error")){
                     }

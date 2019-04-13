@@ -45,9 +45,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class Directory_freg extends Fragment implements SearchView.OnQueryTextListener {
     RecyclerView recycler_directory;
     private List<Directory_Model> directory_model = new ArrayList<Directory_Model>();
@@ -227,7 +224,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                         tv_data_not_found.setVisibility(View.VISIBLE);
                        // recycler_directory.setVisibility(View.GONE);
                         tv_data_not_found.setText(message);
-                        Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -352,12 +349,12 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
-                      //  tv_data_not_found.setTypeface(Navigation_activity.typeface);
+                       // tv_data_not_found.setTypeface(Navigation_activity.typeface);
                         progressBar_bottom_directory.setVisibility(View.GONE);
 
                       //  tv_data_not_found.setVisibility(View.VISIBLE);
                      //   recycler_directory.setVisibility(View.GONE);
-                       // tv_data_not_found.setText(message);
+                      //  tv_data_not_found.setText(message);
                         Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                     }
 

@@ -161,7 +161,7 @@ public class MediaImages extends Fragment {
 
                                     if (old_img == "" || old_img == null || old_img == "null" || old_img.equalsIgnoreCase(null)
                                             || old_img.equalsIgnoreCase("null")) {
-                                        Toast.makeText(context, "data problem", Toast.LENGTH_SHORT).show();
+                                       // Toast.makeText(context, "data problem", Toast.LENGTH_SHORT).show();
                                     } else {
 
                                         old_img=imag_array_old.getString(i);

@@ -431,6 +431,8 @@ public class Navigation_activity extends AppCompatActivity
      //   lv_arbi = (LinearLayout) layout.findViewById(R.id.lv_arbi);
 
 
+       TextView textView_country=(TextView)layout.findViewById(R.id.textView_country);
+       textView_country.setTypeface(Navigation_activity.typeface);
         progressBar_country = (ProgressBar) layout.findViewById(R.id.progressBar_country);
         recycler_country = (RecyclerView) layout.findViewById(R.id.recycler_country);
         LinearLayout lv_show = (LinearLayout) layout.findViewById(R.id.lv_country_show);
@@ -592,7 +594,20 @@ public class Navigation_activity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.bottom_nav_home:
-                pushFragment(new Home_freg(),"Home");
+                Home_freg  fragment=new Home_freg();
+
+                if (fragment == null)
+                    return;
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                if (fragmentManager != null) {
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    if (ft != null) {
+                        ft.replace(R.id.main_fram_layout, fragment);
+                        ft.commit();
+                    }
+                }
+
+                //pushFragment(new Home_freg(),"Home");
                 break;
             case R.id.bottom_nav_directory:
                 pushFragment(new Directory_freg(),"directory");
@@ -608,7 +623,7 @@ public class Navigation_activity extends AppCompatActivity
             case R.id.bottom_nav_myaccount:
 
                 if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
-                    pushFragment(new Edit_premium_lawyer_profile(),"Edit profile");
+                    pushFragment(new Edit_premium_lawyer_profile(),"Edit_profile");
 
                 }else {
                     pushFragment(new Login_freg(),"login");
@@ -681,13 +696,16 @@ public class Navigation_activity extends AppCompatActivity
         int count = fragmentManager.getBackStackEntryCount();
         Log.e("count_621",""+count);
 
-        if (count == 1) {
+
+        if (count == 0) {
             if (doubleBackToExitPressedOnce) {
                 Log.e("count_628",""+count);
                 super.onBackPressed();
                 super.finish();
                 return;
             }
+            Log.e("count_1",""+count);
+
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
@@ -765,7 +783,7 @@ public class Navigation_activity extends AppCompatActivity
                     b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
                     Fragment myFragment = new Edit_premium_lawyer_profile();
                     myFragment.setArguments(b);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack("").commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
 
             }else {
@@ -866,7 +884,7 @@ public class Navigation_activity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(Navigation_activity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Navigation_activity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -60,6 +60,8 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
         holder.tv_article_date.setTypeface(Navigation_activity.typeface);
         holder.tv_more_article.setTypeface(Navigation_activity.typeface);
 
+        holder.tv_more_article.setText("["+ context.getResources().getString(R.string.more) +"]");
+
         youtubeUrl = article_model.getVideo();
         Log.e("yid", "" + youtubeUrl);
 

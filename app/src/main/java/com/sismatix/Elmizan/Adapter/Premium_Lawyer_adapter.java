@@ -155,7 +155,7 @@ public class Premium_Lawyer_adapter extends RecyclerView.Adapter<Premium_Lawyer_
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

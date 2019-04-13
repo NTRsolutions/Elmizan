@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -110,7 +111,7 @@ public class About_us extends Fragment {
                         String global_content = about_us_one.getString("global_content");
                         Log.e("global_cont_au1",""+global_content);
 
-                        tv_balance_detail.setText(global_content);
+                        tv_balance_detail.setText(Html.fromHtml(global_content));
 
                         JSONObject about_us_2 = data_obj.getJSONObject("about_us_2");
                         Log.e("about_us_two",""+about_us_2);
@@ -118,7 +119,7 @@ public class About_us extends Fragment {
                         String global_content2 = about_us_2.getString("global_content");
                         Log.e("global_cont_au2",""+global_content2);
 
-                        tv_detail.setText(global_content);
+                        tv_detail.setText(Html.fromHtml(global_content2));
 
                         JSONObject about_us_3 = data_obj.getJSONObject("about_us_3");
                         Log.e("about_us_two",""+about_us_3);
@@ -126,7 +127,7 @@ public class About_us extends Fragment {
                         String global_content3 = about_us_3.getString("global_content");
                         Log.e("global_cont_au3",""+global_content3);
 
-                        tv_detail1.setText(global_content3);
+                        tv_detail1.setText(Html.fromHtml(global_content3));
 
                         JSONObject about_us_2_image = data_obj.getJSONObject("about_us_2_image");
                         Log.e("about_us_2_image",""+about_us_2_image);

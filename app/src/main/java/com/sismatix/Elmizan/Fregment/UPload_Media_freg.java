@@ -86,7 +86,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
     View v;
     LinearLayout lv_choose_img, lv_upload_youtube_link, lv_upload_photos_media,lv_upload_click;
-    TextView tv_choose_img, tv_youtube_link, tv_upload_media;
+    TextView tv_choose_img, tv_youtube_link, tv_upload_media,tv_multiplefile;
     // private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE = 6384;
     private static final int REQUEST_CODE_ASK_PERMISSIONS = 124;
@@ -486,9 +486,9 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
 
                     if (CameraPermission && ReadExternalstoragePermission && WriteExternalstoragePermission) {
 
-                        Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_LONG).show();
 
                     }
                 }
@@ -699,6 +699,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         tv_choose_img = (TextView) v.findViewById(R.id.tv_choose_img);
         tv_youtube_link = (TextView) v.findViewById(R.id.tv_youtube_link);
         tv_upload_media = (TextView) v.findViewById(R.id.tv_upload_media);
+        tv_multiplefile = (TextView) v.findViewById(R.id.tv_multiplefile);
         listView = (ListView) v.findViewById(R.id.listView);
         iv_add_youtube_3 = (ImageView) v.findViewById(R.id.iv_add_youtube_3);
         iv_add_youtube_2 = (ImageView) v.findViewById(R.id.iv_add_youtube_2);
@@ -708,6 +709,17 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         edt_youtube_link_1 = (EditText) v.findViewById(R.id.edt_youtube_link_1);
 
         recycler_image=(RecyclerView)v.findViewById(R.id.recycler_image);
+
+
+
+        tv_multiplefile.setTypeface(Navigation_activity.typeface);
+        tv_upload_media.setTypeface(Navigation_activity.typeface);
+        tv_choose_img.setTypeface(Navigation_activity.typeface);
+        tv_youtube_link.setTypeface(Navigation_activity.typeface);
+        edt_youtube_link_3.setTypeface(Navigation_activity.typeface);
+        edt_youtube_link_2.setTypeface(Navigation_activity.typeface);
+        edt_youtube_link_1.setTypeface(Navigation_activity.typeface);
+
     }
 
     @Override

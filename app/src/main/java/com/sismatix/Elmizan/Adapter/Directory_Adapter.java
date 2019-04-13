@@ -321,6 +321,9 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
             article = (TextView)view.findViewById(R.id.tv_directory_article);
             msg = (TextView)view.findViewById(R.id.tv_directory_send_msg);
             more = (TextView)view.findViewById(R.id.tv_directory_more);
+
+            lv_directory_send_msg.setEnabled(false);
+            lv_directory_chat.setEnabled(false);
         }
     }
 

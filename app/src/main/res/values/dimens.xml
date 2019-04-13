@@ -6,7 +6,7 @@
     <dimen name="nav_header_height">200dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="design_bottom_navigation_text_size" tools:override="true">12sp</dimen>
-    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">9sp</dimen>
     <dimen name="dots_height">20dp</dimen>
     <dimen name="radius">2dp</dimen>
 </resources>

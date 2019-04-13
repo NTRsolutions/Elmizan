@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -83,6 +84,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
 
     String signup_emailid, signup_passwordd;
     LinearLayout lv_login_parent;
+    TextInputLayout layout_login_email,layout_login_password;
 
     public static Call<ResponseBody> login = null;
 
@@ -145,7 +147,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
             Log.e("article_idd", "" + aricle_idd);
         }
 
-        forgot.setOnClickListener(new View.OnClickListener() {
+        tv_forgot_pw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://elmizan.demoproject.info/admin/index.php?p=forgot-password"));
@@ -224,9 +226,12 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         tv_signin = (TextView)v.findViewById(R.id.tv_signin);
         googletext = (TextView)v.findViewById(R.id.googletext);
         tv_forgot_pw = (TextView)v.findViewById(R.id.tv_forgot_pw);
+        layout_login_email = (TextInputLayout) v.findViewById(R.id.layout_login_email);
+        layout_login_password = (TextInputLayout) v.findViewById(R.id.layout_login_password);
 
 
-
+        layout_login_password.setTypeface(Navigation_activity.typeface);
+        layout_login_email.setTypeface(Navigation_activity.typeface);
         tv_welcome.setTypeface(Navigation_activity.typeface);
         tv_signin.setTypeface(Navigation_activity.typeface);
         googletext.setTypeface(Navigation_activity.typeface);
@@ -368,7 +373,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                                 myFragment.setArguments(b);
                                 getActivity().getSupportFragmentManager().beginTransaction().addToBackStack("Newsdetail")
                                         .setCustomAnimations(R.anim.fade_in, 0, 0, R.anim.fade_out)
-                                        .replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                                        .replace(R.id.main_fram_layout, myFragment).commit();
 
                             /*EmailLogin nextFrag = new EmailLogin();
                             getActivity().getSupportFragmentManager().beginTransaction()
@@ -433,7 +438,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

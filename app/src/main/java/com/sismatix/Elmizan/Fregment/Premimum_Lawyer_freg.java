@@ -86,7 +86,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     TextView tv_premium_call,tv_premium_send_msg;
     TextView phone,address,email,site,country,tv_media,tv_media_video_premium;
 
-    TextView tv_pre_chat,tv_premium_article, tv_edit_your_profile, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
+    TextView tv_pre_chat,tv_more_premium,tv_premium_article, tv_edit_your_profile, tv_premium_descr, tv_premium_usernm, tv_premium_site, tv_premium_email, tv_premium_address, tv_premium_phone,
             tv_pre_country_text, tv_pre_country, tv_premium_offline, tv_premium_appeal, tv_premium_name, tv_article_data_not_found, tv_premium_online;
     ImageView iv_premium_twitter, iv_premium_insta, iv_premium_fb, iv_profile_premium, iv_add_article, iv_add_media;
     LinearLayout lv_premium_twitter,lv_premium_send_msg,lv_pre_chat, lv_more_btn, lv_premium_insta, lv_premium_fb, lv_premium_call, lv_edit_your_profile, lv_pre_online, lv_pre_offline;
@@ -107,7 +107,6 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     private List<Premium_Lawyer_Videos_Model> premium_video_models = new ArrayList<Premium_Lawyer_Videos_Model>();
     private Premium_Lawyer_Video_adapter premium_video_adapter;
 
-    Button btn_more;
 
     String old_image_video_pass="null",oldurl_pass_imag,old_video,screen;
 
@@ -216,7 +215,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         Log.e("uidre", "" + user_id);
         Log.e("uiddree", "" + Login_preference.getuser_id(getContext()));
 
-        btn_more.setOnClickListener(new View.OnClickListener() {
+        lv_more_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -401,13 +400,14 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                             }
                         }else {
                             recycler_prem_images.setVisibility(View.GONE);
+                            lv_more_btn.setVisibility(View.GONE);
                           //  tv_media_video_not_found.setVisibility(View.VISIBLE);
                            // tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
 
 
                         }
                     } else if (status.equalsIgnoreCase("error")) {
-                        btn_more.setVisibility(View.GONE);
+                        lv_more_btn.setVisibility(View.GONE);
                         recycler_prem_images.setVisibility(View.GONE);
                        // tv_media_img_not_found.setVisibility(View.VISIBLE);
                       //  tv_media_img_not_found.setText(getResources().getString(R.string.data_not_found));
@@ -536,7 +536,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                         recycler_prem_videos.setVisibility(View.GONE);
                         tv_media_video_not_found.setVisibility(View.VISIBLE);
                         tv_media_video_not_found.setText(getResources().getString(R.string.data_not_found));
-                        btn_more.setVisibility(View.GONE);
+                        lv_more_btn.setVisibility(View.GONE);
 
                     }
 
@@ -560,7 +560,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
             FragmentTransaction ft = fragmentManager.beginTransaction();
             if (ft != null) {
                 ft.replace(R.id.main_fram_layout, fragment);
-                ft.addToBackStack(null);
+
                 ft.commit();
             }
         }
@@ -579,7 +579,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                 Log.e("response", "" + response.body().toString());
                 //  progressBar.setVisibility(View.GONE);
 
-                lv_more_btn.setVisibility(View.VISIBLE);
+               // lv_more_btn.setVisibility(View.VISIBLE);
                 progressBar_premium.setVisibility(View.GONE);
                 lv_primium_click.setVisibility(View.VISIBLE);
                 JSONObject jsonObject = null;
@@ -870,7 +870,6 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
         //mPager = (ViewPager) view.findViewById(R.id.pager);
         // indicator = (CircleIndicator) view.findViewById(R.id.indicator);
-        btn_more = (Button) view.findViewById(R.id.btn_more);
         recycler_prem_images = (RecyclerView) view.findViewById(R.id.recycler_prem_images);
         tv_media_video_not_found = (TextView) view.findViewById(R.id.tv_media_video_not_found);
         tv_media_img_not_found = (TextView) view.findViewById(R.id.tv_media_img_not_found);
@@ -911,6 +910,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         lv_pre_offline = (LinearLayout) view.findViewById(R.id.lv_pre_offline);
         tv_premium_send_msg = (TextView) view.findViewById(R.id.tv_premium_send_msg);
         tv_pre_chat = (TextView) view.findViewById(R.id.tv_pre_chat);
+        tv_more_premium = (TextView) view.findViewById(R.id.tv_more_premium);
 
 
 
@@ -943,6 +943,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         tv_pre_chat.setTypeface(Navigation_activity.typeface);
         tv_media_video_not_found.setTypeface(Navigation_activity.typeface);
         tv_media_img_not_found.setTypeface(Navigation_activity.typeface);
+        tv_edit_your_profile.setTypeface(Navigation_activity.typeface);
+        tv_more_premium.setTypeface(Navigation_activity.typeface);
 
 
 
@@ -1049,6 +1051,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     public void onPause() {
         super.onPause();
         if (YPlayerr != null) {
+            //YPlayerr.release();
             YPlayerr.pause();
         }
     }
@@ -1057,6 +1060,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     public void onStop() {
         super.onStop();
         if (YPlayerr != null) {
+           // YPlayerr.release();
+
             YPlayerr.pause();
         }
     }

@@ -199,7 +199,7 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(context, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

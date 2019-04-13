@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,8 @@ import java.util.List;
             return new Library_adapter.MyViewHolder(itemView);
         }
 
+
+
         @Override
         public void onBindViewHolder(final Library_adapter.MyViewHolder holder, final int position) {
             final Library_model product_model = models.get(position);
@@ -47,10 +50,11 @@ import java.util.List;
 
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_title,product_model.getLibrary_title());
             Navigation_activity.Check_String_NULL_Value(holder.tv_library_link,product_model.getLibrary_link());
-            Navigation_activity.Check_String_NULL_Value(holder.tv_library_desc,product_model.getLibrary_description());
+            Navigation_activity.Check_String_NULL_Value(holder.tv_library_desc,stripHtml(product_model.getLibrary_description()));
 
 
             holder.tv_library_date.setText(product_model.getLibrary_date());
+
            // holder.tv_library_link.setText(product_model.getLibrary_link());
           //  holder.tv_library_title.setText(product_model.getLibrary_title());
 
@@ -61,13 +65,14 @@ import java.util.List;
                 holder.tv_more.setVisibility(View.GONE);
             }else {
 
-               holder.tv_more.setVisibility(View.VISIBLE);
+                holder.tv_more.setVisibility(View.VISIBLE);
                 holder.tv_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(product_model.getLibrary_link()));
                         context.startActivity(browserIntent);
+
                     }
                 });
             }
@@ -98,7 +103,13 @@ import java.util.List;
 
         }
 
-
+        public String stripHtml(String html) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
+            } else {
+                return Html.fromHtml(html).toString();
+            }
+        }
         @Override
         public int getItemCount() {
             return models.size();

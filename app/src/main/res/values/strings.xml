@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Almizan</string>
-    <string name="login">login</string>
-    <string name="createnewaccont">create New Account</string>
+    <string name="login">Login</string>
+    <string name="createnewaccont">Create New Account</string>
     <string name="createaccont">Create an account</string>
     <!--buttom menu-->
     <string name="home">Home</string>

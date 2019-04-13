@@ -94,7 +94,7 @@ import static android.app.Activity.RESULT_OK;
 public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
     View v;
-    TextView tv_title, tv_upload_img, tv_youtube_link, tv_detail_article, tv_add_article;
+    TextView tv_title, tv_upload_img, tv_youtube_link, tv_detail_article, tv_add_article,tv_add_article_title;
     EditText edt_title, edt_youtube_link, edt_article_detail;
     RadioButton radio_upload_youtube_link, radio_upload_image, radioButton;
     CircleImageView iv_upload_image;
@@ -348,7 +348,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
         } else if (view == iv_camera) {
             if (CheckingPermissionIsEnabledOrNot()) {
-                Toast.makeText(getActivity(), "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
+               // Toast.makeText(getActivity(), "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
             }
             else {
                 //Calling method to enable permission.
@@ -785,6 +785,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         tv_upload_img = (TextView) v.findViewById(R.id.tv_upload_img);
         tv_youtube_link = (TextView) v.findViewById(R.id.tv_youtube_link);
         tv_detail_article = (TextView) v.findViewById(R.id.tv_detail_article);
+        tv_add_article_title = (TextView) v.findViewById(R.id.tv_add_article_title);
 
         edt_title = (EditText) v.findViewById(R.id.edt_title);
         edt_youtube_link = (EditText) v.findViewById(R.id.edt_youtube_link);
@@ -799,6 +800,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         lv_upload_youtube_link = (LinearLayout) v.findViewById(R.id.lv_upload_youtube_link);
         lv_upload_image = (LinearLayout) v.findViewById(R.id.lv_upload_image);
 
+        tv_add_article_title.setTypeface(Navigation_activity.typeface);
         tv_add_article.setTypeface(Navigation_activity.typeface);
         tv_title.setTypeface(Navigation_activity.typeface);
         tv_upload_img.setTypeface(Navigation_activity.typeface);
@@ -807,6 +809,8 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         edt_title.setTypeface(Navigation_activity.typeface);
         edt_youtube_link.setTypeface(Navigation_activity.typeface);
         edt_article_detail.setTypeface(Navigation_activity.typeface);
+        radio_upload_youtube_link.setTypeface(Navigation_activity.typeface);
+        radio_upload_image.setTypeface(Navigation_activity.typeface);
     }
 
     //Permission function starts from here

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".Fregment.Premimum_Lawyer_freg">
 
@@ -765,7 +766,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-                    <LinearLayout
+                  <!--  <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
@@ -787,6 +788,33 @@
                             android:textColor="@color/white" />
 
 
+                    </LinearLayout>-->
+
+                    <LinearLayout
+                        android:id="@+id/lv_more_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/round_btn_corner_black"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:id="@+id/tv_more_premium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="20dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/more"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

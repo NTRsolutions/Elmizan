@@ -1,13 +1,12 @@
 package com.sismatix.Elmizan.Fregment;
 
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +17,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Country_model;
-import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.R;
 import com.sismatix.Elmizan.Retrofit.ApiClient;
 import com.sismatix.Elmizan.Retrofit.ApiInterface;
@@ -56,6 +53,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     Spinner spinner_country;
     RelativeLayout lv_register_parent;
     TextView sp_text;
+    TextInputLayout layout_mobilenuber,etPasswordLayout,layout_password,layout_email;
 
     public static ArrayList<String> country_name_code = new ArrayList<String>();
     public static ArrayList<String> country_name = new ArrayList<String>();
@@ -194,10 +192,9 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                             }
 
                         }
-                        spinner_country.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, country_name));
+                       spinner_country.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, country_name));
 
-
-                    }else if (status.equalsIgnoreCase("error")){
+                        }else if (status.equalsIgnoreCase("error")){
                     }
 
                 }catch (Exception e){
@@ -224,6 +221,12 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         sp_text=(TextView) v.findViewById(R.id.sp_text);
 
 
+        layout_mobilenuber=(TextInputLayout) v.findViewById(R.id.layout_mobilenuber);
+        etPasswordLayout=(TextInputLayout) v.findViewById(R.id.etPasswordLayout);
+        layout_password=(TextInputLayout) v.findViewById(R.id.layout_password);
+        layout_email=(TextInputLayout) v.findViewById(R.id.layout_email);
+
+
         checkbox.setTypeface(Navigation_activity.typeface);
 
 
@@ -232,11 +235,15 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         editTextEmail_reg.setTypeface(Navigation_activity.typeface);
         editTextpassword_reg.setTypeface(Navigation_activity.typeface);
         editTextphone_reg.setTypeface(Navigation_activity.typeface);
-        editTextname_reg.setTypeface(Navigation_activity.typeface);
 
         sp_text.setTypeface(Navigation_activity.typeface);
         checkbox.setTypeface(Navigation_activity.typeface);
         btn_register.setTypeface(Navigation_activity.typeface);
+
+        layout_mobilenuber.setTypeface(Navigation_activity.typeface);
+        etPasswordLayout.setTypeface(Navigation_activity.typeface);
+        layout_password.setTypeface(Navigation_activity.typeface);
+        layout_email.setTypeface(Navigation_activity.typeface);
 
     }
 
@@ -308,7 +315,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
