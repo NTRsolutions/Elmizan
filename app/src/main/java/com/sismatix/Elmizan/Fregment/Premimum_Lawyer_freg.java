@@ -219,7 +219,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
 
-                YPlayerr.pause();
+               // YPlayerr.pause();
                 Bundle b=new Bundle();
                 b.putString("useridd",user_id);
                 Log.e("usid",""+user_id);
@@ -230,7 +230,15 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
             }
         });
 
-
+        tv_premium_send_msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("smsto:" + "");
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                intent.putExtra("sms_body", "");
+                startActivity(intent);
+            }
+        });
         return view;
 
     }
@@ -638,7 +646,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                                 @Override
                                 public void onClick(View view) {
 
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(fb));
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"+fb));
                                     startActivity(browserIntent);
 
                                 }
@@ -657,14 +665,12 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                             lv_premium_twitter.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitter));
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.twitter.com/"+twitter));
                                     startActivity(browserIntent);
                                 }
                             });
 
                         }
-
-
 
                         if (instagram == "" || instagram == null || instagram == "null" || instagram.equalsIgnoreCase(null)
                                 || instagram.equalsIgnoreCase("null") || instagram.equalsIgnoreCase("")) {
@@ -677,7 +683,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
                             lv_premium_insta.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(instagram));
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.instagram.com/"+instagram));
                                     startActivity(browserIntent);
                                 }
                             });

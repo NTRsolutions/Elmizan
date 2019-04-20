@@ -144,8 +144,8 @@
     <string name="user_detail">المحامي لقب يطلق على من أجيز له ممارسة مهنة المحاماة بناء على القوانين المعمول بها، والمحامي قد يجاز ... المرافعة أمام المحاكم المدنية; المحامي لقب يطلق على من أجيز له ممارسة مهنة المحاماة بناء على القوانين المعمول بها، والمحامي قد يجاز ... المرافعة أمام المحاكم المدنية</string>
     <string name="tv_title">العنوان</string>
     <string name="titleee">رقم واسم الشارع, المدينة, الدولة</string>
-
     <string name="save">حفظ</string>
+    <string name="enteruserdtis">ادخل معلومات عنك </string>
     <string name="Edit_your_profile">عدل ملفك الشخصي</string>
     <string name="fb_link">فيسبوك لينك</string>
     <string name="insta_link">رابط انستغرام</string>

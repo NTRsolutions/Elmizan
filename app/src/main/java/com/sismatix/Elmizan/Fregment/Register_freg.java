@@ -1,8 +1,10 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -266,7 +268,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "Password must be at least 6 characters long", Toast.LENGTH_SHORT).show();
         }else if (editTextphone_reg.getText().length() == 0) {
             Toast.makeText(getContext(), "Please enter your Phone number", Toast.LENGTH_SHORT).show();
-        }else if (regi_phone.length() < 9 || regi_phone.length() > 13) {//et_shippingphonenumber.getText().length() == 0
+        }else if (regi_phone.length() < 8 || regi_phone.length() > 13) {//et_shippingphonenumber.getText().length() == 0
             Toast.makeText(getContext(), "Please enter valid Mobile no.", Toast.LENGTH_SHORT).show();
         }else if (spinner_country.getSelectedItem().toString().trim().equals("Select") == true) {
             Toast.makeText(getActivity(), "Please Select Country", Toast.LENGTH_SHORT).show();
@@ -299,11 +301,18 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                         Toast.makeText(getContext(), "" + meassg, Toast.LENGTH_SHORT).show();
                         //JSONObject object=new JSONObject(jsonObject.getString("data"));
 
-                        Login_freg nextFrag = new Login_freg();
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.main_fram_layout, nextFrag, "login")
-                                .addToBackStack(null)
-                                .commit();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Login_freg nextFrag = new Login_freg();
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.main_fram_layout, nextFrag, "login")
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        },3000);
+
+
                         //getActivity().finish();
                     } else if (status.equalsIgnoreCase("error")) {
                         Toast.makeText(getContext(), "" + meassg, Toast.LENGTH_SHORT).show();

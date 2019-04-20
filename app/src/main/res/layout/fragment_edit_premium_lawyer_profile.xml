@@ -217,7 +217,7 @@
                                 android:id="@+id/edt_appeal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/appealattorney"
+                                android:hint=""
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/edittextline"
                                 android:textSize="14sp"
@@ -800,6 +800,7 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
+                    android:visibility="visible"
                     android:paddingRight="10dp">
 
                     <TextView
@@ -833,7 +834,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="start|center"
-                        android:hint="@string/article_detail"
+                        android:hint="@string/enteruserdtis"
                         android:inputType="textMultiLine"
                         android:maxLines="10"
                         android:overScrollMode="always"

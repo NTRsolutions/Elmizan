@@ -301,7 +301,6 @@ public class Article_freg extends Fragment {
                                 String article_media_url = news_object.getString("article_media_urls");
                                 Log.e("article_media_urls", "" + article_media_url);
 
-
                                 if (article_media_url.equalsIgnoreCase("false") == true) {
                                     image = "";
                                     video="";

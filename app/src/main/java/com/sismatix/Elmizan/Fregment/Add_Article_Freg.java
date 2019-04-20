@@ -100,6 +100,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
     CircleImageView iv_upload_image;
     ImageView iv_camera;
     RadioGroup radioGroup;
+    String media_type="";
     LinearLayout lv_add_article, lv_upload_youtube_link, lv_upload_image;
 
 
@@ -380,7 +381,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "Please enter your Article name", Toast.LENGTH_SHORT).show();
         } else if (edt_article_detail.getText().length() == 0) {
             Toast.makeText(getContext(), "Please enter your Article Detail", Toast.LENGTH_SHORT).show();
-        } else if (radioGroup.getCheckedRadioButtonId() == -1) {
+        } /*else if (radioGroup.getCheckedRadioButtonId() == -1) {
             Toast.makeText(getContext(), "Please select one value", Toast.LENGTH_SHORT).show();
 
         } else if(radio_upload_youtube_link.isChecked()==true)
@@ -416,7 +417,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 CALL_ADD_ARTICLE_API(article_title, article_detail, youtube_link, path);
 
             }
-        }else
+        }*/else
         {
             CALL_ADD_ARTICLE_API(article_title, article_detail, youtube_link, path);
         }
@@ -439,6 +440,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         RequestBody userid1 = RequestBody.create(MediaType.parse("text/plain"), userid);
         RequestBody status = RequestBody.create(MediaType.parse("text/plain"), ApiClient.user_status);
 
+
         if (article_id == "" || article_id == null || article_id == "null" || article_id.equalsIgnoreCase(null)
                 || article_id.equalsIgnoreCase("null")) {
             article_id_pass = "insert";
@@ -451,14 +453,16 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part part = MultipartBody.Part.createFormData("article_images[]", file.getName(), fileReqBody);
                 Log.e("insert_image", "" + part);
+                media_type="image";
                 add_article = api.add_article_image
                         (userid1, article_id1, old_article,
-                                article_title1, article_detail1, status, part);
+                                article_title1, article_detail1, status,media_type, part);
             } else {
+                media_type="video";
                 Log.e("insert_youtube", "" + youtube_link1);
                 add_article = api.add_article_youtube_link
                         (userid1, youtube_link1, article_id1, old_article,
-                                article_title1, article_detail1, status);
+                                article_title1, article_detail1,media_type, status);
             }
         } else {
             article_id_pass = article_id;
@@ -476,27 +480,28 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                         || path.equalsIgnoreCase("null")) {
                     Log.e("EDit_old_image", "" + path);
                     RequestBody blank = RequestBody.create(MediaType.parse("text/plain"), "");
+                    media_type="";
                     add_article = api.add_article_image_blank
                             (userid1, article_id1, old_article,
-                                    article_title1, article_detail1, status, blank);
+                                    article_title1, article_detail1, status,media_type, blank);
                 } else {
                     File file = new File(path);
                     RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
                     MultipartBody.Part part = MultipartBody.Part.createFormData("article_images[]", file.getName(), fileReqBody);
-
+                    media_type="image";
                     Log.e("Edit_new_image", "" + part);
                     add_article = api.add_article_image
                             (userid1, article_id1, old_article,
-                                    article_title1, article_detail1, status, part);
+                                    article_title1, article_detail1, status,media_type, part);
                 }
             } else {
                 RequestBody old_article_pass = RequestBody.create(MediaType.parse("text/plain"), "");
-
+                media_type="video";
                 Log.e("edit_youtube_link", "" + youtube_link1);
                 Log.e("old_article_pass", "" + old_article_pass);
                 add_article = api.add_article_youtube_link
                         (userid1, youtube_link1, article_id1, old_article_pass,
-                                article_title1, article_detail1, status);
+                                article_title1, article_detail1,media_type, status);
             }
         }
 

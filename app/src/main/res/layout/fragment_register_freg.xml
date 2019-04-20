@@ -32,7 +32,7 @@
                 android:id="@+id/editTextname_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sign_name"
+                android:hint="@string/fullname"
                 android:inputType="text"
                 android:textColor="@color/black"
                 android:textColorHint="@color/edittextline" />
