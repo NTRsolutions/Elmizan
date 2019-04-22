@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.FileUtils;
 import com.sismatix.Elmizan.R;
 
@@ -49,6 +50,9 @@ public class MyAdapter extends BaseAdapter {
         ImageView imageView = convertView.findViewById(R.id.imageView);
         TextView imagePath = convertView.findViewById(R.id.imagePath);
         imagePath.setText(FileUtils.getPath(context, arrayList.get(position)));
+
+
+
         Glide.with(context)
                 .load(arrayList.get(position))
                 .into(imageView);

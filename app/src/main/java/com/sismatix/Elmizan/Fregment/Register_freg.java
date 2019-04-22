@@ -160,10 +160,8 @@ public class Register_freg extends Fragment implements View.OnClickListener {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response_country", "" + response.body().toString());
                 //   progressBar_home.setVisibility(View.GONE);
-
-                country_name.add(getActivity().getResources().getString(R.string.Select));
+                country_name.add("اختر");
                 country_name_code.add("0");
-
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());

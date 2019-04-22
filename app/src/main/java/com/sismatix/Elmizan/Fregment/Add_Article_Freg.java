@@ -438,7 +438,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         RequestBody article_detail1 = RequestBody.create(MediaType.parse("text/plain"), article_detail);
         RequestBody youtube_link1 = RequestBody.create(MediaType.parse("text/plain"), youtube_link);
         RequestBody userid1 = RequestBody.create(MediaType.parse("text/plain"), userid);
-        RequestBody status = RequestBody.create(MediaType.parse("text/plain"), ApiClient.user_status);
+        RequestBody status = RequestBody.create(MediaType.parse("text/plain"), "0");
 
 
         if (article_id == "" || article_id == null || article_id == "null" || article_id.equalsIgnoreCase(null)
@@ -448,21 +448,25 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
             RequestBody article_id1 = RequestBody.create(MediaType.parse("text/plain"), article_id_pass);
             RequestBody old_article = RequestBody.create(MediaType.parse("text/plain"), old_imag_pass);
 
+
             if (radio_upload_image.isChecked() == true) {
                 File file = new File(path);
                 RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part part = MultipartBody.Part.createFormData("article_images[]", file.getName(), fileReqBody);
                 Log.e("insert_image", "" + part);
                 media_type="image";
+                RequestBody media_typee = RequestBody.create(MediaType.parse("text/plain"), media_type);
+
                 add_article = api.add_article_image
                         (userid1, article_id1, old_article,
-                                article_title1, article_detail1, status,media_type, part);
+                                article_title1, article_detail1, status,media_typee, part);
             } else {
                 media_type="video";
+                RequestBody media_typee = RequestBody.create(MediaType.parse("text/plain"), media_type);
                 Log.e("insert_youtube", "" + youtube_link1);
                 add_article = api.add_article_youtube_link
                         (userid1, youtube_link1, article_id1, old_article,
-                                article_title1, article_detail1,media_type, status);
+                                article_title1, article_detail1,media_typee, status);
             }
         } else {
             article_id_pass = article_id;
@@ -481,30 +485,32 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                     Log.e("EDit_old_image", "" + path);
                     RequestBody blank = RequestBody.create(MediaType.parse("text/plain"), "");
                     media_type="";
+                    RequestBody media_typee = RequestBody.create(MediaType.parse("text/plain"), media_type);
                     add_article = api.add_article_image_blank
                             (userid1, article_id1, old_article,
-                                    article_title1, article_detail1, status,media_type, blank);
+                                    article_title1, article_detail1, status,media_typee, blank);
                 } else {
                     File file = new File(path);
                     RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
                     MultipartBody.Part part = MultipartBody.Part.createFormData("article_images[]", file.getName(), fileReqBody);
                     media_type="image";
+                    RequestBody media_typee = RequestBody.create(MediaType.parse("text/plain"), media_type);
                     Log.e("Edit_new_image", "" + part);
                     add_article = api.add_article_image
                             (userid1, article_id1, old_article,
-                                    article_title1, article_detail1, status,media_type, part);
+                                    article_title1, article_detail1, status,media_typee, part);
                 }
             } else {
                 RequestBody old_article_pass = RequestBody.create(MediaType.parse("text/plain"), "");
                 media_type="video";
+                RequestBody media_typee = RequestBody.create(MediaType.parse("text/plain"), media_type);
                 Log.e("edit_youtube_link", "" + youtube_link1);
                 Log.e("old_article_pass", "" + old_article_pass);
                 add_article = api.add_article_youtube_link
                         (userid1, youtube_link1, article_id1, old_article_pass,
-                                article_title1, article_detail1,media_type, status);
+                                article_title1, article_detail1,media_typee, status);
             }
         }
-
 
         add_article.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -530,7 +536,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                         String media_upload_error = jsonObject.getString("media_upload_error");
                         Toast.makeText(getActivity(), "" + media_upload_error, Toast.LENGTH_SHORT).show();
 
-                        Log.e("add_article_status_else", "" + status);
+                        Log.e("add_articlef_status_else", "" + status);
                         Log.e("media_upload_error", "" + media_upload_error);
                     }
 
@@ -560,7 +566,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 Log.e("DATATATATAT===========", "==" + data.getExtras().get("data"));
                 bitmap = (Bitmap) data.getExtras().get("data");
                 // encodedImage = imgBitMapToString(bitmap);
-                Log.e("camera_imagess", "" + encodedImage);
+                //Log.e("camera_imagess", "" + encodedImage);
                 Log.e("bitmap_559", "" + bitmap);
                 RoundedBitmapDrawable circularBitmapDrawable =
                         RoundedBitmapDrawableFactory.create(getResources(), bitmap);
@@ -831,15 +837,12 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 }, RequestPermissionCode);
 
     }
-
     // Calling override method.
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[],
                                            int[] grantResults) {
         switch (requestCode) {
-
             case RequestPermissionCode:
-
                 if (grantResults.length > 0) {
 
                     boolean CameraPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
@@ -854,25 +857,18 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
                     }
                 }
-
                 break;
         }
     }
-
     // Checking permission is enabled or not using function starts from here.
     public boolean CheckingPermissionIsEnabledOrNot() {
 
         int CAMERA_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), CAMERA);
         int READ_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), READ_EXTERNAL_STORAGE);
         int WRITE_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE);
-
-
         return CAMERA_PermissionResult == PackageManager.PERMISSION_GRANTED &&
                 READ_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED &&
                 WRITE_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED;
 
     }
-
-
-
 }

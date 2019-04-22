@@ -62,8 +62,8 @@ public class Premium_article_adpter extends RecyclerView.Adapter<Premium_article
 
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.drawable.app_icon);
-        requestOptions.error(R.drawable.app_icon);
+        requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.error(R.drawable.placeholder);
 
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
@@ -144,8 +145,13 @@ public class About_us extends Fragment {
                                 }
                             }
                         });*/
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.placeholder);
+                        requestOptions.error(R.drawable.placeholder);
 
-                        Glide.with(getActivity()).load(global_content4).into(iv_au_img);
+
+                        Glide.with(getActivity())
+                                .setDefaultRequestOptions(requestOptions).load(global_content4).into(iv_au_img);
 
                     }else if (status.equalsIgnoreCase("error")){
                     }

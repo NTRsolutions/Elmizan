@@ -300,7 +300,7 @@ public class Home_freg extends Fragment {
                     }else if (status.equalsIgnoreCase("error")){
                         progressBar_bottom_recv.setVisibility(View.GONE);
                        // Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
-                        tv_data_not_found_home.setVisibility(View.VISIBLE);
+                       // tv_data_not_found_home.setVisibility(View.VISIBLE);
 
 
                     }

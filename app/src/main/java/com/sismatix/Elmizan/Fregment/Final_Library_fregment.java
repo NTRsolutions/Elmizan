@@ -192,7 +192,7 @@ public class Final_Library_fregment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 progressBar_librarylist.setVisibility(View.GONE);
-                Toast.makeText(context, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(context, "" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("Failure", "" + t.getLocalizedMessage());
             }
         });

@@ -75,13 +75,9 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
         // holder.tv_directory_offline_onnline.setText(directory_model.getNews_detail());
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 
-
-
-
-
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.drawable.app_icon);
-        requestOptions.error(R.drawable.app_icon);
+        requestOptions.placeholder(R.drawable.my_profile);
+        requestOptions.error(R.drawable.my_profile);
         Glide.with(context)
                 .setDefaultRequestOptions(requestOptions)
                 .load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
@@ -89,6 +85,24 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 
  ///       Glide.with(context).load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
 
+        holder.lv_directory_send_msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("smsto:" + "");
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                intent.putExtra("sms_body", "");
+                context.startActivity(intent);
+            }
+        });
+         holder.msg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("smsto:" + "");
+                Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+                intent.putExtra("sms_body", "");
+                context.startActivity(intent);
+            }
+        });
 
         if (directory_model.getBasic_premium().equalsIgnoreCase("premium") == true) {
 

@@ -211,13 +211,13 @@
                                 android:text="@string/user_name_app"
                                 android:textColor="@color/bottom_icon"
                                 android:textSize="12sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"/>
 
                             <EditText
                                 android:id="@+id/edt_appeal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint=""
+                                android:hint="@string/appealattorney"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/edittextline"
                                 android:textSize="14sp"

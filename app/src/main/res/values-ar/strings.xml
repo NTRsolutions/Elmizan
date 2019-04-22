@@ -86,7 +86,7 @@
     <string name="email_static">abc@gmail.com</string>
     <string name="site">موقع :</string>
     <string name="site_static">google.com</string>
-    <string name="media">وسائل الإعلام
+    <string name="media"> صور وفيديوهات
 </string>
     <string name="photos"><![CDATA[فيديوهات وصور]]></string>
     <string name="posted_by">بواسطة :</string>
@@ -153,7 +153,7 @@
 </string>
 
 
-    <string name="phone_noo">Eأدخل رقم الهاتف</string>
+    <string name="phone_noo">أدخل رقم الهاتف</string>
     <string name="address_s">أدخل العنوان</string>
     <string name="emailll">أدخل البريد الإلكتروني</string>
     <string name="siteee">دخول الموقع</string>
@@ -164,7 +164,7 @@
     <string name="internal_storage">التخزين الداخلي</string>
     <string name="Add_youtube_link">إضافة رابط يوتيوب</string>
     <string name="delete_article">حذف المادة</string>
-    <string name="Description">وصف</string>
+    <string name="Description">نبذة عن المحامي</string>
     <string name="my_images">صوري</string>
     <string name="my_videos">أشرطة الفيديو الخاصة بي</string>
 

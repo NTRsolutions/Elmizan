@@ -309,8 +309,8 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                         Navigation_activity.Check_Editext_NULL_Value(edt_address, address);
 
                         RequestOptions requestOptions = new RequestOptions();
-                        requestOptions.placeholder(R.drawable.app_icon);
-                        requestOptions.error(R.drawable.app_icon);
+                        requestOptions.placeholder(R.drawable.my_profile);
+                        requestOptions.error(R.drawable.my_profile);
 
 
                         Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_edit_lawyer_profile);
@@ -337,8 +337,8 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         if (text == "" || text == null || text == "null" || text.equalsIgnoreCase(null)
                 || text.equalsIgnoreCase("null") || text.equalsIgnoreCase("") == true) {
             //textview.setHint(hint);
-            Log.e("hinteee", "" + hint);
-            textview.setText(hint);
+          //  Log.e("hinteee", "" + hint);
+            textview.setText("");
         } else {
 
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
@@ -631,7 +631,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             if (phone.length() == 0) {
                 Toast.makeText(getContext(), "Please enter your Mobile No", Toast.LENGTH_SHORT).show();
                 validation_ok = false;
-            } else if (phone.length() < 9 || phone.length() > 13) {
+            } else if (phone.length() < 8 || phone.length() > 13) {
                 Toast.makeText(getContext(), "Please enter valid Mobile no.", Toast.LENGTH_SHORT).show();
                 validation_ok = false;
             }

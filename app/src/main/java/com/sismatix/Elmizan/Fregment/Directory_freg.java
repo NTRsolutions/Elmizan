@@ -355,7 +355,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                       //  tv_data_not_found.setVisibility(View.VISIBLE);
                      //   recycler_directory.setVisibility(View.GONE);
                       //  tv_data_not_found.setText(message);
-                        Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {

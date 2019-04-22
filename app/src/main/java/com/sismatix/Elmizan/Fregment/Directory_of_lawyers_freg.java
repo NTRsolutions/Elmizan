@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Preference.Login_preference;
@@ -125,7 +126,11 @@ public class Directory_of_lawyers_freg extends Fragment {
                         tv_phonenumber_dircto.setText(data_obj.getString("user_phone"));
                         tv_shortdicription_dircto.setText(data_obj.getString("user_description"));
                         tv_site_dircto.setText(data_obj.getString("user_website"));*/
-                        Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(iv_lawyer_profile);
+
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.my_profile);
+                        requestOptions.error(R.drawable.my_profile);
+                        Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_lawyer_profile);
 
 
                     }else if (status.equalsIgnoreCase("error")){

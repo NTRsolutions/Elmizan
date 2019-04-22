@@ -149,8 +149,8 @@ public class Contact_us extends Fragment {
                         });*/
 
                         RequestOptions requestOptions = new RequestOptions();
-                        requestOptions.placeholder(R.drawable.app_icon);
-                        requestOptions.error(R.drawable.app_icon);
+                        requestOptions.placeholder(R.drawable.contact);
+                        requestOptions.error(R.drawable.contact);
 
                         Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(global_content4).into(iv_cu);
 

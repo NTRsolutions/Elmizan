@@ -27,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_gravity="top"
+                android:scaleType="centerCrop"
                 android:src="@drawable/user_profile" />
         </LinearLayout>
 
@@ -205,18 +206,10 @@
                     android:text="@string/more"/>
             </LinearLayout>
         </LinearLayout>
-
-
-
-
-
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/edittextline"
         android:layout_marginTop="5dp"/>
-
-
 </LinearLayout>

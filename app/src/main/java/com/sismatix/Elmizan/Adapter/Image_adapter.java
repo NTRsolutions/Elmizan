@@ -51,7 +51,13 @@ public class Image_adapter extends RecyclerView.Adapter<Image_adapter.MyViewHold
 
         //final Country_model rmd = model.get(position);
         holder.imagePath.setText(FileUtils.getPath(context, arrayList.get(position)));
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.error(R.drawable.placeholder);
+
         Glide.with(context)
+                .setDefaultRequestOptions(requestOptions)
                 .load(arrayList.get(position))
                 .into(holder.imageView);
 

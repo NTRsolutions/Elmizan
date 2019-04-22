@@ -79,8 +79,8 @@ public class Articles_Adapter extends RecyclerView.Adapter<Articles_Adapter.MyVi
         Navigation_activity.Check_String_NULL_Value(holder.tv_article_date, article_model.getArticle_date());
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(R.drawable.app_icon);
-        requestOptions.error(R.drawable.app_icon);
+        requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.error(R.drawable.placeholder);
 
         holder.lv_article_click.setOnClickListener(new View.OnClickListener() {
             @Override

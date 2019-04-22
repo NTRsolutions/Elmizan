@@ -2,6 +2,7 @@ package com.sismatix.Elmizan.Fregment;
 
 
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -51,6 +53,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -464,7 +468,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                             || image.equalsIgnoreCase("null")) {
                                         lv_image_details.setVisibility(View.GONE);
                                     } else {
-                                        Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+
+                                        RequestOptions requestOptions = new RequestOptions();
+                                        requestOptions.placeholder(R.drawable.placeholder);
+                                        requestOptions.error(R.drawable.placeholder);
+
+
+                                        Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
+                                                .load(image).into(iv_news_detail_image);
                                     }
 
                                 }
@@ -474,7 +485,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                 image = "";
                                 lv_video_details.setVisibility(View.GONE);
                                 lv_image_details.setVisibility(View.GONE);
-                                Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                                RequestOptions requestOptions = new RequestOptions();
+                                requestOptions.placeholder(R.drawable.placeholder);
+                                requestOptions.error(R.drawable.placeholder);
+
+
+                                Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
+                                        .load(image).into(iv_news_detail_image);
+
                             }
 
                             JSONArray video_array = image_obj.getJSONArray("video");
@@ -503,7 +521,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                 lv_video_details.setVisibility(View.GONE);
                                 Log.e("video_array_else", "" + video_array);
                                 video = "";
-                                Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                                RequestOptions requestOptions = new RequestOptions();
+                                requestOptions.placeholder(R.drawable.placeholder);
+                                requestOptions.error(R.drawable.placeholder);
+
+
+                                Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
+                                        .load(image).into(iv_news_detail_image);
+
                             }
 
                         }
@@ -638,7 +663,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                     lv_image_details.setVisibility(View.GONE);
                                 } else {
                                     Log.e("image_news_main", "" + image);
-                                    Glide.with(getActivity()).load(image).into(iv_news_detail_image);
+                                    RequestOptions requestOptions = new RequestOptions();
+                                    requestOptions.placeholder(R.drawable.placeholder);
+                                    requestOptions.error(R.drawable.placeholder);
+
+
+                                    Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
+                                            .load(image).into(iv_news_detail_image);
+
                                 }
 
                             }
@@ -648,8 +680,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                             image = "";
                             lv_video_details.setVisibility(View.GONE);
                             lv_image_details.setVisibility(View.GONE);
-                            Glide.with(getActivity()).load(image).into(iv_news_detail_image);
-                        }
+                            RequestOptions requestOptions = new RequestOptions();
+                            requestOptions.placeholder(R.drawable.placeholder);
+                            requestOptions.error(R.drawable.placeholder);
+
+
+                            Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
+                                    .load(image).into(iv_news_detail_image);
+                                                }
 
                         JSONArray video_array = image_obj.getJSONArray("video");
                         if (video_array != null && video_array.isNull(0) != true) {
@@ -678,8 +716,14 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                             lv_video_details.setVisibility(View.GONE);
                             Log.e("video_array_else", "" + video_array);
                             video = "";
-                            Glide.with(getActivity()).load(image).into(iv_news_detail_image);
-                        }
+                            RequestOptions requestOptions = new RequestOptions();
+                            requestOptions.placeholder(R.drawable.placeholder);
+                            requestOptions.error(R.drawable.placeholder);
+
+
+                            Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
+                                    .load(image).into(iv_news_detail_image);
+                                                }
 
                     } else if (status.equalsIgnoreCase("error")) {
                     }
@@ -713,6 +757,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         tv_detail_news_title = (TextView) view.findViewById(R.id.tv_detail_news_title);
         tv_news_detail_date = (TextView) view.findViewById(R.id.tv_news_detail_date);
         tv_news_detail_description = (TextView) view.findViewById(R.id.tv_news_detail_description);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            tv_news_detail_description.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
+        }
         tv_detail_news_add_comment = (TextView) view.findViewById(R.id.tv_detail_news_add_comment);
         tv_send_news = (TextView) view.findViewById(R.id.tv_send_news);
         iv_news_detail_like = (ImageView) view.findViewById(R.id.iv_news_detail_like);

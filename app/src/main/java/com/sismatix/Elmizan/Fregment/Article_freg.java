@@ -236,7 +236,6 @@ public class Article_freg extends Fragment {
             }
         });
     }*/
-
     private void pushFragment(Fragment fragment, String add_to_backstack) {
         if (fragment == null)
             return;

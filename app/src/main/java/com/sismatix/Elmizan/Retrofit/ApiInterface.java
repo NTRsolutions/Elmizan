@@ -159,7 +159,7 @@ public interface ApiInterface {
             @Part("article_title") RequestBody article_title,
             @Part("article_description") RequestBody article_description,
             @Part("article_status") RequestBody article_status,
-            @Part("media_type") String mediatype,
+            @Part("media_type") RequestBody mediatype,
             @Part MultipartBody.Part file);
 
     ////image blank
@@ -172,7 +172,7 @@ public interface ApiInterface {
             @Part("article_title") RequestBody article_title,
             @Part("article_description") RequestBody article_description,
             @Part("article_status") RequestBody article_status,
-            @Part("media_type") String mediatype,
+            @Part("media_type") RequestBody mediatype,
             @Part("article_images[]") RequestBody article_images
           );
 
@@ -189,7 +189,7 @@ public interface ApiInterface {
             @Part("old_article_images[]") RequestBody old_article_images,
             @Part("article_title") RequestBody article_title,
             @Part("article_description") RequestBody article_description,
-            @Part("media_type") String mediatype,
+            @Part("media_type") RequestBody mediatype,
             @Part("article_status") RequestBody article_status);
 
 

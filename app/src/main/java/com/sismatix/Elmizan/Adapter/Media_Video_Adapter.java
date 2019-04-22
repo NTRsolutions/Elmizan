@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.YPlayer;
 import com.sismatix.Elmizan.Configgg;
 import com.sismatix.Elmizan.Fregment.Login_freg;
@@ -82,7 +83,12 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
         Log.e("videooooiddd_med", "" + tst1);
         Log.e("idddd_82", "" + media_video_model.getVideo());
 
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.error(R.drawable.placeholder);
+
         Glide.with(context)
+                .setDefaultRequestOptions(requestOptions)
                 .load("http://img.youtube.com/vi/" + tst1 + "/hqdefault.jpg")
                 .into(holder.iv_thumb);
 

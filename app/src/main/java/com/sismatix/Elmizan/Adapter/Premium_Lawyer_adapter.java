@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sismatix.Elmizan.Activity.MediaImageSlider;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Fregment.MediaImages;
@@ -60,7 +61,13 @@ public class Premium_Lawyer_adapter extends RecyclerView.Adapter<Premium_Lawyer_
 
         final Media_images_model product_model = models.get(position);
 
-        Glide.with(context).load(product_model.getImages()).into(holder.imageview);
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.error(R.drawable.placeholder);
+
+
+        Glide.with(context) .setDefaultRequestOptions(requestOptions).load(product_model.getImages()).into(holder.imageview);
         holder.tv_img.setTypeface(Navigation_activity.typeface);
 
 

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.sismatix.Elmizan.Model.Media_images_model;
 import com.sismatix.Elmizan.Model.Premium_Lawyer_Model;
@@ -72,8 +73,13 @@ public class Sliding_media_img_Adapter extends PagerAdapter {
         });
         */
 
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.placeholder);
+        requestOptions.error(R.drawable.placeholder);
 
-         Glide.with(context).load(sm.getImages()).into(image);
+
+
+         Glide.with(context).setDefaultRequestOptions(requestOptions).load(sm.getImages()).into(image);
         ((ViewPager) container).addView(view);
 
         return view;
