@@ -21,11 +21,94 @@
         android:layout_marginRight="20dp"
         android:background="@color/white">
 
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:paddingRight="10dp"
+            android:weightSum="4"
+            android:visibility="gone"
+            android:id="@+id/lv_upload_image_regi">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="2.5"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:gravity="center|start">
+
+                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/iv_regi_lawyer_profile"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/my_profile"
+                            app:civ_border_color="#fff"
+                            app:civ_border_width="1dp" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="88dp"
+                    android:layout_height="37dp"
+                    android:layout_marginTop="-39dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_gravity="start|center"
+                    android:background="@drawable/round_half_circle"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/iv_regi_camera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_menu_camera"
+                        android:tint="@color/white" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center|start">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textStyle="normal"
+                    android:textSize="14sp"
+                    android:id="@+id/tv_arabic_image"
+                    android:text="@string/arabic"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/layout_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/lv_upload_image_regi"
             android:textColorHint="@color/edittextline">
 
             <EditText
@@ -137,7 +220,10 @@
             android:layout_marginTop="20dp"
             android:text="@string/registration_lawyer" />
 
+
+
         <Button
+
             android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,7 +232,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
             android:background="@color/colorPrimary"
             android:text="@string/createaccont"

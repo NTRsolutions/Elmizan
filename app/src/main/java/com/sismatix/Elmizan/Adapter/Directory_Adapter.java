@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.sismatix.Elmizan.Activity.Chat_activity;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Directory_of_lawyers_freg;
@@ -83,15 +84,33 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
                 .load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
 
 
+        holder.lv_directory_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                Intent i=new Intent(context,Chat_activity.class);
+                Log.e("user_99",""+models.get(position).getUser_id());
+                i.putExtra("user_id",models.get(position).getUser_id());
+                activity.startActivity(i);
+            }
+        });
+
+
  ///       Glide.with(context).load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
 
         holder.lv_directory_send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("smsto:" + "");
+                /*Uri uri = Uri.parse("smsto:" + "");
                 Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
                 intent.putExtra("sms_body", "");
-                context.startActivity(intent);
+                context.startActivity(intent);*/
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                Intent i=new Intent(context,Chat_activity.class);
+                Log.e("user_99",""+models.get(position).getUser_id());
+                i.putExtra("user_id",models.get(position).getUser_id());
+                activity.startActivity(i);
+
             }
         });
          holder.msg.setOnClickListener(new View.OnClickListener() {

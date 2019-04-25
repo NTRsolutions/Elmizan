@@ -33,7 +33,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".Activity.MediaImageSlider"></activity>
+        <activity android:name=".Activity.MediaImageSlider" />
         <activity
             android:name=".Activity.YPlayer"
             android:screenOrientation="landscape" />
@@ -49,6 +49,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".Activity.Chat_activity"></activity>
     </application>
 
 </manifest>

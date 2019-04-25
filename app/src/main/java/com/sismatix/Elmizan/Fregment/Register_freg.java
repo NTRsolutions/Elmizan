@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,8 +57,11 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     String  checked_value_pass,countryid;
     Spinner spinner_country;
     RelativeLayout lv_register_parent;
-    TextView sp_text;
+    TextView sp_text,tv_arabic_image;
     TextInputLayout layout_mobilenuber,etPasswordLayout,layout_password,layout_email;
+    LinearLayout lv_upload_image_regi;
+    ImageView iv_regi_camera;
+    CircleImageView iv_regi_lawyer_profile;
 
     public static ArrayList<String> country_name_code = new ArrayList<String>();
     public static ArrayList<String> country_name = new ArrayList<String>();
@@ -86,9 +92,19 @@ public class Register_freg extends Fragment implements View.OnClickListener {
                 if(b==true)
                 {
                     checked_value_pass="1";
+                    lv_upload_image_regi.setVisibility(View.VISIBLE);
+
                 }else {
                     checked_value_pass="0";
+                    lv_upload_image_regi.setVisibility(View.GONE);
+
                 }
+
+
+              /*  if (checkbox.isChecked())
+                {
+                }else {
+                }*/
             }
         });
 
@@ -122,6 +138,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         });
 
 
+
         return v;
     }
 
@@ -131,7 +148,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
+                public boolean  onTouch(View v, MotionEvent event) {
                     Login_freg.hideSoftKeyboard(getActivity());
                     return false;
                 }
@@ -219,8 +236,12 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         spinner_country=(Spinner) v.findViewById(R.id.spinner_country);
         lv_register_parent=(RelativeLayout) v.findViewById(R.id.lv_register_parent);
         sp_text=(TextView) v.findViewById(R.id.sp_text);
+        tv_arabic_image=(TextView) v.findViewById(R.id.tv_arabic_image);
+        iv_regi_camera=(ImageView) v.findViewById(R.id.iv_regi_camera);
+        iv_regi_lawyer_profile=(CircleImageView) v.findViewById(R.id.iv_regi_lawyer_profile);
 
 
+        lv_upload_image_regi=(LinearLayout) v.findViewById(R.id.lv_upload_image_regi);
         layout_mobilenuber=(TextInputLayout) v.findViewById(R.id.layout_mobilenuber);
         etPasswordLayout=(TextInputLayout) v.findViewById(R.id.etPasswordLayout);
         layout_password=(TextInputLayout) v.findViewById(R.id.layout_password);
@@ -237,6 +258,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         editTextphone_reg.setTypeface(Navigation_activity.typeface);
 
         sp_text.setTypeface(Navigation_activity.typeface);
+        tv_arabic_image.setTypeface(Navigation_activity.typeface);
         checkbox.setTypeface(Navigation_activity.typeface);
         btn_register.setTypeface(Navigation_activity.typeface);
 

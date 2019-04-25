@@ -637,7 +637,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             });
         }
 
-        //If a layout container, iterate over children and seed recursion.
+         //If a layout container, iterate over children and seed recursion.
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);

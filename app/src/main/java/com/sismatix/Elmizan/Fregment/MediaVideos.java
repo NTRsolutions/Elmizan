@@ -68,11 +68,8 @@ public class MediaVideos extends Fragment {
         context = getActivity();
         lang_arbi();
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
-
             CALL_GET_MEDIAVIDEOS_API(Media.u_id);
-
-
-        } else {
+            } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
 

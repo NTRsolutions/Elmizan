@@ -17,6 +17,8 @@
     <string name="telephonenumber">Telephone number</string>
     <string name="state">The state</string>
     <string name="createyouraccount">Create your account</string>
+    <string name="arabic">Download an image from the membership of the Bar Association</string>
+
     <!--login-->
     <string name="welcome">welcome,</string>
     <string name="signin">Sign in</string>
@@ -176,7 +178,6 @@
     <string name="Remove_photo">Remove Photo</string>
     <string name="Cancel">Cancel</string>
     <string name="directory_of_lawyer"></string>
-
 
 
 </resources>

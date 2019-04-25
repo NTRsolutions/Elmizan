@@ -16,6 +16,7 @@
     <string name="telephonenumber">رقم الهاتف</string>
     <string name="state">الدولة</string>
     <string name="createyouraccount">أنشئ حسابك</string>
+    <string name="arabic">تحميل صورة من عضوية جمعية المحامين</string>
     <!--login-->
     <string name="welcome">مرحباً بك،</string>
     <string name="signin">قم بتسجيل الدخول</string>
