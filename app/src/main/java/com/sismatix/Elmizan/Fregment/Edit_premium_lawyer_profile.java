@@ -171,8 +171,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
         });
 
-
-
         if (My_Preference.get_premium_lawyer(getActivity()).equalsIgnoreCase("premium") == true) {
 
             //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.menu_img));
@@ -182,7 +180,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             //iv_nav_premium_logo.setImageDrawable(Navigation_activity.this.getDrawable(R.drawable.grey_perimimum));
             iv_edit_image.setImageResource(R.drawable.grey_perimimum);
         }
-
 
         return v;
     }
@@ -350,7 +347,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
     public void onClick(View view) {
         if (view == lv_edit_title) {
 
-
             if (lv_edit_title.isClickable() == true && flag_name == true) {
 
                 Log.e("fullname_22", "" + tv_edit_user_name.getText().toString());
@@ -438,7 +434,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("address_22", "" + tv_edit_address.getText().toString());
                 Log.e("phone_22", "" + tv_edit_phone.getText().toString());
                 Log.e("site_22", "" + tv_edit_site.getText().toString());
-
 
                 Navigation_activity.Check_Editext_NULL_Value(edt_email, tv_edit_email.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_address, tv_edit_address.getText().toString());

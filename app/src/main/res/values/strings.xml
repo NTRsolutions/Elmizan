@@ -48,9 +48,7 @@
     <string-array name="theme_array">
 
         <item>select</item>
-
         <item>Black</item>
-
         <item>White</item>
 
     </string-array>
@@ -126,7 +124,6 @@
     <string name="about_usss">About the balance</string>
     <string name="online">Online</string>
 
-
     <!--Add article-->
     <string name="add_article">Add Article</string>
 
@@ -178,6 +175,5 @@
     <string name="Remove_photo">Remove Photo</string>
     <string name="Cancel">Cancel</string>
     <string name="directory_of_lawyer"></string>
-
 
 </resources>

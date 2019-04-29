@@ -89,28 +89,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Navigation_activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-    public  BottomNavigationView bottom_navigation;
+    public BottomNavigationView bottom_navigation;
     DrawerLayout drawer;
     public static Toolbar toolbar;
     NavigationView navigationView;
     public static ImageView iv_nav_country_image, iv_nav_logo, iv_nav_instagram;
-    public  static TextView tv_nav_title,tv_nav_user_name,tv_nav_appal;
+    public static TextView tv_nav_title, tv_nav_user_name, tv_nav_appal;
     Bundle b;
-    String Screen,register;
-    public static AssetManager am ;
+    String Screen, register;
+    public static AssetManager am;
     boolean doubleBackToExitPressedOnce = false;
     public static Typeface typeface, Cairo_Regular;
-    public static LinearLayout lv_withlogin_header,lv_withoutlogin_header,withoutloginicon;
+    public static LinearLayout lv_withlogin_header, lv_withoutlogin_header, withoutloginicon;
     public static MenuItem nav_register, nav_contactus, nav_signin, nav_myaccount, nav_myarticle, nav_logout;
     public static ImageView iv_profile_image;
-    Point p,c;
+    Point p, c;
     ProgressDialog PD;
     RecyclerView recycler_country;
     public static PopupWindow popup;
     ProgressBar progressBar_country;
-    public  static ImageView iv_nav_premium_logo,iv_nav_twitter;
+    public static ImageView iv_nav_premium_logo, iv_nav_twitter;
     private String android_deviceid;
 
     private List<Country_model> country_model = new ArrayList<Country_model>();
@@ -131,7 +131,7 @@ public class Navigation_activity extends AppCompatActivity
                 Settings.Secure.ANDROID_ID);
         Log.e("deviceid_117", "" + android_deviceid);
 
-        My_Preference.setCountry_name(Navigation_activity.this,"1");
+        My_Preference.setCountry_name(Navigation_activity.this, "1");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -143,12 +143,11 @@ public class Navigation_activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         ///navigation menu icon change
-
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_36dp);
 
-        if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")){
+        if (Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
             lv_withlogin_header.setVisibility(View.VISIBLE);
             lv_withoutlogin_header.setVisibility(View.GONE);
             //hide if user not login
@@ -159,17 +158,15 @@ public class Navigation_activity extends AppCompatActivity
             withoutloginicon.setVisibility(View.VISIBLE);
             tv_nav_user_name.setText(Login_preference.getuser_name(this));
 
-            String desc=Login_preference.getuser_short_desc(this);
+            String desc = Login_preference.getuser_short_desc(this);
             if (desc.equalsIgnoreCase("null") == true) {
-                tv_nav_appal.setHint("");
+                //tv_nav_appal.setHint("");
                 //textview.setText("Enter Value here");
-            }else {
-
-                tv_nav_appal.setText(desc);
+            } else {
+                //tv_nav_appal.setText(desc);
             }
 
             //tv_nav_appal.setText(Login_preference.getuser_short_desc(this));
-
             //   Check_String_NULL_Value(tv_nav_appal,desc, "a");
 
             Glide.with(this).load(Login_preference.getuser_profile(this)).into(iv_profile_image);
@@ -201,7 +198,7 @@ public class Navigation_activity extends AppCompatActivity
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((Navigation_activity.this) ).getmDrawerLayout()
+                ((Navigation_activity.this)).getmDrawerLayout()
                         .openDrawer(GravityCompat.START);
             }
         });
@@ -211,13 +208,13 @@ public class Navigation_activity extends AppCompatActivity
 
         b = getIntent().getExtras();
         if (b != null) {
-            Screen=getIntent().getExtras().getString("screen");
+            Screen = getIntent().getExtras().getString("screen");
 
-            Log.e("lofin",""+Screen);
-            if(Screen.equalsIgnoreCase("Login")==true){
-                pushFragment(new Login_freg(),"Login");
-            }else if(Screen.equalsIgnoreCase("register")==true){
-                pushFragment(new Register_freg(),"register");
+            Log.e("lofin", "" + Screen);
+            if (Screen.equalsIgnoreCase("Login") == true) {
+                pushFragment(new Login_freg(), "Login");
+            } else if (Screen.equalsIgnoreCase("register") == true) {
+                pushFragment(new Register_freg(), "register");
             }
         }
 
@@ -267,7 +264,7 @@ public class Navigation_activity extends AppCompatActivity
             applyFontToMenuItem(mi);
         }
 
-        tv_nav_appal.setTypeface(typeface);
+        //tv_nav_appal.setTypeface(typeface);
 
     }
 
@@ -356,7 +353,7 @@ public class Navigation_activity extends AppCompatActivity
         mi.setTitle(mNewTitle);
     }
 
-    public  void lang_arbi() {
+    public void lang_arbi() {
         String languageToLoad = "ar";
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
@@ -364,6 +361,7 @@ public class Navigation_activity extends AppCompatActivity
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
     }
+
     private void CALL_DEVICE_TOKEN_API() {
 
         ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
@@ -411,6 +409,7 @@ public class Navigation_activity extends AppCompatActivity
         c.y = location[1];
 
     }
+
     private void showPopup(final Activity context, Point c) {
         int popupWidth = 500;
         int popupHeight = 650;
@@ -419,20 +418,18 @@ public class Navigation_activity extends AppCompatActivity
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
         int width = displaymetrics.widthPixels;
-      //  Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
-
+        //  Toast.makeText(Navigation_activity.this, width + " = " + height, Toast.LENGTH_SHORT).show();
 
 
         LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup1);
         LayoutInflater layoutInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.country_popup_row, viewGroup);
-     ///   lv_english = (LinearLayout) layout.findViewById(R.id.lv_english);
-     //   lv_arbi = (LinearLayout) layout.findViewById(R.id.lv_arbi);
+        ///   lv_english = (LinearLayout) layout.findViewById(R.id.lv_english);
+        //   lv_arbi = (LinearLayout) layout.findViewById(R.id.lv_arbi);
 
-
-       TextView textView_country=(TextView)layout.findViewById(R.id.textView_country);
-       textView_country.setTypeface(Navigation_activity.typeface);
+        TextView textView_country = (TextView) layout.findViewById(R.id.textView_country);
+        textView_country.setTypeface(Navigation_activity.typeface);
         progressBar_country = (ProgressBar) layout.findViewById(R.id.progressBar_country);
         recycler_country = (RecyclerView) layout.findViewById(R.id.recycler_country);
         LinearLayout lv_show = (LinearLayout) layout.findViewById(R.id.lv_country_show);
@@ -452,9 +449,8 @@ public class Navigation_activity extends AppCompatActivity
         int OFFSET_X;
         int OFFSET_Y;
         popup.setBackgroundDrawable(new BitmapDrawable());
-        popup.showAtLocation(layout, Gravity.CENTER,0,0);
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
     }
-
 
     private void CALL_COUNTRY_API(final LinearLayout lv_show) {
         progressBar_country.setVisibility(View.VISIBLE);
@@ -469,7 +465,7 @@ public class Navigation_activity extends AppCompatActivity
                 Log.e("response_counry", "" + response.body().toString());
                 progressBar_country.setVisibility(View.GONE);
 
-              //  PD.dismiss();
+                //  PD.dismiss();
                 recycler_country.setVisibility(View.VISIBLE);
                 //        lv_show.setVisibility(View.VISIBLE);
 
@@ -477,17 +473,17 @@ public class Navigation_activity extends AppCompatActivity
                 try {
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
-                    Log.e("status_country",""+status);
+                    Log.e("status_country", "" + status);
                     String message = jsonObject.getString("msg");
-                    Log.e("message",""+message);
-                    if (status.equalsIgnoreCase("success")){
-                        JSONArray data_array=jsonObject.getJSONArray("data");
+                    Log.e("message", "" + message);
+                    if (status.equalsIgnoreCase("success")) {
+                        JSONArray data_array = jsonObject.getJSONArray("data");
 
                         for (int i = 0; i < data_array.length(); i++) {
 
                             try {
                                 JSONObject news_object = data_array.getJSONObject(i);
-                                Log.e("Name",""+news_object.getString("country_id"));
+                                Log.e("Name", "" + news_object.getString("country_id"));
                                 country_model.add(new Country_model(news_object.getString("country_id"),
                                         news_object.getString("country_name"),
                                         news_object.getString("country_status"),
@@ -502,13 +498,14 @@ public class Navigation_activity extends AppCompatActivity
 
                         }
 
-                    }else if (status.equalsIgnoreCase("error")){
+                    } else if (status.equalsIgnoreCase("error")) {
                     }
 
-                }catch (Exception e){
-                    Log.e("",""+e);
+                } catch (Exception e) {
+                    Log.e("", "" + e);
                 }
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(Navigation_activity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
@@ -520,12 +517,12 @@ public class Navigation_activity extends AppCompatActivity
         am = getApplicationContext().getAssets();
         typeface = Typeface.createFromAsset(am,
                 String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));
+
         /*tf = Typeface.createFromAsset(am,
                 String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));
-
-
         Cairo_SemiBold = Typeface.createFromAsset(am,
                 String.format(Locale.getDefault(), "Cairo-SemiBold.ttf"));*/
+
         Cairo_Regular = Typeface.createFromAsset(am,
                 String.format(Locale.getDefault(), "Cairo-Regular.ttf"));
 
@@ -544,15 +541,15 @@ public class Navigation_activity extends AppCompatActivity
 
 
         View header = navigationView.getHeaderView(0);
-        lv_withlogin_header=(LinearLayout) header.findViewById(R.id.lv_withlogin_header);
-        lv_withoutlogin_header=(LinearLayout) header.findViewById(R.id.lv_withoutlogin_header);
-        tv_nav_user_name=(TextView) header.findViewById(R.id.tv_nav_user_name);
-        tv_nav_appal=(TextView) header.findViewById(R.id.tv_nav_appal);
+        lv_withlogin_header = (LinearLayout) header.findViewById(R.id.lv_withlogin_header);
+        lv_withoutlogin_header = (LinearLayout) header.findViewById(R.id.lv_withoutlogin_header);
+        tv_nav_user_name = (TextView) header.findViewById(R.id.tv_nav_user_name);
+        //tv_nav_appal = (TextView) header.findViewById(R.id.tv_nav_appal);
         iv_profile_image = (ImageView) header.findViewById(R.id.iv_profile_image);
-        withoutloginicon=(LinearLayout) findViewById(R.id.withoutloginicon);
-        iv_nav_premium_logo = (ImageView)header. findViewById(R.id.iv_navigation_premium_logo);
+        withoutloginicon = (LinearLayout) findViewById(R.id.withoutloginicon);
+        iv_nav_premium_logo = (ImageView) header.findViewById(R.id.iv_navigation_premium_logo);
 
-        Menu menu =navigationView.getMenu();
+        Menu menu = navigationView.getMenu();
         nav_register = menu.findItem(R.id.nav_register);
         nav_contactus = menu.findItem(R.id.nav_contactus);
         nav_signin = menu.findItem(R.id.nav_signin);
@@ -560,18 +557,13 @@ public class Navigation_activity extends AppCompatActivity
         nav_myarticle = menu.findItem(R.id.nav_my_article);
         nav_logout = menu.findItem(R.id.nav_logout);
 
-
-
-
-
-
     }
 
     public DrawerLayout getmDrawerLayout() {
         return drawer;
     }
-    private void Bootom_Navigation_view() {
 
+    private void Bootom_Navigation_view() {
 
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        BottomNavigationViewHelper.disableShiftMode(bottom_navigation);
@@ -594,7 +586,7 @@ public class Navigation_activity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.bottom_nav_home:
-                Home_freg  fragment=new Home_freg();
+                Home_freg fragment = new Home_freg();
 
                 if (fragment == null)
                     return;
@@ -610,66 +602,66 @@ public class Navigation_activity extends AppCompatActivity
                 //pushFragment(new Home_freg(),"Home");
                 break;
             case R.id.bottom_nav_directory:
-                pushFragment(new Directory_freg(),"directory");
+                pushFragment(new Directory_freg(), "directory");
                 break;
             case R.id.bottom_nav_article:
-                pushFragment(new Article_freg(),"article");
+                pushFragment(new Article_freg(), "article");
                 break;
 
             case R.id.bottom_nav_library:
-                pushFragment(new Final_Library_fregment(),"library");
+                pushFragment(new Final_Library_fregment(), "library");
 
                 break;
             case R.id.bottom_nav_myaccount:
 
-                if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
-                    pushFragment(new Edit_premium_lawyer_profile(),"Edit_profile");
+                if (Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
+                    pushFragment(new Edit_premium_lawyer_profile(), "Edit_profile");
 
-                }else {
-                    pushFragment(new Login_freg(),"login");
+                } else {
+                    pushFragment(new Login_freg(), "login");
                 }
 
 
         }
     }
-    public static void Check_String_NULL_Value( TextView textview, String text) {
+
+    public static void Check_String_NULL_Value(TextView textview, String text) {
 
 
-        if(text.equalsIgnoreCase("null")==true)
-        {
+        if (text.equalsIgnoreCase("null") == true) {
             textview.setHint("");
             //textview.setText("Enter Value here");
-        }else {
+        } else {
 
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
         }
 
     }
+
     public static void Check_Editext_NULL_Value(EditText textview, String text) {
 
 
-        if(text.equalsIgnoreCase("null")==true)
-        {
-         //   textview.setText("Enter Value here");
-           textview.setHint("");
-        }else {
+        if (text.equalsIgnoreCase("null") == true) {
+            //   textview.setText("Enter Value here");
+            textview.setHint("");
+        } else {
 
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
         }
 
     }
-    public static String  Convert_String_First_Letter(String convert_string)
-    {
-        String upperString ;
 
-        if(convert_string.length() > 0)
-        {
-            upperString = convert_string.substring(0,1).toUpperCase() + convert_string.substring(1);
-        }else {
-            upperString=" ";
+    public static String Convert_String_First_Letter(String convert_string) {
+        String upperString;
+
+        if (convert_string.length() > 0) {
+            upperString = convert_string.substring(0, 1).toUpperCase() + convert_string.substring(1);
+        } else {
+            upperString = " ";
         }
         return upperString;
     }
+
     private void pushFragment(Fragment fragment, String add_to_backstack) {
         if (fragment == null)
             return;
@@ -694,17 +686,17 @@ public class Navigation_activity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         int count = fragmentManager.getBackStackEntryCount();
-        Log.e("count_621",""+count);
+        Log.e("count_621", "" + count);
 
 
         if (count == 0) {
             if (doubleBackToExitPressedOnce) {
-                Log.e("count_628",""+count);
+                Log.e("count_628", "" + count);
                 super.onBackPressed();
                 super.finish();
                 return;
             }
-            Log.e("count_1",""+count);
+            Log.e("count_1", "" + count);
 
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
@@ -717,13 +709,13 @@ public class Navigation_activity extends AppCompatActivity
         } else {
 
             getSupportFragmentManager().popBackStack();
-            Log.e("count_629",""+count);
+            Log.e("count_629", "" + count);
 
            /* String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
             Log.e("count_629",""+count);
             super.onBackPressed();
          */ //  super.onBackPressed();
-           // Log.e("onBackPressetitle", "" + title);
+            // Log.e("onBackPressetitle", "" + title);
         }
 
 
@@ -760,11 +752,11 @@ public class Navigation_activity extends AppCompatActivity
 
         if (id == R.id.nav_about_us) {
             // Handle the camera action
-            pushFragment(new About_us(),"aboutus");
+            pushFragment(new About_us(), "aboutus");
 
         } else if (id == R.id.nav_contactus) {
 
-            pushFragment(new Contact_us(),"aboutus");
+            pushFragment(new Contact_us(), "aboutus");
         } else if (id == R.id.nav_logout) {
 
             if (CheckNetwork.isNetworkAvailable(Navigation_activity.this)) {
@@ -774,45 +766,41 @@ public class Navigation_activity extends AppCompatActivity
             }
 
 
-
         } else if (id == R.id.nav_my_account) {
 
-            if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
+            if (Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
 
-                    Bundle b=new Bundle();
-                    b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
-                    Fragment myFragment = new Edit_premium_lawyer_profile();
-                    myFragment.setArguments(b);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                Bundle b = new Bundle();
+                b.putString("user_id", Login_preference.getuser_id(Navigation_activity.this));
+                Fragment myFragment = new Edit_premium_lawyer_profile();
+                myFragment.setArguments(b);
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
 
 
-            }else {
-                pushFragment(new Login_freg(),"login");
+            } else {
+                pushFragment(new Login_freg(), "login");
             }
 
         } else if (id == R.id.nav_my_article) {
-            if(Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
-                if(My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium")){
-                    Bundle b=new Bundle();
-                    b.putString("user_id",Login_preference.getuser_id(Navigation_activity.this));
+            if (Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
+                if (My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium")) {
+                    Bundle b = new Bundle();
+                    b.putString("user_id", Login_preference.getuser_id(Navigation_activity.this));
                     Fragment myFragment = new Article_freg();
                     myFragment.setArguments(b);
                     getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack("").commit();
 
                 }
-            }else {
-                pushFragment(new Login_freg(),"login");
+            } else {
+                pushFragment(new Login_freg(), "login");
             }
 
+        } else if (id == R.id.nav_signin) {
+            pushFragment(new Login_freg(), "register");
+        } else if (id == R.id.nav_register) {
+            pushFragment(new Register_freg(), "register");
+        } else if (id == R.id.nav_view) {
         }
-        else if (id == R.id.nav_signin) {
-            pushFragment(new Login_freg(),"register");
-        }
-
-        else if (id == R.id.nav_register) {
-            pushFragment(new Register_freg(),"register");
-        }
-        else if (id == R.id.nav_view) { }
 
 
         drawer.closeDrawer(GravityCompat.START);

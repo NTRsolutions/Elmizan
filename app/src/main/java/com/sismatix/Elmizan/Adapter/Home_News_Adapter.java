@@ -26,8 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.MyViewHolder>
-{
+public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.MyViewHolder> {
     private Context context;
     private List<News_Model> models;
 
@@ -36,6 +35,7 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
         this.context = context;
         this.models = models;
     }
+
     @Override
     public Home_News_Adapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -60,27 +60,26 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
 
         DateFormat outputFormatter1 = new SimpleDateFormat("dd MMM, yyyy");
         String output1 = outputFormatter1.format(date1);
-        Log.e("date_news_61",""+output1);
-*/
+        Log.e("date_news_61",""+output1);*/
+
         holder.tv_date_news.setTypeface(Navigation_activity.typeface);
         holder.tv_title_news.setTypeface(Navigation_activity.typeface);
         holder.tv_detail_news.setTypeface(Navigation_activity.typeface);
         holder.tv_date_news.setTypeface(Navigation_activity.typeface);
 
-        holder.tv_date_news.setText(Html.fromHtml(model.getNews_day()+" "+model.getNews_month()+", "+model.getNews_year()));
-        Navigation_activity.Check_String_NULL_Value(holder.tv_title_news,model.getNews_title());
-        Navigation_activity.Check_String_NULL_Value(holder.tv_detail_news,model.getNews_description());
+        holder.tv_date_news.setText(Html.fromHtml(model.getNews_day() + " " + model.getNews_month() + ", " + model.getNews_year()));
+        Navigation_activity.Check_String_NULL_Value(holder.tv_title_news, model.getNews_title());
+        Navigation_activity.Check_String_NULL_Value(holder.tv_detail_news, model.getNews_description());
+
         //Navigation_activity.Check_String_NULL_Value(holder.tv_date_news,model.getNews_date());
         //holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
         //holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
+        // holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 
-        //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
-        if(position %2 == 1)
-        {
+        if (position % 2 == 1) {
             holder.lv_news.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
-        else {
+            //holder.imageView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#F2F2F2"));
         }
 
@@ -90,10 +89,10 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
-                        Bundle b=new Bundle();
-                        b.putString("news_id",model.getNews_id());
-                       // b.putString("name",product_model.getCategory_name());
-                        Log.e("news_id",""+model.getNews_id());
+                        Bundle b = new Bundle();
+                        b.putString("news_id", model.getNews_id());
+                        // b.putString("name",product_model.getCategory_name());
+                        Log.e("news_id", "" + model.getNews_id());
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         Fragment myFragment = new News_Detail_freg();
                         myFragment.setArguments(b);
@@ -103,19 +102,16 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
             }
         });
 
-
     }
-
 
     @Override
     public int getItemCount() {
         return models.size();
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_date_news,tv_title_news, tv_detail_news;
+        TextView tv_date_news, tv_title_news, tv_detail_news;
         LinearLayout lv_news;
 
         public MyViewHolder(View view) {
@@ -124,13 +120,7 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
             tv_detail_news = (TextView) view.findViewById(R.id.tv_detail_news);
             tv_date_news = (TextView) view.findViewById(R.id.tv_date_news);
             lv_news = (LinearLayout) view.findViewById(R.id.lv_news);
-
-
-
-
-
         }
     }
-
 
 }

@@ -31,8 +31,9 @@
         android:layout_marginTop="3dp"
         android:text="@string/news_detail"
         android:textColor="@color/bottom_icon"
-        android:textSize="13sp"
-         />
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textSize="13sp"/>
 
 
 </LinearLayout>

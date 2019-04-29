@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
+import com.sismatix.Elmizan.Activity.Chat_activity;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.Adapter.Premium_Lawyer_Video_adapter;
 import com.sismatix.Elmizan.Adapter.Premium_Lawyer_adapter;
@@ -77,7 +79,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
     private List<Article_model> article_models = new ArrayList<Article_model>();
     private Premium_article_adpter articles_adapter;
     IndefinitePagerIndicator indicater;
-    LinearLayout lv_primium_click,lv_phone,lv_address,lv_email,lv_site,lv_country;
+    LinearLayout lv_primium_click, lv_phone, lv_address, lv_email, lv_site, lv_country;
     Bundle bundle;
     String user_id;
     View view;
@@ -109,6 +111,8 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
 
     String old_image_video_pass = "null", oldurl_pass_imag, old_video, screen;
+    String login_flag;
+
 
     public Premimum_Lawyer_freg() {
 
@@ -120,7 +124,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_premimum_lawyer_freg, container, false);
         lang_arbi();
-
+        login_flag = Login_preference.getLogin_flag(getContext());
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
@@ -230,12 +234,52 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         tv_premium_send_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse("smsto:" + "");
+                if (login_flag.equalsIgnoreCase("1") || login_flag == "1") {
+                    Intent i = new Intent(getContext(), Chat_activity.class);
+                    Log.e("user_99", "" + user_id);
+                    i.putExtra("user_id", user_id);
+                    startActivity(i);
+                } else {
+
+                    FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                    FragmentTransaction ft = manager.beginTransaction();
+                    ft.setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out);
+                    Fragment newFragment = new Login_freg();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack(null).commit();
+                }
+            }
+
+               /* Intent i = new Intent(getContext(), Chat_activity.class);
+                i.putExtra("user_id", user_id);
+                getActivity().startActivity(i);*/
+               /* Uri uri = Uri.parse("smsto:" + "");
                 Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
                 intent.putExtra("sms_body", "");
-                startActivity(intent);
+                startActivity(intent);*/
+
+        });
+
+        lv_pre_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (login_flag.equalsIgnoreCase("1") || login_flag == "1") {
+                    Intent i = new Intent(getContext(), Chat_activity.class);
+                    Log.e("user_99", "" + user_id);
+                    i.putExtra("user_id", user_id);
+                    startActivity(i);
+                } else {
+
+                    FragmentManager manager = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
+                    FragmentTransaction ft = manager.beginTransaction();
+                    ft.setCustomAnimations(R.anim.fade_in,
+                            0, 0, R.anim.fade_out);
+                    Fragment newFragment = new Login_freg();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack(null).commit();
+                }
             }
         });
+
         return view;
 
     }
@@ -608,14 +652,14 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
                             lv_site.setVisibility(View.VISIBLE);
                         } else {
-                            Log.e("nulllll","");
+                            Log.e("nulllll", "");
                             lv_site.setVisibility(View.GONE);
                         }
                         if (data_obj.getString("user_phone") != null && !data_obj.getString("user_phone").isEmpty() && !data_obj.getString("user_phone").equals("null")) {
 
                             lv_phone.setVisibility(View.VISIBLE);
                         } else {
-                            Log.e("nulllll","");
+                            Log.e("nulllll", "");
                             lv_phone.setVisibility(View.GONE);
                         }
                         if (data_obj.getString("user_email") != null && !data_obj.getString("user_email")
@@ -623,7 +667,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
                             lv_email.setVisibility(View.VISIBLE);
                         } else {
-                            Log.e("nulllll","");
+                            Log.e("nulllll", "");
                             lv_email.setVisibility(View.GONE);
                         }
                         if (data_obj.getString("user_address") != null && !data_obj.getString("user_address")
@@ -631,7 +675,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
                             lv_address.setVisibility(View.VISIBLE);
                         } else {
-                            Log.e("nulllll","");
+                            Log.e("nulllll", "");
                             lv_address.setVisibility(View.GONE);
                         }
                         if (data_obj.getString("user_country_name") != null && !data_obj.getString("user_country_name")
@@ -639,7 +683,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
 
                             lv_country.setVisibility(View.VISIBLE);
                         } else {
-                            Log.e("nulllll","");
+                            Log.e("nulllll", "");
                             lv_country.setVisibility(View.GONE);
                         }
 

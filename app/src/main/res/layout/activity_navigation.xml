@@ -14,7 +14,6 @@
 
         <include layout="@layout/app_bar_navigation_activity" />
 
-
         <FrameLayout
             android:id="@+id/main_fram_layout"
             android:layout_width="match_parent"
@@ -35,9 +34,7 @@
             app:itemTextColor="@color/bottom_icon"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_navigation"
-            android:theme="@style/Widget.BottomNavigationView"
-            />
-
+            android:theme="@style/Widget.BottomNavigationView" />
 
     </RelativeLayout>
 

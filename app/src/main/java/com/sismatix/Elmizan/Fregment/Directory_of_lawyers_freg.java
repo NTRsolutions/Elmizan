@@ -112,8 +112,6 @@ public class Directory_of_lawyers_freg extends Fragment {
                         tv_site_dircto.setTypeface(Navigation_activity.typeface);
                         tv_shortdicription_dircto.setTypeface(Navigation_activity.typeface);
 
-
-
                         Navigation_activity.Check_String_NULL_Value(tv_name_dircto,data_obj.getString("user_fullname"));
                         Navigation_activity.Check_String_NULL_Value(tv_address_dircto,data_obj.getString("user_address"));
                         Navigation_activity.Check_String_NULL_Value(tv_phonenumber_dircto,data_obj.getString("user_phone"));
