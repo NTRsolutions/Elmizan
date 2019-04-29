@@ -539,7 +539,6 @@ public class Navigation_activity extends AppCompatActivity
         iv_nav_logo = findViewById(R.id.iv_nav_logo);
         tv_nav_title = findViewById(R.id.tv_nav_title);
 
-
         View header = navigationView.getHeaderView(0);
         lv_withlogin_header = (LinearLayout) header.findViewById(R.id.lv_withlogin_header);
         lv_withoutlogin_header = (LinearLayout) header.findViewById(R.id.lv_withoutlogin_header);
