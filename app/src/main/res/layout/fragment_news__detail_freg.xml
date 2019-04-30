@@ -168,6 +168,7 @@
                                 android:id="@+id/lv_image_details"
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
+                                android:padding="5dp"
                                 android:orientation="vertical"
                                 android:visibility="gone">
 
@@ -175,7 +176,7 @@
                                     android:id="@+id/iv_news_detail_image"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="fitCenter"
                                     android:src="@drawable/img" />
                             </LinearLayout>
 

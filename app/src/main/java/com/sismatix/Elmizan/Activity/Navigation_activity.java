@@ -217,22 +217,15 @@ public class Navigation_activity extends AppCompatActivity
                 pushFragment(new Register_freg(), "register");
             }
         }
-
-
         //---------get country//
         iv_nav_country_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (c != null)
-
                     // showPopupCurrency(Navigation_activity.this, c);
                     showPopup(Navigation_activity.this, c);
-
-
             }
         });
-
-
         if (CheckNetwork.isNetworkAvailable(Navigation_activity.this)) {
             CALL_DEVICE_TOKEN_API();
             CALL_CAONTACT_US_API();
@@ -578,7 +571,6 @@ public class Navigation_activity extends AppCompatActivity
             return false;
         }
     };
-
     private void selectFragment(MenuItem item) {
 
         item.setChecked(true);
@@ -594,6 +586,7 @@ public class Navigation_activity extends AppCompatActivity
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     if (ft != null) {
                         ft.replace(R.id.main_fram_layout, fragment);
+                        ft.addToBackStack("HOME");
                         ft.commit();
                     }
                 }
@@ -677,7 +670,36 @@ public class Navigation_activity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int count = fragmentManager.getBackStackEntryCount();
+        //String name=fragmentManager.get
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        Log.e("", "" + count);
+        if (count == 1) {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                super.finish();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        } else {
+            String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
+            super.onBackPressed();
+            Log.e("onBackPressetitle", "" + title);
+            // tv_title.setText(title);
+        }
+
+        /*if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -710,13 +732,13 @@ public class Navigation_activity extends AppCompatActivity
             getSupportFragmentManager().popBackStack();
             Log.e("count_629", "" + count);
 
-           /* String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
+           *//* String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
             Log.e("count_629",""+count);
             super.onBackPressed();
-         */ //  super.onBackPressed();
+         *//* //  super.onBackPressed();
             // Log.e("onBackPressetitle", "" + title);
         }
-
+*/
 
     }
 

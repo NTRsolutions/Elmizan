@@ -105,9 +105,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             article_id = bundle.getString("article_id");
             Log.e("news_id_43", "" + news_id);
             Log.e("article_id_79", "" + article_id);
-
         }
-
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 

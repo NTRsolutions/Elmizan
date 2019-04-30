@@ -148,6 +148,8 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         lv_add_article.setOnClickListener(this);
 
 
+
+
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             if (article_id == "" || article_id == null || article_id == "null" || article_id.equalsIgnoreCase(null)
@@ -756,14 +758,11 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
 
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputManager = (InputMethodManager) activity
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // check if no view has focus:
-        View currentFocusedView = activity.getCurrentFocus();
-        if (currentFocusedView != null) {
-            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public void setupUI(View view) {
