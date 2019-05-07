@@ -1,13 +1,28 @@
 package com.sismatix.Elmizan.Fregment;
 
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,15 +51,25 @@ import com.sismatix.Elmizan.Retrofit.ApiInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +87,14 @@ public class Register_freg extends Fragment implements View.OnClickListener {
     LinearLayout lv_upload_image_regi;
     ImageView iv_regi_camera;
     CircleImageView iv_regi_lawyer_profile;
+
+
+    Bitmap bitmap = null;
+    String path, filename, encodedImage, user_id;
+    Bundle bundle;
+    public static final int RequestPermissionCode = 7;
+
+
 
     public static ArrayList<String> country_name_code = new ArrayList<String>();
     public static ArrayList<String> country_name = new ArrayList<String>();
@@ -83,6 +116,10 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
         lang_arbi();
         AllocateMemory(v);
+        country_model.clear();
+        country_name.clear();
+        country_name_code.clear();
+
         setupUI(lv_register_parent);
         btn_register.setOnClickListener(this);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -137,10 +174,12 @@ public class Register_freg extends Fragment implements View.OnClickListener {
 
         });
 
-
+        IMAGE_CLICKLISTNER();
 
         return v;
     }
+
+
 
 
     public void setupUI(View view) {
@@ -225,7 +264,6 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         });
     }
 
-
     private void AllocateMemory(View v) {
         editTextname_reg=(EditText)v.findViewById(R.id.editTextname_reg);
         editTextEmail_reg=(EditText)v.findViewById(R.id.editTextEmail_reg);
@@ -292,6 +330,18 @@ public class Register_freg extends Fragment implements View.OnClickListener {
             Toast.makeText(getContext(), "Please enter valid Mobile no.", Toast.LENGTH_SHORT).show();
         }else if (spinner_country.getSelectedItem().toString().trim().equals("Select") == true) {
             Toast.makeText(getActivity(), "Please Select Country", Toast.LENGTH_SHORT).show();
+        }else if(checkbox.isChecked()==true)
+        {
+            if(path == "" || path == null || path == "null" || path.equalsIgnoreCase(null)
+                    || path.equalsIgnoreCase("null"))
+            {
+                Toast.makeText(getContext(), "Please select image", Toast.LENGTH_SHORT).show();
+
+            }else {
+                Register_Api(regi_name,regi_emailid,regi_phone,regi_password,countryid);
+            }
+
+
         }
         else {
             Register_Api(regi_name,regi_emailid,regi_phone,regi_password,countryid);
@@ -302,10 +352,45 @@ public class Register_freg extends Fragment implements View.OnClickListener {
 
         ApiInterface apii = ApiClient.getClient().create(ApiInterface.class);
         String agree_terms="1";
-        Call<ResponseBody> register = apii.get_register(regi_name, regi_emailid,regi_phone,
-                regi_password,regi_password,agree_terms,checked_value_pass,user_country_id);
+        Call<ResponseBody> register = null;
+
+        if(checkbox.isChecked()==false)
+        {
+            Log.e("country_value_312", "0");
+
+            register = apii.get_register(regi_name, regi_emailid,regi_phone,
+                    regi_password ,regi_password,agree_terms,checked_value_pass,user_country_id);
+
+        }else {
+
+            Log.e("country_value_318", "1");
+            Log.e("path_358", "1"+path);
+
+            RequestBody regi_name_pass = RequestBody.create(MediaType.parse("text/plain"), regi_name);
+            RequestBody regi_emailid_pass = RequestBody.create(MediaType.parse("text/plain"), regi_emailid);
+            RequestBody regi_phone_pass = RequestBody.create(MediaType.parse("text/plain"), regi_phone);
+            RequestBody regi_password_pass = RequestBody.create(MediaType.parse("text/plain"), regi_password);
+            RequestBody agree_terms_pass = RequestBody.create(MediaType.parse("text/plain"), agree_terms);
+            RequestBody checked_value_passss = RequestBody.create(MediaType.parse("text/plain"), checked_value_pass);
+            RequestBody user_country_id_pass = RequestBody.create(MediaType.parse("text/plain"), user_country_id);
+
+            File file = new File(path);
+            RequestBody fileReqBody = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part part = MultipartBody.Part.createFormData("user_membership_card", file.getName(), fileReqBody);
+            Log.e("new_part_624", "" + part);
+
+            register = apii.CALL_User_registration_image
+                    (regi_name_pass,
+                            regi_emailid_pass, regi_phone_pass, regi_password_pass,regi_password_pass,
+                            agree_terms_pass, checked_value_passss,
+                            user_country_id_pass,part);
+
+
+        }
         Log.e("checked_value_pass", "" + checked_value_pass);
         Log.e("country_value_pass", "" + countryid);
+
+
         register.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -364,4 +449,202 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         config.locale = locale;
         getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
+
+
+
+
+    ///image upload
+
+    private void IMAGE_CLICKLISTNER() {
+        iv_regi_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CheckingPermissionIsEnabledOrNot()) {
+                    //  Toast.makeText(getActivity(), "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
+                } else {
+                    //Calling method to enable permission.
+                    RequestMultiplePermission();
+                }
+                selectImage();
+            }
+        });
+
+    }
+    @SuppressLint("LongLogTag")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                //onCaptureImageResult(data);
+                Log.e("DATATATATAT===========", "==" + data.getExtras().get("data"));
+                bitmap = (Bitmap) data.getExtras().get("data");
+                // encodedImage = imgBitMapToString(bitmap);
+                Log.e("camera_imagess", "" + bitmap);
+
+                RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                circularBitmapDrawable.setCircular(true);
+                iv_regi_lawyer_profile.setImageBitmap(bitmap);
+
+                // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                Uri tempUri = getImageUri(getActivity(), bitmap);
+
+                // CALL THIS METHOD TO GET THE ACTUAL PATH
+                File finalFile = new File(getRealPathFromURI(tempUri));
+                path = String.valueOf(finalFile);
+                filename = path.substring(path.lastIndexOf("/") + 1);
+            } else if (requestCode == 2) {
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String imagePath = c.getString(columnIndex);
+                c.close();
+                bitmap = (BitmapFactory.decodeFile(imagePath));
+                Log.e("path of image from gallery..*************...", imagePath);
+
+                File imagefile = new File(imagePath);
+                path = String.valueOf(imagefile);
+                Log.e("pathhhhhhh_profilepic", "" + path);
+                filename = path.substring(path.lastIndexOf("/") + 1);
+                Log.e("pat_gallery_filenm", "" + filename);
+
+                BitmapDrawable d = new BitmapDrawable(getResources(), imagefile.getAbsolutePath());
+                iv_regi_lawyer_profile.setImageDrawable(d);
+
+              /*  RoundedBitmapDrawable circularBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(getResources(), imagefile.getAbsolutePath());
+                circularBitmapDrawable.setCircular(true);
+*/
+            }
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        Log.e("PathURLLLLLLLLLLLL", "" + Uri.parse(path));
+        return Uri.parse(path);
+    }
+
+    private void selectImage() {
+        final CharSequence[] items = {"Take Photo", "Choose from Gallery", "Remove Photo",
+                "Cancel"};
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                //  boolean result = Utility.checkPermission(getActivity());
+                if (items[item].equals("Take Photo")) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, 1);
+                } else if (items[item].equals("Choose from Gallery")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
+                } else if (items[item].equals("Remove Photo")) {
+
+                    bitmap = BitmapFactory.decodeResource(getActivity().getResources(),
+                            R.drawable.my_profile);
+                    Log.e("bitmap_355", "" + bitmap);
+                    iv_regi_lawyer_profile.setImageBitmap(bitmap);
+                    // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                    Uri tempUri = getImageUri(getActivity(), bitmap);
+
+                    // CALL THIS METHOD TO GET THE ACTUAL PATH
+                    File finalFile = new File(getRealPathFromURI(tempUri));
+                    path = String.valueOf(finalFile);
+                    Log.e("remove_pic_path", "" + path);
+
+                    filename = path.substring(path.lastIndexOf("/") + 1);
+
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    //Permission function starts from here
+    private void RequestMultiplePermission() {
+
+        // Creating String Array with Permissions.
+        ActivityCompat.requestPermissions(getActivity(), new String[]
+                {
+                        CAMERA,
+                        READ_EXTERNAL_STORAGE,
+                        WRITE_EXTERNAL_STORAGE,
+
+                }, RequestPermissionCode);
+
+    }
+
+    // Calling override method.
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        switch (requestCode) {
+
+            case RequestPermissionCode:
+
+                if (grantResults.length > 0) {
+
+                    boolean CameraPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean ReadExternalstoragePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean WriteExternalstoragePermission = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    if (CameraPermission && ReadExternalstoragePermission && WriteExternalstoragePermission) {
+
+                        Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+                break;
+        }
+    }
+
+    // Checking permission is enabled or not using function starts from here.
+    public boolean CheckingPermissionIsEnabledOrNot() {
+
+        int CAMERA_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), CAMERA);
+        int READ_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), READ_EXTERNAL_STORAGE);
+        int WRITE_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE);
+
+
+        return CAMERA_PermissionResult == PackageManager.PERMISSION_GRANTED &&
+                READ_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED &&
+                WRITE_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+
+
+
+
+
+
+
 }
