@@ -299,10 +299,6 @@ public interface ApiInterface {
     Call<ResponseBody> Get_Device_Token(@Field("firebase_device_token") String firebase_device_token,
                                         @Field("device_id") String device_id);
 
-
-
-
-
     //logout
     //user_logout.php
 

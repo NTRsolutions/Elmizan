@@ -23,7 +23,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,7 +31,7 @@
             android:label="@string/title_activity_navigation_activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity android:name=".Activity.MediaImageSlider" />
         <activity
             android:name=".Activity.YPlayer"
@@ -49,7 +48,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Activity.Chat_activity"></activity>
+        <activity android:name=".Activity.Chat_activity"/>
     </application>
 
 </manifest>

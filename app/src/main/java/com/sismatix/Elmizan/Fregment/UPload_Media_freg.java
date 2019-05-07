@@ -184,7 +184,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                 return true;
             }
         });*/
-
         return v;
     }
     public  void lang_arbi() {

@@ -78,8 +78,6 @@ public class MediaImages extends Fragment {
         recycler_media_images.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recycler_media_images.setItemAnimator(new DefaultItemAnimator());
         recycler_media_images.setAdapter(premium_lawyer_adapter);
-
-
         return v;
     }
 

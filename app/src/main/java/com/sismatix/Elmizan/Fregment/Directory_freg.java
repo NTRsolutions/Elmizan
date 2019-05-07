@@ -157,16 +157,12 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         if(My_Preference.getCountry_name(getActivity()).equalsIgnoreCase("1")==false) {
             progressBar_directory.setVisibility(View.VISIBLE);
             directory_model.clear();
-            
             Log.e("country_id_104",""+My_Preference.getCountry_name(getActivity()));
             country_id = My_Preference.getCountry_name(getActivity());
         }else {
             Log.e("country_idelse_108",""+My_Preference.getCountry_name(getActivity()));
-
             country_id = My_Preference.getCountry_name(getActivity());
-
         }
-
         user_list = api.get_User_list(pageeno,ApiClient.PER_PAGE,ApiClient.user_type,ApiClient.user_status,serched_text,country_id);
         page= Integer.parseInt(pageeno);
         Log.e("page_122",""+page);
@@ -181,7 +177,6 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                     directory_model.clear();
                     tv_data_not_found.setVisibility(View.GONE);
                     recycler_directory.setVisibility(View.VISIBLE);
-
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
                     Log.e("status_prod_cat", "" + status);
@@ -189,13 +184,10 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                     Log.e("message", "" + message);
                     if (status.equalsIgnoreCase("success")) {
                         JSONArray data_array = jsonObject.getJSONArray("data");
-
                         for (int i = 0; i < data_array.length(); i++) {
-
                             try {
                                 JSONObject user_object = data_array.getJSONObject(i);
                                 Log.e("Name", "" + user_object.getString("user_id"));
-
                              //   My_Preference.set_premium_lawyer(getActivity(), user_object.getString("basic_premium"));
 
                                 directory_model.add(new Directory_Model(user_object.getString("user_id"),
@@ -220,7 +212,6 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                             } finally {
                                  directory_adapter.notifyItemChanged(i);
                             }
-
                         }
 
                     } else if (status.equalsIgnoreCase("error")) {
@@ -230,7 +221,6 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                         tv_data_not_found.setText(message);
                        // Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (Exception e) {
                     Log.e("", "" + e);
                 }

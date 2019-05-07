@@ -14,8 +14,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/nested_scroll_article">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"

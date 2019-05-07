@@ -440,14 +440,12 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         RequestBody userid1 = RequestBody.create(MediaType.parse("text/plain"), userid);
         RequestBody status = RequestBody.create(MediaType.parse("text/plain"), "0");
 
-
         if (article_id == "" || article_id == null || article_id == "null" || article_id.equalsIgnoreCase(null)
                 || article_id.equalsIgnoreCase("null")) {
             article_id_pass = "insert";
             old_imag_pass = "";
             RequestBody article_id1 = RequestBody.create(MediaType.parse("text/plain"), article_id_pass);
             RequestBody old_article = RequestBody.create(MediaType.parse("text/plain"), old_imag_pass);
-
 
             if (radio_upload_image.isChecked() == true) {
                 File file = new File(path);
@@ -758,13 +756,15 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
 
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
-    }
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.

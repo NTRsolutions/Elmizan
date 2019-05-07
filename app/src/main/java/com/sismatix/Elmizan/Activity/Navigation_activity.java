@@ -270,8 +270,6 @@ public class Navigation_activity extends AppCompatActivity
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response", "" + response.body().toString());
                 //  progressBar.setVisibility(View.GONE);
-
-
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(response.body().string());
@@ -308,8 +306,6 @@ public class Navigation_activity extends AppCompatActivity
                                 }
                             });
                         }
-
-
                         if (instagram_link == "" || instagram_link == null || instagram_link == "null" || instagram_link.equalsIgnoreCase(null)
                                 || instagram_link.equalsIgnoreCase("null") || instagram_link.equalsIgnoreCase("")) {
                             iv_nav_instagram.setVisibility(View.GONE);

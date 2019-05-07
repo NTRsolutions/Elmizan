@@ -226,10 +226,8 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         java.util.regex.Matcher m = p.matcher(instagram);
         Log.e("m_array == ",""+m);
         Log.e("insta_validation == ",""+m.matches());
-
         return m.matches();
     }
-
     private void CALL_USER_DETAIL_API() {
         Log.e("userid_108", "" + user_id);
         progressBar_edit__premium.setVisibility(View.VISIBLE);
@@ -242,7 +240,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response", "" + response.body().toString());
                 //  progressBar.setVisibility(View.GONE);
-
                 progressBar_edit__premium.setVisibility(View.GONE);
                 lv_edit_pre_profile_click.setVisibility(View.VISIBLE);
                 JSONObject jsonObject = null;
@@ -300,75 +297,53 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                         edt_fb_url.setText(fb_url);
                         edt_twitter_url.setText(twitter_url);
                         edt_insta_url.setText(inst_url);
-
                         Navigation_activity.Check_Editext_NULL_Value(edt_full_name, fullname);
                         Navigation_activity.Check_Editext_NULL_Value(edt_appeal, short_desc);
                         Navigation_activity.Check_Editext_NULL_Value(edt_phone, phone);
                         Navigation_activity.Check_Editext_NULL_Value(edt_email, email);
                         Navigation_activity.Check_Editext_NULL_Value(edt_site, site);
                         Navigation_activity.Check_Editext_NULL_Value(edt_address, address);
-
                         RequestOptions requestOptions = new RequestOptions();
                         requestOptions.placeholder(R.drawable.my_profile);
                         requestOptions.error(R.drawable.my_profile);
-
-
                         Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_edit_lawyer_profile);
-
-
                     } else if (status.equalsIgnoreCase("error")) {
                     }
-
                 } catch (Exception e) {
                     Log.e("", "" + e);
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
     public static void Check_String_NULL_Value(TextView textview, String text, String hint) {
-
-
         if (text == "" || text == null || text == "null" || text.equalsIgnoreCase(null)
                 || text.equalsIgnoreCase("null") || text.equalsIgnoreCase("") == true) {
             //textview.setHint(hint);
           //  Log.e("hinteee", "" + hint);
             textview.setText("");
         } else {
-
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
         }
-
     }
-
     @Override
     public void onClick(View view) {
         if (view == lv_edit_title) {
-
-
             if (lv_edit_title.isClickable() == true && flag_name == true) {
-
                 Log.e("fullname_22", "" + tv_edit_user_name.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_full_name, tv_edit_user_name.getText().toString());
                 tv_edit_user_name.setVisibility(View.GONE);
                 edt_full_name.setVisibility(View.VISIBLE);
-
                 flag_name = false;
             } else if (lv_edit_title.isClickable() == true && flag_name == false) {
                 tv_edit_user_name.setVisibility(View.VISIBLE);
                 edt_full_name.setVisibility(View.GONE);
                 flag_name = true;
-
             }
-
-
         } else if (view == lv_edit_appeal) {
-
             if (lv_edit_appeal.isClickable() == true && flag_appeal == true) {
 
                 edt_appeal.setVisibility(View.VISIBLE);
@@ -402,13 +377,9 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             } else if (lv_edit_lawyer_info.isClickable() == true && flag_detail == false) {
                 lv_user_lawyer_detail.setVisibility(View.VISIBLE);
                 lv_edit_detils.setVisibility(View.GONE);
-
                 flag_detail=true;
             }
-
-
         } else if (view == iv_edit_camera)
-
         {
             if (CheckingPermissionIsEnabledOrNot()) {
                 //  Toast.makeText(getActivity(), "All Permissions Granted Successfully", Toast.LENGTH_LONG).show();
@@ -418,7 +389,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             }
             selectImage();
         } else if (view == lv_edit_personal_detail)
-
         {
             if (lv_edit_personal_detail.isClickable() == true && flag_personal == true) {
 
@@ -532,7 +502,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("response_country", "" + response.body().toString());
                 //   progressBar_home.setVisibility(View.GONE);
 
-                country_name.add(getResources().getString(R.string.Select));
+                country_name.add("اختر");
                 country_name_code.add("0");
 
                 JSONObject jsonObject = null;
@@ -909,11 +879,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         tv_edit_save.setTypeface(Navigation_activity.typeface);
   }
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     public void setupUI(View view) {
