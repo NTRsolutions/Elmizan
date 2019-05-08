@@ -221,6 +221,8 @@ public class Navigation_activity extends AppCompatActivity
         iv_nav_country_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                country_model.clear();
+
                 if (c != null)
                     // showPopupCurrency(Navigation_activity.this, c);
                     showPopup(Navigation_activity.this, c);

@@ -21,18 +21,6 @@ public class My_Preference {
         return mPrefs.getString("theme", "");
     }
 
-    public static void setFirstname(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("first_name", value);
-        prefsEditor.commit();
-    }
-    public static String getFirstname(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("first_name", "");
-    }
     public static void set_premium_lawyer(Context context, String value)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -46,122 +34,6 @@ public class My_Preference {
         return mPrefs.getString("premiunm_lawyer", "");
     }
 
-    public static void setLastname(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("last_name", value);
-        prefsEditor.commit();
-    }
-    public static String getLastname(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("last_name", "");
-    }
-
-    public static void setPhoneNumber(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("phone_number", value);
-        prefsEditor.commit();
-    }
-    public static String getPhoneNumber(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("phone_number", "");
-    }
-
-    public static void setCompanyName(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("company_name", value);
-        prefsEditor.commit();
-    }
-    public static String getCompanyName(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("company_name", "");
-    }
-
-    public static void setStreetAddress(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("street_address", value);
-        prefsEditor.commit();
-    }
-    public static String getStreetAddress(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("street_address", "");
-    }
-
-    public static void setFax(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("fax", value);
-        prefsEditor.commit();
-    }
-    public static String getFax(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("fax", "");
-    }
-
-    public static void setZipcode(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("zipcode", value);
-        prefsEditor.commit();
-    }
-    public static String getZipcode(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("zipcode", "");
-    }
-
-    public static void setCity(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("city", value);
-        prefsEditor.commit();
-    }
-    public static String getCity(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("city", "");
-    }
-
-    public static void setRegion(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("region", value);
-        prefsEditor.commit();
-    }
-    public static String getRegion(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("region", "");
-    }
-
-    public static void setAddressId(Context context, String value)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        prefsEditor = mPrefs.edit();
-        prefsEditor.putString("AddressId", value);
-        prefsEditor.commit();
-    }
-    public static String getAddressId(Context context)
-    {
-        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("AddressId", "");
-    }
 
     public static void setCountry_name(Context context, String value)
     {
@@ -176,17 +48,146 @@ public class My_Preference {
         return mPrefs.getString("Countryname", "");
     }
 
-    public static void setCountryPosition(Context context, String value)
+
+
+    ////////////////edit profile////////////////////
+
+    public static void set_fullname(Context context, String value)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefsEditor = mPrefs.edit();
-        prefsEditor.putString("CountryPosition", value);
+        prefsEditor.putString("fullname", value);
         prefsEditor.commit();
     }
-    public static String getCountryPosition(Context context)
+    public static String get_fullname(Context context)
     {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return mPrefs.getString("CountryPosition", "");
+        return mPrefs.getString("fullname", "");
     }
 
+    public static void set_shortdesc(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("shortdesc", value);
+        prefsEditor.commit();
+    }
+    public static String get_shortdesc(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("shortdesc", "");
+    }
+    public static void set_email(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("email", value);
+        prefsEditor.commit();
+    }
+    public static String get_email(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("email", "");
+    }
+    public static void set_address(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("address", value);
+        prefsEditor.commit();
+    }
+    public static String get_address(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("address", "");
+    }
+    public static void set_site(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("site", value);
+        prefsEditor.commit();
+    }
+    public static String get_site(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("site", "");
+    }
+
+    public static void set_country_id(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("country_id", value);
+        prefsEditor.commit();
+    }
+    public static String get_country_id(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("country_id", "");
+    }
+
+    public static void set_fb_url(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("fb_url", value);
+        prefsEditor.commit();
+    }
+    public static String get_fb_url(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("fb_url", "");
+    }
+
+    public static void set_twitter_url(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("twitter", value);
+        prefsEditor.commit();
+    }
+    public static String get_twitter_url(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("twitter", "");
+    }
+    public static void set_insta_url(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("insta", value);
+        prefsEditor.commit();
+    }
+    public static String get_insta_url(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("insta", "");
+    }
+
+    public static void set_description(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("description", value);
+        prefsEditor.commit();
+    }
+    public static String get_description(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("description", "");
+    }
+
+    public static void set_phone(Context context, String value)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefsEditor = mPrefs.edit();
+        prefsEditor.putString("phone", value);
+        prefsEditor.commit();
+    }
+    public static String get_phone(Context context)
+    {
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPrefs.getString("phone", "");
+    }
 }

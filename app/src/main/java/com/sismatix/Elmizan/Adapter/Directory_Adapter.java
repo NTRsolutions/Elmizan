@@ -78,7 +78,8 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
 
         Navigation_activity.Check_String_NULL_Value(holder.tv_directory_appeal, directory_model.getUser_description());
         login_flag = Login_preference.getLogin_flag(context);
-        Log.e("login_flagg", "" + login_flag);
+       // Log.e("login_flagg", "" + login_flag);
+        Log.e("userid_82", "" + directory_model.getUser_id());
         // My_Preference.set_premium_lawyer(context, directory_model.getBasic_premium());
         // holder.tv_directory_offline_onnline.setText(directory_model.getNews_detail());
         //  holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
@@ -90,7 +91,7 @@ public class Directory_Adapter extends RecyclerView.Adapter<Directory_Adapter.My
                 .setDefaultRequestOptions(requestOptions)
                 .load(directory_model.getUser_avatar_url()).into(holder.iv_directory_profile_image);
 
-        Log.e("from_user_id", "" + Login_preference.getuser_id(context));
+      //  Log.e("from_user_id", "" + Login_preference.getuser_id(context));
 
         holder.lv_directory_chat.setOnClickListener(new View.OnClickListener() {
             @Override

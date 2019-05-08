@@ -92,8 +92,8 @@ public class Home_freg extends Fragment {
 
         news_adapter = new Home_News_Adapter(getActivity(), news_model);
         layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
+       // layoutManager.setReverseLayout(true);
+       // layoutManager.setStackFromEnd(true);
         recycler_news_home.setLayoutManager(layoutManager);
         recycler_news_home.setItemAnimator(new DefaultItemAnimator());
         // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

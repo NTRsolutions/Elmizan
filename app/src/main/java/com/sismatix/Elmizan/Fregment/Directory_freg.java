@@ -56,7 +56,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
     SearchView searchView;
     LinearLayout lv_directory_parent;
 
-    WrapContentLinearLayoutManager layoutManager;
+    LinearLayoutManager layoutManager;
     int page_no=1,page;
     boolean isLoading = true;
     int pastvisibleitem, visibleitemcount, totalitemcount, previous_total = 0;
@@ -86,11 +86,8 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         }
         directory_adapter = new Directory_Adapter(getActivity(), directory_model);
         //RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        layoutManager=new WrapContentLinearLayoutManager(getActivity());
+        layoutManager=new LinearLayoutManager(getActivity());
         recycler_directory.setLayoutManager(layoutManager);
-        //recycler_directory.setLayoutManager(mLayoutManager);
-        recycler_directory.setItemAnimator(new DefaultItemAnimator());
-        // recycler_product.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recycler_directory.setAdapter(directory_adapter);
 
 
@@ -141,6 +138,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
 
     private void CALL_Directory_API(final String text, String pageeno) {
+        directory_model.clear();
         String serched_text=text;
         Log.e("serched_text_83",""+serched_text);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
@@ -164,6 +162,13 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
             country_id = My_Preference.getCountry_name(getActivity());
         }
         user_list = api.get_User_list(pageeno,ApiClient.PER_PAGE,ApiClient.user_type,ApiClient.user_status,serched_text,country_id);
+        Log.e("dir_167serched_text",""+serched_text);
+        Log.e("dir_167country_id",""+country_id);
+        Log.e("dir_167pageeno",""+pageeno);
+        Log.e("dir_167PER_PAGE",""+ApiClient.PER_PAGE);
+        Log.e("dir_167user_type",""+ApiClient.user_type);
+        Log.e("dir_167user_status",""+ApiClient.user_status);
+
         page= Integer.parseInt(pageeno);
         Log.e("page_122",""+page);
 
@@ -249,7 +254,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
                             if ((visibleitemcount + pastvisibleitem) >= totalitemcount) {
                                 page++;
-                                Log.e("isloading", "loadscroll" + page);
+                                Log.e("isloading", "loadscroll===" + page);
                                 progressBar_bottom_directory.setVisibility(View.VISIBLE);
 
                                 PerformPagination(text,page);
@@ -265,11 +270,12 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
     }
 
-    private void PerformPagination(String text, int page) {
+    private void PerformPagination(String text, final int page) {
 
 
         String serched_text=text;
         Log.e("pagina_83",""+serched_text);
+        Log.e("page_273",""+page);
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
         Call<ResponseBody> user_list;
         String country_id ="";
@@ -297,7 +303,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         user_list.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("response_user", "" + response.body().toString());
+                Log.e("response_pagination","page="+page + response.body().toString());
                 progressBar_directory.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
@@ -306,11 +312,12 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
                     jsonObject = new JSONObject(response.body().string());
                     String status = jsonObject.getString("status");
-                    Log.e("status_prod_cat", "" + status);
+                    Log.e("status_pagi", "" + status);
                     String message = jsonObject.getString("msg");
-                    Log.e("message", "" + message);
+                    Log.e("message_pai", "" + message);
                     if (status.equalsIgnoreCase("success")) {
                         JSONArray data_array = jsonObject.getJSONArray("data");
+                     //   Toast.makeText(getActivity(), "pageee"+String.valueOf(page), Toast.LENGTH_SHORT).show();
 
                         for (int i = 0; i < data_array.length(); i++) {
 

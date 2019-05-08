@@ -252,6 +252,21 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                         JSONObject data_obj = jsonObject.getJSONObject("data");
                         Log.e("status_data_obj", "" + data_obj);
 
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.my_profile);
+                        requestOptions.error(R.drawable.my_profile);
+
+                        Log.e("image_310",""+data_obj.getString("user_avatar_url"));
+
+                        Login_preference.setuser_profile(getActivity(), data_obj.getString("user_avatar_url"));
+                        Login_preference.setuser_name(getActivity(), data_obj.getString("user_fullname"));
+                      //  My_Preference.setCountry_name(getActivity(), data_obj.getString("user_country_id"));
+
+                        Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_edit_lawyer_profile);
+                        Glide.with(getActivity()).load(data_obj.getString("user_avatar_url")).into(Navigation_activity.iv_profile_image);
+
+                        Navigation_activity.tv_nav_user_name.setText(data_obj.getString("user_fullname"));
+
                         fullname = data_obj.getString("user_fullname");
                         short_desc = data_obj.getString("user_description");
                         email = data_obj.getString("user_email");
@@ -268,16 +283,69 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                         Log.e("olddd_img_202", "" + old_img);
                         Log.e("country_id_199", "" + data_obj.getString("user_country_id"));
 
+                        edt_fb_url.setText(fb_url);
+                        edt_twitter_url.setText(twitter_url);
+                        edt_insta_url.setText(inst_url);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_full_name, fullname);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_appeal, short_desc);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_phone, phone);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_email, email);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_site, site);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_address, address);
+                        Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
+
+
+                        Log.e("edt_full_name", "" + edt_full_name.getText().toString());
+                        Log.e("edt_full_name", "" + edt_appeal.getText().toString());
+                        Log.e("edt_full_name", "" + edt_phone.getText().toString());
+                        Log.e("edt_full_name", "" + edt_email.getText().toString());
+                        Log.e("edt_full_name", "" + edt_site.getText().toString());
+                        Log.e("edt_full_name", "" + edt_address.getText().toString());
+                        Log.e("edt_full_name", "" + edt_edit_user_detail.getText().toString());
+
+                        ///-----------store value to sharedpreference------------------//
+                      /*  My_Preference.set_fullname(getActivity(),data_obj.getString("user_fullname"));
+                        My_Preference.set_shortdesc(getActivity(),data_obj.getString("user_description"));
+                        My_Preference.set_email(getActivity(),data_obj.getString("user_email"));
+                        My_Preference.set_address(getActivity(),data_obj.getString("user_address"));
+                        My_Preference.set_site(getActivity(),data_obj.getString("user_website"));
+                        My_Preference.set_country_id(getActivity(),data_obj.getString("user_country_id"));
+                        My_Preference.set_fb_url(getActivity(),data_obj.getString("user_facebook"));
+                        My_Preference.set_twitter_url(getActivity(),data_obj.getString("user_twitter"));
+                        My_Preference.set_insta_url(getActivity(),data_obj.getString("user_instagram"));
+                        My_Preference.set_description(getActivity(),data_obj.getString("user_about"));
+                        My_Preference.set_phone(getActivity(),data_obj.getString("user_phone"));
+*/
                         Login_preference.setuser_countryid(getActivity(), data_obj.getString("user_country_id"));
 
                         Check_String_NULL_Value(tv_edit_user_name, data_obj.getString("user_fullname"), "Enter user Name");
                         Check_String_NULL_Value(tv_edit_address, data_obj.getString("user_address"), "Enter Address");
                         Check_String_NULL_Value(tv_edit_phone, data_obj.getString("user_phone"), "Enter Phone no");
-                        Check_String_NULL_Value(tv_edit_email, data_obj.getString("user_email"), "Enter Email");
-                        Check_String_NULL_Value(tv_edit_site, data_obj.getString("user_website"), "Enter Website");
+                        //Check_String_NULL_Value(tv_edit_email, data_obj.getString("user_email"), "Enter Email");
+                       // Check_String_NULL_Value(tv_edit_site, data_obj.getString("user_website"), "Enter Website");
+
+
                         Check_String_NULL_Value(tv_edit_appeal, data_obj.getString("user_description"), "Enter description");
                         Check_String_NULL_Value(tv_edit_user_detail, data_obj.getString("user_about"), "Enter user Detail");
-                       // Check_String_NULL_Value(tv_edit_facebook, data_obj.getString("user_facebook"), "Enter facebook link");
+
+                        if (data_obj.getString("user_email") == "" || data_obj.getString("user_email") == null || data_obj.getString("user_email") == "null" || data_obj.getString("user_email").equalsIgnoreCase(null)
+                                || data_obj.getString("user_email").equalsIgnoreCase("null") || data_obj.getString("user_email").equalsIgnoreCase("") == true) {
+                            //textview.setHint(hint);
+                            //  Log.e("hinteee", "" + hint);
+                            tv_edit_email.setText("");
+                        } else {
+                            tv_edit_email.setText(data_obj.getString("user_email"));
+                        }
+                        if (data_obj.getString("user_website") == "" || data_obj.getString("user_website") == null || data_obj.getString("user_website") == "null" || data_obj.getString("user_website").equalsIgnoreCase(null)
+                                || data_obj.getString("user_website").equalsIgnoreCase("null") || data_obj.getString("user_website").equalsIgnoreCase("") == true) {
+                            //textview.setHint(hint);
+                            //  Log.e("hinteee", "" + hint);
+                            tv_edit_site.setText("");
+                        } else {
+                            tv_edit_site.setText(data_obj.getString("user_email"));
+                        }
+
+                        // Check_String_NULL_Value(tv_edit_facebook, data_obj.getString("user_facebook"), "Enter facebook link");
                         //Check_String_NULL_Value(tv_edit_twitter, data_obj.getString("user_twitter"), "Enter twitter link");
                         //Check_String_NULL_Value(tv_edit_instagram, data_obj.getString("user_instagram"), "Enter instagram link");
 
@@ -288,26 +356,13 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
                        // Login_preference.setuser_short_desc(getActivity(), data_obj.getString("user_description"));
                        /// Navigation_activity.tv_nav_appal.setText( data_obj.getString("user_description"));
-                        Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
+
+                     //   Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, description);
                        /* Navigation_activity.Check_Editext_NULL_Value(edt_fb_url, fb_url);
                         Navigation_activity.Check_Editext_NULL_Value(edt_twitter_url, twitter_url);
                         Navigation_activity.Check_Editext_NULL_Value(edt_insta_url, inst_url);
 */
-                        edt_fb_url.setText(fb_url);
-                        edt_twitter_url.setText(twitter_url);
-                        edt_insta_url.setText(inst_url);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_full_name, fullname);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_appeal, short_desc);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_phone, phone);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_email, email);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_site, site);
-                        Navigation_activity.Check_Editext_NULL_Value(edt_address, address);
-                        RequestOptions requestOptions = new RequestOptions();
-                        requestOptions.placeholder(R.drawable.my_profile);
-                        requestOptions.error(R.drawable.my_profile);
-                        Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_edit_lawyer_profile);
-                    } else if (status.equalsIgnoreCase("error")) {
+                               } else if (status.equalsIgnoreCase("error")) {
                     }
                 } catch (Exception e) {
                     Log.e("", "" + e);
@@ -337,7 +392,13 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Navigation_activity.Check_Editext_NULL_Value(edt_full_name, tv_edit_user_name.getText().toString());
                 tv_edit_user_name.setVisibility(View.GONE);
                 edt_full_name.setVisibility(View.VISIBLE);
-                flag_name = false;
+                Log.e("fullname_34", "" + edt_full_name.getText().toString());
+               /* if(edt_full_name.getText().toString().length()!=0)
+                {
+                    Log.e("fullname_355", "" + edt_full_name.getText().toString());
+                    My_Preference.set_fullname(getActivity(),edt_full_name.getText().toString());
+                }
+               */ flag_name = false;
             } else if (lv_edit_title.isClickable() == true && flag_name == false) {
                 tv_edit_user_name.setVisibility(View.VISIBLE);
                 edt_full_name.setVisibility(View.GONE);
@@ -346,11 +407,21 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         } else if (view == lv_edit_appeal) {
             if (lv_edit_appeal.isClickable() == true && flag_appeal == true) {
 
+                Log.e("short_desc_22", "" + tv_edit_appeal.getText().toString());
+                Navigation_activity.Check_Editext_NULL_Value(edt_appeal, tv_edit_appeal.getText().toString());
+
                 edt_appeal.setVisibility(View.VISIBLE);
                 tv_edit_appeal.setVisibility(View.GONE);
 
-                Log.e("short_desc_22", "" + tv_edit_appeal.getText().toString());
-                Navigation_activity.Check_Editext_NULL_Value(edt_appeal, tv_edit_appeal.getText().toString());
+
+                Log.e("short_desc_333", "c" + edt_appeal.getText().toString());
+
+               /* if(edt_appeal.getText().toString().length()!=0)
+                {
+                    Log.e("short_desc_335", "sd" + edt_appeal.getText().toString());
+                    My_Preference.set_shortdesc(getActivity(),edt_appeal.getText().toString());
+                }*/
+
 
                 flag_appeal = false;
 
@@ -366,11 +437,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
         {
             if (lv_edit_lawyer_info.isClickable() == true && flag_detail == true) {
-                lv_user_lawyer_detail.setVisibility(View.GONE);
-                lv_edit_detils.setVisibility(View.VISIBLE);
 
                 Log.e("description_22", "" + tv_edit_user_detail.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_edit_user_detail, tv_edit_user_detail.getText().toString());
+
+                lv_user_lawyer_detail.setVisibility(View.GONE);
+                lv_edit_detils.setVisibility(View.VISIBLE);
+                Log.e("description_400", "" + edt_edit_user_detail.getText().toString());
+
 
                 flag_detail = false;
 
@@ -566,26 +640,42 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
     private void CheckValidation() {
 
         fullname = edt_full_name.getText().toString();
-        short_desc = edt_appeal.getText().toString();
+        short_desc =edt_appeal.getText().toString();
         phone = edt_phone.getText().toString();
         email = edt_email.getText().toString();
         address = edt_address.getText().toString();
-        site = edt_site.getText().toString();
+        site =edt_site.getText().toString();
         // country_id_pass = country_id_pass;
-        fb_url = edt_fb_url.getText().toString();
-        twitter_url = edt_twitter_url.getText().toString();
+        fb_url =edt_fb_url.getText().toString();
+        twitter_url =edt_twitter_url.getText().toString();
         inst_url = edt_insta_url.getText().toString();
         description = edt_edit_user_detail.getText().toString();
+      //  country_id_pass=edt_full_name.getText().toString();
 
+
+        /*fullname =  My_Preference.get_fullname(getActivity());
+        short_desc = My_Preference.get_shortdesc(getActivity());
+        phone = My_Preference.get_phone(getActivity());
+        email = My_Preference.get_email(getActivity());
+        address = My_Preference.get_address(getActivity());
+        site =My_Preference.get_site(getActivity());
+        // country_id_pass = country_id_pass;
+        fb_url =My_Preference.get_fb_url(getActivity());
+        twitter_url =My_Preference.get_twitter_url(getActivity());
+        inst_url = My_Preference.get_insta_url(getActivity());
+        description = My_Preference.get_description(getActivity());
+        country_id_pass=My_Preference.get_country_id(getActivity());*/
         Log.e("click_290", "" + fullname);
         Log.e("click_290", "" + short_desc);
         Log.e("click_290", "" + phone);
+        Log.e("click_290", "" + email);
         Log.e("click_290", "" + address);
         Log.e("click_290", "" + site);
         Log.e("click_290", "" + fb_url);
         Log.e("click_290", "" + inst_url);
         Log.e("click_290", "" + twitter_url);
         Log.e("click_290", "" + description);
+        Log.e("click_290", "" + country_id_pass);
 
         Boolean validation_ok = true;
         if (edt_full_name.getVisibility() == View.VISIBLE) {
@@ -763,12 +853,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
                     if (status.equalsIgnoreCase("success")) {
                         // // Log.e("msg_article", "" + message);
-                        Bundle b = new Bundle();
-                        b.putString("user_id", Login_preference.getuser_id(getActivity()));
-                        Fragment myFragment = new Edit_premium_lawyer_profile();
-                        myFragment.setArguments(b);
-                        getFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
-
+                            Bundle b = new Bundle();
+                            b.putString("user_id", Login_preference.getuser_id(getActivity()));
+                            Fragment myFragment = new Edit_premium_lawyer_profile();
+                            myFragment.setArguments(b);
+                            getFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                        /*    Intent i=new Intent(getActivity(),Navigation_activity.class);
+                            startActivity(i);
+*/
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                     } else {
                         String media_upload_error = jsonObject.getString("media_upload_error");
@@ -791,7 +883,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
 
 
     }
-
 
     private void AllocateMemory(View v) {
 
@@ -878,6 +969,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         tv_edit_twitter.setTypeface(Navigation_activity.typeface);
         tv_edit_save.setTypeface(Navigation_activity.typeface);
   }
+
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
