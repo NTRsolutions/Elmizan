@@ -102,8 +102,6 @@ public class Media_Video_Adapter extends RecyclerView.Adapter<Media_Video_Adapte
                 handler.postDelayed(new Runnable() {
                     public void run() {
 
-
-
                         String video_id_pass = getYoutubeID(media_video_model.getVideo());
 
                         Log.e("video_id_pass",""+video_id_pass);

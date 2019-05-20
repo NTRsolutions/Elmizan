@@ -324,7 +324,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
                         Login_preference.setLogin_flag(getActivity(), "1");
                         Login_preference.setuser_id(getActivity(), object.getString("user_id"));
                         Login_preference.setemail(getActivity(), object.getString("user_email"));
-                        Login_preference.setuser_name(getActivity(), object.getString("user_name"));
+                        Login_preference.setuser_name(getActivity(), object.getString("user_fullname"));
                         Login_preference.setuser_short_desc(getActivity(), object.getString("user_description"));
 
 

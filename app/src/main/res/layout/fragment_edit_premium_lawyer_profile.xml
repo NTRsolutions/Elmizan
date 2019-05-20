@@ -320,7 +320,6 @@
                             android:textStyle="bold" />
 
                         <TextView
-
                             android:id="@+id/tv_edit_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -343,6 +342,7 @@
                             android:textColor="@color/black"
                             android:textColorHint="@color/edittextline"
                             android:textSize="14sp"
+                            android:inputType="number"
                             android:visibility="gone" />
                     </LinearLayout>
 

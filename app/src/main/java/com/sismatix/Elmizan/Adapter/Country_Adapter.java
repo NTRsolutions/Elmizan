@@ -19,6 +19,7 @@ import com.sismatix.Elmizan.Fregment.Directory_freg;
 import com.sismatix.Elmizan.Model.Country_model;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,7 +29,6 @@ public class Country_Adapter extends RecyclerView.Adapter<Country_Adapter.MyView
     private Context context;
     LayoutInflater inflater;
     public static String name, image;
-
 
     public Country_Adapter(Context context, List<Country_model> model) {
         this.context = context;
@@ -56,6 +56,8 @@ public class Country_Adapter extends RecyclerView.Adapter<Country_Adapter.MyView
         holder.lv_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 My_Preference.setCountry_name(context, model.get(position).getCountry_id());
                 Log.e("countryid_55", "" + rmd.getCountry_id());
 
@@ -74,12 +76,11 @@ public class Country_Adapter extends RecyclerView.Adapter<Country_Adapter.MyView
             }
         });
 
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.app_icon);
         requestOptions.error(R.drawable.app_icon);
+
         Glide.with(context)
-                .setDefaultRequestOptions(requestOptions)
                 .load(rmd.getCountry_image_url()).into(holder.ivflag);
 
         //Glide.with(context).load(rmd.getCountry_image_url()).into(holder.ivflag);

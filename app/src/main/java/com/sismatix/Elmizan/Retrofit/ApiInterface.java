@@ -122,6 +122,23 @@ public interface ApiInterface {
                                     @Field("register_as_lawyer") String register_as_lawyer,
                                     @Field("user_country_id") String user_country_id);
 
+
+
+    @Multipart
+    @POST("user_registration.php")
+    Call<ResponseBody> CALL_User_registration_image(
+            @Part("user_fullname") RequestBody user_fullname,
+            @Part("user_email") RequestBody user_email,
+            @Part("user_phone") RequestBody user_phone,
+            @Part("user_password") RequestBody user_password,
+            @Part("confirm_password") RequestBody confirm_password,
+            @Part("agree_terms") RequestBody agree_terms,
+            @Part("register_as_lawyer") RequestBody register_as_lawyer,
+            @Part("user_country_id") RequestBody user_country_id,
+             @Part MultipartBody.Part file
+    );
+
+
     //User List
     //https://elmizan.demoproject.info/api/users_list.php
     @GET("users_list.php")

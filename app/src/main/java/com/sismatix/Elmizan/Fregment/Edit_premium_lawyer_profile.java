@@ -657,8 +657,6 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         inst_url = edt_insta_url.getText().toString();
         description = edt_edit_user_detail.getText().toString();
       //  country_id_pass=edt_full_name.getText().toString();
-
-
         /*fullname =  My_Preference.get_fullname(getActivity());
         short_desc = My_Preference.get_shortdesc(getActivity());
         phone = My_Preference.get_phone(getActivity());
