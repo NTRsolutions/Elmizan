@@ -48,19 +48,6 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
     public void onBindViewHolder(final Home_News_Adapter.MyViewHolder holder, final int position) {
         final News_Model model = models.get(position);
 
-        /*String dateee=model.getNews_date();
-        DateFormat inputFormatter1 = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = null;
-        try {
-            date1 = inputFormatter1.parse(dateee);
-            Log.e("date_news",""+date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        DateFormat outputFormatter1 = new SimpleDateFormat("dd MMM, yyyy");
-        String output1 = outputFormatter1.format(date1);
-        Log.e("date_news_61",""+output1);*/
 
         holder.tv_date_news.setTypeface(Navigation_activity.typeface);
         holder.tv_title_news.setTypeface(Navigation_activity.typeface);
@@ -69,12 +56,8 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
 
         holder.tv_date_news.setText(Html.fromHtml(model.getNews_day() + " " + model.getNews_month() + ", " + model.getNews_year()));
         Navigation_activity.Check_String_NULL_Value(holder.tv_title_news, model.getNews_title());
-        Navigation_activity.Check_String_NULL_Value(holder.tv_detail_news, model.getNews_description());
+        Navigation_activity.Check_String_NULL_Value(holder.tv_detail_news, stripHtml(model.getNews_description()));
 
-        //Navigation_activity.Check_String_NULL_Value(holder.tv_date_news,model.getNews_date());
-        //holder.tv_title_news.setText(Html.fromHtml(model.getNews_title()));
-        //holder.tv_detail_news.setText(Html.fromHtml(model.getNews_description()));
-        // holder.imageView.setBackgroundColor(Color.parseColor("#FFFAF8FD"));
 
         if (position % 2 == 1) {
             holder.lv_news.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -102,6 +85,13 @@ public class Home_News_Adapter extends RecyclerView.Adapter<Home_News_Adapter.My
             }
         });
 
+    }
+    public String stripHtml(String html) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            return Html.fromHtml(html).toString();
+        }
     }
 
     @Override

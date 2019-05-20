@@ -75,8 +75,9 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.directory));
         Navigation_activity. tv_nav_title.setTypeface(Navigation_activity.typeface);
         lang_arbi();
+        Login_freg.hideSoftKeyboard(getActivity());
         AllocateMemory(view);
-        //setupUI(lv_directory_parent);
+        setupUI(lv_directory_parent);
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
@@ -111,14 +112,13 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-
-// check if no view has focus:
+        // check if no view has focus:
         View currentFocusedView = activity.getCurrentFocus();
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-  /*  public void setupUI(View view) {
+    public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
@@ -137,7 +137,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                 setupUI(innerView);
             }
         }
-    }*/
+    }
 
 
     private void CALL_Directory_API(final String text, String pageeno) {
@@ -219,6 +219,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
                         tv_data_not_found.setVisibility(View.VISIBLE);
                        // recycler_directory.setVisibility(View.GONE);
                         tv_data_not_found.setText(message);
+                        progressBar_directory.setVisibility(View.GONE);
                        // Toast.makeText(getActivity(), ""+message, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -229,6 +230,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                progressBar_directory.setVisibility(View.GONE);
             }
         });
 
@@ -299,6 +301,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.e("response_user", "" + response.body().toString());
                 progressBar_directory.setVisibility(View.GONE);
+                progressBar_bottom_directory.setVisibility(View.GONE);
                 JSONObject jsonObject = null;
                 try {
                     tv_data_not_found.setVisibility(View.GONE);
@@ -344,6 +347,7 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
                     } else if (status.equalsIgnoreCase("error")) {
                        // tv_data_not_found.setTypeface(Navigation_activity.typeface);
+                        progressBar_directory.setVisibility(View.GONE);
                         progressBar_bottom_directory.setVisibility(View.GONE);
 
                       //  tv_data_not_found.setVisibility(View.VISIBLE);
@@ -359,6 +363,8 @@ public class Directory_freg extends Fragment implements SearchView.OnQueryTextLi
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressBar_directory.setVisibility(View.GONE);
+                progressBar_bottom_directory.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });

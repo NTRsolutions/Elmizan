@@ -79,8 +79,6 @@ public interface ApiInterface {
     Call<ResponseBody> article_delete(@Field("article_id") String Article_id,
                                           @Field("user_id") String user_id);
 
-
-
     //Article add comment
     //https://elmizan.demoproject.info/api/article_comment_add.php
     @POST("article_comment_add.php")
@@ -124,10 +122,8 @@ public interface ApiInterface {
                                     @Field("register_as_lawyer") String register_as_lawyer,
                                     @Field("user_country_id") String user_country_id);
 
-
     //User List
     //https://elmizan.demoproject.info/api/users_list.php
-
     @GET("users_list.php")
     Call<ResponseBody> get_User_list(@Query("page") String page,
                                      @Query("per_page") String per_page,
@@ -135,7 +131,6 @@ public interface ApiInterface {
                                      @Query("user_status[]") String user_status,
                                      @Query("search") String search,
                                      @Query("country") String country);
-
     //Get User Detail
     //https://elmizan.demoproject.info/api/user_details.php
     @POST("user_details.php")
@@ -176,7 +171,6 @@ public interface ApiInterface {
             @Part("article_images[]") RequestBody article_images
           );
 
-
     //Add article
     //article_update.php
     //upload youtube link
@@ -191,11 +185,6 @@ public interface ApiInterface {
             @Part("article_description") RequestBody article_description,
             @Part("media_type") RequestBody mediatype,
             @Part("article_status") RequestBody article_status);
-
-
-
-
-
 
     //update  premium lawyer profile
     //user_update.php
@@ -218,8 +207,6 @@ public interface ApiInterface {
             @Part("old_user_images") RequestBody old_user_images,
             @Part MultipartBody.Part file
             );
-
-
     //update  premium lawyer profile blank
     //user_update.php
 
@@ -240,7 +227,6 @@ public interface ApiInterface {
             @Part("user_facebook") RequestBody user_facebook,
             @Part("old_user_images") RequestBody old_user_images,
             @Part("user_avatar") RequestBody user_avatar
-
     );
 
     //upload photos and media
@@ -261,7 +247,6 @@ public interface ApiInterface {
     Call<ResponseBody> Call_delete_api(@Field("user_id") String user_id,
                                        @Field("del_user_media_image") String del_user_media_image,
                                        @Field("del_user_media_video") String del_user_media_video);
-
 
     //upload photos and media
     @Multipart

@@ -89,7 +89,7 @@ public class New_dynamic_Library_frag extends Fragment {
         cat_id_list.clear();
         lang_arbi();
         ALLOCATEMEMORY(view);
-
+        Login_freg.hideSoftKeyboard(getActivity());
         if (getArguments() != null) {
             category_id = getArguments().getString(ARG_CATEGORY_ID, "");
             isVisible = getArguments().getBoolean(ARG_VISIBLE, false);

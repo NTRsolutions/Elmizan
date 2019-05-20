@@ -73,6 +73,7 @@ public class New_Library_freg extends Fragment implements ViewPager.OnPageChange
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
         lang_arbi();
         //tab layout
+        Login_freg.hideSoftKeyboard(getActivity());
         tabLayout = v.findViewById(R.id.tabs);
         progressBar_lib = v.findViewById(R.id.progressBar_lib);
         lv_library = v.findViewById(R.id.lv_library);

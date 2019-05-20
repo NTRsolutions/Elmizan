@@ -36,7 +36,7 @@ public class Media extends Fragment {
         lang_arbi();
         Navigation_activity.iv_nav_logo.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
-
+        Login_freg.hideSoftKeyboard(getActivity());
 
         final TabLayout tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.my_images)));

@@ -72,7 +72,7 @@ public class MediaVideos extends Fragment {
             } else {
             Toast.makeText(getActivity(), "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
         }
-
+        Login_freg.hideSoftKeyboard(getActivity());
         /*premium_lawyer_adapter = new Premium_Lawyer_adapter(getActivity(), premium_lawyer_models);
         recycler_media_videos.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recycler_media_videos.setItemAnimator(new DefaultItemAnimator());

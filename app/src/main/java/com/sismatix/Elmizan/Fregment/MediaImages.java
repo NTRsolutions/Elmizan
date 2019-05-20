@@ -64,6 +64,7 @@ public class MediaImages extends Fragment {
         context=getActivity();
         AllocateMemory(v);
         lang_arbi();
+        Login_freg.hideSoftKeyboard(getActivity());
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             CALL_GET_MEDIAIMAGES_API(Media.u_id);

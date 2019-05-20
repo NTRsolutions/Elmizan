@@ -94,7 +94,7 @@ public class Article_freg extends Fragment {
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
         String youtubeUrl = "https://www.youtube.com/watch?v=O3aemJ9eAAA";
         Log.e("yid",""+youtubeUrl);
-
+        Login_freg.hideSoftKeyboard(getActivity());
         getYoutubeID(youtubeUrl);
         AllocateMemory(view);
         fab_btn_click_listner();
@@ -369,14 +369,11 @@ public class Article_freg extends Fragment {
                     Log.e("", "" + e);
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
         ///pagination
         nested_scroll_article.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -405,9 +402,7 @@ public class Article_freg extends Fragment {
                 }
             }
         });
-
     }
-
     private void PerformPagination(int page, String user_idd) {
         Log.e("pagination_390", "" +page);
         progressBar_bottom_article.setVisibility(View.VISIBLE);
@@ -448,7 +443,6 @@ public class Article_freg extends Fragment {
                                 JSONObject news_object = data_array.getJSONObject(i);
                                 Log.e("Name", "" + news_object.getString("article_id"));
 
-
                                 String article_media_url = news_object.getString("article_media_urls");
                                 Log.e("article_media_urls", "" + article_media_url);
 
@@ -479,14 +473,11 @@ public class Article_freg extends Fragment {
                                         for (int j = 0; j < video_array.length(); j++) {
                                             video = video_array.getString(j);
                                             Log.e("video_article", "" + video);
-
                                         }
                                     } else {
                                         Log.e("videp_array_else", "" + video_array);
                                         video = "";
                                     }
-
-
                                 }
                                 String date = news_object.getString("article_created_at_format_day") + " " +
                                         news_object.getString("article_created_at_format_month") + " " +
@@ -524,13 +515,11 @@ public class Article_freg extends Fragment {
                     Log.e("", "" + e);
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 

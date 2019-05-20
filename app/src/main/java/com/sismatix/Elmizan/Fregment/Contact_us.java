@@ -57,8 +57,9 @@ public class Contact_us extends Fragment {
         Navigation_activity.tv_nav_title.setVisibility(View.GONE);
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
         lang_arbi();
+        Login_freg.hideSoftKeyboard(getActivity());
         AllocateMemory(v);
-
+        Login_freg.hideSoftKeyboard(getActivity());
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
             callContactUsApi();
         } else {

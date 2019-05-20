@@ -63,7 +63,7 @@ public class About_us extends Fragment {
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
 
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.about_us));
-
+        Login_freg.hideSoftKeyboard(getActivity());
         AllocateMemory(v);
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {

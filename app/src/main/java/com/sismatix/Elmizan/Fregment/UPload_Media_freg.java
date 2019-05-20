@@ -131,7 +131,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.multiple_file));
 
-
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -195,8 +194,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
         getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
     }
     private void Call_GET_old_Media_API() {
-
-
         try {
             JSONObject obj = new JSONObject(old_image_video_pass);
             Log.e("obj_160",""+obj);
@@ -228,12 +225,8 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                         Log.e("Exception", "" + e);
                     } finally {
                     }
-
                 }
             }
-
-
-
             ///get video....
             JSONArray jsonArray_video = media_obj.getJSONArray("video");
             Log.e("json_video_168", "" + jsonArray_video);
@@ -488,21 +481,16 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                        // Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_LONG).show();
                     } else {
                       //  Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_LONG).show();
-
                     }
                 }
-
                 break;
         }
     }
-
     // Checking permission is enabled or not using function starts from here.
     public boolean CheckingPermissionIsEnabledOrNot() {
-
         int CAMERA_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), CAMERA);
         int READ_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), READ_EXTERNAL_STORAGE);
         int WRITE_EXTERNAL_STORAGE_PermissionResult = ContextCompat.checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE);
-
         return CAMERA_PermissionResult == PackageManager.PERMISSION_GRANTED &&
                 READ_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED &&
                 WRITE_EXTERNAL_STORAGE_PermissionResult == PackageManager.PERMISSION_GRANTED;
@@ -547,7 +535,6 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             }
         }
 
-
         if (old_media_List != null) {
             for (int i = 0; i < old_media_List.size(); i++) {
 
@@ -556,12 +543,9 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
             }
         }
 
-
-
         Log.e("parts", "" + parts);
         Log.e("youtubearrayList_272", "" + youtubearrayList);
         Log.e("old_media_415", "" + old_media);
-
 
         // create a map of data to pass along
         //RequestBody video_url= createPartFromString(youtube);
@@ -600,7 +584,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                         Log.e("user_id",""+Login_preference.getuser_id(getActivity()));
                         myFragment.setArguments(b);
                         getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in,
-                                0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                                0, 0, R.anim.fade_out).replace(R.id.main_fram_layout, myFragment).commit();
 
 
 

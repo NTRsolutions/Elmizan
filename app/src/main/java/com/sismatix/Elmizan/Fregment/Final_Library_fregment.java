@@ -77,7 +77,7 @@ public class Final_Library_fregment extends Fragment {
 
         AllocateMemory(v);
         context=getActivity();
-
+        Login_freg.hideSoftKeyboard(getActivity());
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
             Call_CATEGORY_API();
            // Log.e("catid_84",""+Category_Adapter.category_id);
@@ -303,7 +303,7 @@ public class Final_Library_fregment extends Fragment {
                            // tv_data_not_found_librarylist.setText(message);
                             //tv_data_not_found_librarylist.setVisibility(View.VISIBLE);
                             progressBar_librarylist.setVisibility(View.GONE);
-                            Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 } catch (Exception e) {

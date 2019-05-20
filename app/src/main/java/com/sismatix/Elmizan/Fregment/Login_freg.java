@@ -91,7 +91,6 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
     public Login_freg() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,7 +106,7 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         setupUI(lv_login_parent);
         bundle = this.getArguments();
         //get_CheckScreen();
-
+        Login_freg.hideSoftKeyboard(getActivity());
         btn_create_account_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
         //gLogin.setOnClickListener(this);
@@ -216,7 +215,6 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         });
 
     }
-
     private void AllocateMemory(View v) {
         lv_login_parent = (LinearLayout) v.findViewById(R.id.lv_login_parent);
         et_Email_login = (EditText) v.findViewById(R.id.et_Email_login);
@@ -248,11 +246,6 @@ public class Login_freg extends Fragment implements View.OnClickListener, Google
         tv_register.setTypeface(Navigation_activity.typeface);
 
     }
-
-
-
-
-
     @Override
     public void onClick(View view) {
         if (btn_create_account_login == view) {

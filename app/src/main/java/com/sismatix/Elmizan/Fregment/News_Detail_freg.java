@@ -73,6 +73,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     FloatingActionButton fab_edit_article,fab_delete_article;
     View shadowView_article;
     String article_inserted_by;
+    JSONArray video_array;
     LinearLayout lv_image_details, lv_video_details;
 
     public static YouTubePlayer YPlayer;
@@ -91,6 +92,7 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         Navigation_activity.tv_nav_title.setTypeface(Navigation_activity.typeface);
         Navigation_activity.tv_nav_title.setVisibility(View.VISIBLE);
         lang_arbi();
+        Login_freg.hideSoftKeyboard(getActivity());
         Allocate_Memory(view);
         setupUI(lv_news_parent);
 
@@ -487,13 +489,10 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                 requestOptions.placeholder(R.drawable.placeholder);
                                 requestOptions.error(R.drawable.placeholder);
 
-
                                 Glide.with(getActivity()).setDefaultRequestOptions(requestOptions)
                                         .load(image).into(iv_news_detail_image);
-
                             }
-
-                            JSONArray video_array = image_obj.getJSONArray("video");
+                             video_array = image_obj.getJSONArray("video");
                             if (video_array != null && video_array.isNull(0) != true) {
                                 Log.e("video_array", "" + video_array);
                                 lv_video_details.setVisibility(View.VISIBLE);
@@ -993,16 +992,21 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(YPlayer!=null) {
-            YPlayer.pause();
+        if (video_array != null && video_array.isNull(0) != true) {
+            if(YPlayer!=null) {
+                YPlayer.pause();
+            }
         }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        if(YPlayer!=null) {
-            YPlayer.pause();
+        if (video_array != null && video_array.isNull(0) != true) {
+            if(YPlayer!=null) {
+                YPlayer.pause();
+            }
         }
     }
 

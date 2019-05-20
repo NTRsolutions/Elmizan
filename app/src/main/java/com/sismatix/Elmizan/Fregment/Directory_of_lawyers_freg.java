@@ -62,6 +62,8 @@ public class Directory_of_lawyers_freg extends Fragment {
         bundle = this.getArguments();
         lang_arbi();
         hideSoftKeyboard();
+        Login_freg.hideSoftKeyboard(getActivity());
+
         if(bundle!=null){
             user_id=bundle.getString("user_id");
             Log.e("user_id_58",""+user_id);

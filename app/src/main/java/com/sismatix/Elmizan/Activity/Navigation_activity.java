@@ -223,6 +223,7 @@ public class Navigation_activity extends AppCompatActivity
             public void onClick(View view) {
                 if (c != null)
                     // showPopupCurrency(Navigation_activity.this, c);
+                    country_model.clear();
                     showPopup(Navigation_activity.this, c);
             }
         });
@@ -396,9 +397,7 @@ public class Navigation_activity extends AppCompatActivity
         c = new Point();
         c.x = location[0];
         c.y = location[1];
-
     }
-
     private void showPopup(final Activity context, Point c) {
         int popupWidth = 500;
         int popupHeight = 650;
@@ -614,21 +613,14 @@ public class Navigation_activity extends AppCompatActivity
     }
 
     public static void Check_String_NULL_Value(TextView textview, String text) {
-
-
         if (text.equalsIgnoreCase("null") == true) {
             textview.setHint("");
             //textview.setText("Enter Value here");
         } else {
-
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
         }
-
     }
-
     public static void Check_Editext_NULL_Value(EditText textview, String text) {
-
-
         if (text.equalsIgnoreCase("null") == true) {
             //   textview.setText("Enter Value here");
             textview.setHint("");
@@ -636,9 +628,7 @@ public class Navigation_activity extends AppCompatActivity
 
             textview.setText(Html.fromHtml(Navigation_activity.Convert_String_First_Letter(text)));
         }
-
     }
-
     public static String Convert_String_First_Letter(String convert_string) {
         String upperString;
 
@@ -672,6 +662,8 @@ public class Navigation_activity extends AppCompatActivity
         //String name=fragmentManager.get
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
         Log.e("", "" + count);
         if (count == 1) {
@@ -735,10 +727,7 @@ public class Navigation_activity extends AppCompatActivity
             // Log.e("onBackPressetitle", "" + title);
         }
 */
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -781,8 +770,6 @@ public class Navigation_activity extends AppCompatActivity
             } else {
                 Toast.makeText(Navigation_activity.this, "Please Check your Internet Connection", Toast.LENGTH_SHORT).show();
             }
-
-
         } else if (id == R.id.nav_my_account) {
 
             if (Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {

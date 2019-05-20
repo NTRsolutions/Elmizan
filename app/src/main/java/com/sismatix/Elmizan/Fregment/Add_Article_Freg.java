@@ -132,6 +132,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         lang_arbi();
 
         setupUI(lv_add_article_parent);
+        Login_freg.hideSoftKeyboard(getActivity());
         oldurl_pass="test";
         bundle = this.getArguments();
 
@@ -146,9 +147,6 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
         radio_upload_youtube_link.setOnClickListener(this);
         iv_camera.setOnClickListener(this);
         lv_add_article.setOnClickListener(this);
-
-
-
 
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
@@ -527,7 +525,7 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                         b.putString("user_id", Login_preference.getuser_id(getActivity()));
                         Fragment myFragment = new Article_freg();
                         myFragment.setArguments(b);
-                        getFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).addToBackStack(null).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.main_fram_layout, myFragment).commit();
 
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                     } else {

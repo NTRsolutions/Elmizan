@@ -84,6 +84,7 @@ public class Register_freg extends Fragment implements View.OnClickListener {
         lang_arbi();
         AllocateMemory(v);
         setupUI(lv_register_parent);
+        Login_freg.hideSoftKeyboard(getActivity());
         btn_register.setOnClickListener(this);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

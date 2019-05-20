@@ -982,7 +982,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         iv_profile_premium = (ImageView) view.findViewById(R.id.iv_profile_premium);
         lv_address = (LinearLayout) view.findViewById(R.id.lv_address);
         lv_country = (LinearLayout) view.findViewById(R.id.lv_country);
-        lv_phone = (LinearLayout) view.findViewById(R.id.lv_country);
+        lv_phone = (LinearLayout) view.findViewById(R.id.lv_phone);
         lv_email = (LinearLayout) view.findViewById(R.id.lv_email);
         lv_site = (LinearLayout) view.findViewById(R.id.lv_site);
         lv_premium_send_msg = (LinearLayout) view.findViewById(R.id.lv_premium_send_msg);
