@@ -169,11 +169,18 @@
     <string name="my_images">صوري</string>
     <string name="my_videos">أشرطة الفيديو الخاصة بي</string>
 
-
     <string name="add_photo">اضافة صورة</string>
     <string name="take_photo">كاميرا</string>
     <string name="choose_gallery">اختيار من الجاليري</string>
     <string name="Remove_photo">حذف الصورة</string>
     <string name="Cancel">رجوع</string>
+
+    <string name="change_password">غير كلمة السر</string>
+    <string name="Comments">تعليقات</string>
+    <string name="submit">حفظ</string>
+    <string name="enter_conf_pw">تأكيد كلمة المرور</string>
+    <string name="enter_new_pw">كلمة المرور الجديدة</string>
+    <string name="enter_old_pw">كلمة المرور القديمة</string>
+
 
 </resources>

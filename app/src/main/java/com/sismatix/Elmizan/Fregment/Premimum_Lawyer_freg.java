@@ -827,7 +827,7 @@ public class Premimum_Lawyer_freg extends Fragment implements View.OnClickListen
         progressBar_article_lawyer.setVisibility(View.VISIBLE);
         article_models.clear();
         ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
-        Call<ResponseBody> article_list = api.get_article_list(ApiClient.PAGE, ApiClient.PER_PAGE, ApiClient.user_status, user_id);
+        Call<ResponseBody> article_list = api.get_article_list(ApiClient.PAGE, ApiClient.PER_PAGE, ApiClient.user_status, "1",user_id);
 
         article_list.enqueue(new Callback<ResponseBody>() {
             @Override

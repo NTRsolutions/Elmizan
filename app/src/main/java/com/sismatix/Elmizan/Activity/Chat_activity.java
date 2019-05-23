@@ -102,8 +102,18 @@ public class Chat_activity extends AppCompatActivity {
         String loginid = Login_preference.getuser_id(Chat_activity.this);
         Log.e("loginid", "" + loginid);
 
+
+
+     //http://appchat.demoproject.info/customer_chat.php?name=test123&email=test123@gmail.com&admin_id=1&customer_id=7
+
+      /*  String current_user_name,current_login_email;
+        current_user_name=Login_preference.getuser_name(Chat_activity.this);
+        current_login_email=Login_preference.getemail(Chat_activity.this);
+*/
         String chat_url = "http://elmizan.demoproject.info/chat-system/index.php?from_user_id=" + loginid + "&to_user_id=" + user_id;
-        Log.e("chatUrl", "" + chat_url);
+       /* String chat_url = "http://appchat.demoproject.info/customer_chat.php?name="+current_user_name+"&email="+current_login_email+
+                "&admin_id="+"18"+"&customer_id="+user_id;
+    */    Log.e("chatUrl", "" + chat_url);
 
         webview_chat.loadUrl(chat_url);
         webview_chat.getSettings().setJavaScriptEnabled(true);

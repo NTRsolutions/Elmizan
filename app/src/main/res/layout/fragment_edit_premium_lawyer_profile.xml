@@ -513,6 +513,53 @@
                             />
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/lv_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start|top"
+                        android:layout_gravity="top"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_change_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top|start"
+                            android:gravity="center|start|top"
+                            android:text="@string/change_password"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text=":"
+                            android:visibility="gone"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:padding="5dp"
+                            android:textStyle="bold" />
+
+
+
+                        <EditText
+                            android:id="@+id/edt_change_password"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|top|start"
+                            android:gravity="center|start|top"
+                            android:hint="@string/change_password"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/edittextline"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -63,6 +63,7 @@ import com.sismatix.Elmizan.Fregment.About_us;
 import com.sismatix.Elmizan.Fregment.Article_freg;
 import com.sismatix.Elmizan.Fregment.Contact_us;
 import com.sismatix.Elmizan.Fregment.Directory_freg;
+import com.sismatix.Elmizan.Fregment.Edit_basic_lawyer_freg;
 import com.sismatix.Elmizan.Fregment.Edit_premium_lawyer_profile;
 import com.sismatix.Elmizan.Fregment.Final_Library_fregment;
 import com.sismatix.Elmizan.Fregment.Home_freg;
@@ -602,8 +603,15 @@ public class Navigation_activity extends AppCompatActivity
             case R.id.bottom_nav_myaccount:
 
                 if (Login_preference.getLogin_flag(Navigation_activity.this).equalsIgnoreCase("1")) {
-                    pushFragment(new Edit_premium_lawyer_profile(), "Edit_profile");
 
+
+                    if (My_Preference.get_premium_lawyer(Navigation_activity.this).equalsIgnoreCase("premium")) {
+
+                        pushFragment(new Edit_premium_lawyer_profile(), "Edit_profile");
+                    }else {
+                        pushFragment(new Edit_basic_lawyer_freg(), "basic_lawyer");
+
+                    }
                 } else {
                     pushFragment(new Login_freg(), "login");
                 }
@@ -681,9 +689,9 @@ public class Navigation_activity extends AppCompatActivity
                 }
             }, 2000);
         } else {
-            String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
+//            String title = fragmentManager.getBackStackEntryAt(count - 2).getName();
             super.onBackPressed();
-            Log.e("onBackPressetitle", "" + title);
+      //      Log.e("onBackPressetitle", "" + title);
             // tv_title.setText(title);
         }
 

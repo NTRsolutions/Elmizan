@@ -66,6 +66,7 @@ import java.util.List;
             }else {
 
                 holder.tv_more.setVisibility(View.VISIBLE);
+                holder.tv_more.setText("[ "+context.getResources().getString(R.string.more)+" ]");
                 holder.tv_more.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

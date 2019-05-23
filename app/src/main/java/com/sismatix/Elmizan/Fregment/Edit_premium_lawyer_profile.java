@@ -23,7 +23,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Html;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +40,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.sismatix.Elmizan.Activity.ChangePWpop;
 import com.sismatix.Elmizan.Activity.Navigation_activity;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Model.Country_model;
@@ -67,7 +67,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Part;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -77,7 +76,7 @@ import static android.app.Activity.RESULT_OK;
 public class Edit_premium_lawyer_profile extends Fragment implements View.OnClickListener {
     TextView tv_edit_your_img, tv_edit_user_name, tv_edit_appeal, tv_edit_personal_data, tv_edit_phone_text, tv_edit_title_text,
             tv_edit_phone, tv_edit_site, tv_edit_site_text, tv_edit_user_detail, tv_edit_email, tv_edit_email_text, tv_edit_address, tv_edit_country_text,
-            tv_edit_about_lawyer, tv_edit_twitter, tv_edit_instagram, tv_edit_facebook, tv_edit_socialmedia, tv_edit_save, tv_edit_country;
+            tv_edit_about_lawyer,tv_change_password, tv_edit_twitter, tv_edit_instagram, tv_edit_facebook, tv_edit_socialmedia, tv_edit_save, tv_edit_country;
     EditText edt_full_name, edt_appeal, edt_edit_user_detail, edt_phone, edt_address, edt_email, edt_site, edt_fb_url, edt_twitter_url, edt_insta_url;
     LinearLayout lv_edit_title, lv_edit_appeal, lv_edit_lawyer_info, lv_user_lawyer_detail, lv_edit_detils, lv_save_data,
             lv_edit_social_media, lv_edit_personal_detail, lv_edit_fb, lv_edit_twitter, lv_edit_insta, lv_edit_pre_profile_click, lv_edit_parent;
@@ -149,6 +148,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         lv_edit_personal_detail.setOnClickListener(this);
         lv_edit_social_media.setOnClickListener(this);
         tv_edit_save.setOnClickListener(this);
+        tv_change_password.setOnClickListener(this);
 
         spinner_edit_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -490,10 +490,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                 Log.e("site_22", "" + tv_edit_site.getText().toString());
 
 
-                Navigation_activity.Check_Editext_NULL_Value(edt_email, tv_edit_email.getText().toString());
+                edt_email.setText(tv_edit_email.getText().toString());
+                edt_site.setText(tv_edit_site.getText().toString());
+
+
+               // Navigation_activity.Check_Editext_NULL_Value(edt_email, tv_edit_email.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_address, tv_edit_address.getText().toString());
                 Navigation_activity.Check_Editext_NULL_Value(edt_phone, tv_edit_phone.getText().toString());
-                Navigation_activity.Check_Editext_NULL_Value(edt_site, tv_edit_site.getText().toString());
+               // Navigation_activity.Check_Editext_NULL_Value(edt_site, tv_edit_site.getText().toString());
 
                 flag_personal = false;
 
@@ -563,8 +567,14 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
             Log.e("click_251", "");
             CheckValidation();
 
-        }
+        }else if(view==tv_change_password)
+        {
 
+            startActivity(new Intent(getContext(), ChangePWpop.class));
+
+           /* Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://elmizan.demoproject.info/admin/index.php?p=forgot-password"));
+            startActivity(browserIntent);*/
+        }
 
     }
 
@@ -894,6 +904,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         iv_edit_camera = (ImageView) v.findViewById(R.id.iv_edit_camera);
         spinner_edit_country = (Spinner) v.findViewById(R.id.spinner_edit_country);
 
+        tv_change_password = (TextView) v.findViewById(R.id.tv_change_password);
         tv_edit_your_img = (TextView) v.findViewById(R.id.tv_edit_your_img);
         tv_edit_user_name = (TextView) v.findViewById(R.id.tv_edit_user_name);
         tv_edit_appeal = (TextView) v.findViewById(R.id.tv_edit_appeal);
@@ -972,6 +983,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
         tv_edit_appeal.setTypeface(Navigation_activity.Cairo_Regular);
         tv_edit_twitter.setTypeface(Navigation_activity.typeface);
         tv_edit_save.setTypeface(Navigation_activity.typeface);
+        tv_change_password.setTypeface(Navigation_activity.typeface);
   }
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -1082,21 +1094,23 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
     }
 
     private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Gallery", "Remove Photo",
-                "Cancel"};
+        final CharSequence[] items = {getActivity().getResources().getString(R.string.take_photo),
+                getActivity().getResources().getString(R.string.choose_gallery)
+                , getActivity().getResources().getString(R.string.Remove_photo),
+                getActivity().getResources().getString(R.string.Cancel)};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Add Photo!");
+        builder.setTitle( getActivity().getResources().getString(R.string.add_photo));
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 //  boolean result = Utility.checkPermission(getActivity());
-                if (items[item].equals("Take Photo")) {
+                if (items[item].equals(getActivity().getResources().getString(R.string.take_photo))) {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(cameraIntent, 1);
-                } else if (items[item].equals("Choose from Gallery")) {
+                } else if (items[item].equals(getActivity().getResources().getString(R.string.choose_gallery))) {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
-                } else if (items[item].equals("Remove Photo")) {
+                } else if (items[item].equals( getActivity().getResources().getString(R.string.Remove_photo))) {
 
                     bitmap = BitmapFactory.decodeResource(getActivity().getResources(),
                             R.drawable.my_profile);
@@ -1113,7 +1127,7 @@ public class Edit_premium_lawyer_profile extends Fragment implements View.OnClic
                     filename = path.substring(path.lastIndexOf("/") + 1);
 
 
-                } else if (items[item].equals("Cancel")) {
+                } else if (items[item].equals(getActivity().getResources().getString(R.string.Cancel))) {
                     dialog.dismiss();
                 }
             }

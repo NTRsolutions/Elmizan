@@ -45,7 +45,7 @@ public class Directory_of_lawyers_freg extends Fragment {
     TextView tv_name_dircto,tv_shortdicription_dircto,tv_phonenumber_dircto,tv_address_dircto,tv_email_direct,tv_site_dircto;
     CircleImageView iv_lawyer_profile;
     ProgressBar progressBar_user_detail;
-    LinearLayout lv_user_detail;
+    LinearLayout lv_user_detail,lv_site_lawyer,lv_add_lawyer,lv_email_lawyer,lv_phone_lawyer;
     Bundle bundle;
     String user_id;
     public Directory_of_lawyers_freg() {
@@ -115,22 +115,65 @@ public class Directory_of_lawyers_freg extends Fragment {
                         tv_shortdicription_dircto.setTypeface(Navigation_activity.typeface);
 
                         Navigation_activity.Check_String_NULL_Value(tv_name_dircto,data_obj.getString("user_fullname"));
-                        Navigation_activity.Check_String_NULL_Value(tv_address_dircto,data_obj.getString("user_address"));
-                        Navigation_activity.Check_String_NULL_Value(tv_phonenumber_dircto,data_obj.getString("user_phone"));
-                        Navigation_activity.Check_String_NULL_Value(tv_email_direct,data_obj.getString("user_email"));
-                        Navigation_activity.Check_String_NULL_Value(tv_site_dircto,data_obj.getString("user_website"));
-                        Navigation_activity.Check_String_NULL_Value(tv_shortdicription_dircto,data_obj.getString("user_description"));
-                        /*//tv_name_dircto.setText(data_obj.getString("user_name"));
-                        tv_address_dircto.setText(data_obj.getString("user_address"));
-                        tv_email_direct.setText(data_obj.getString("user_email"));
-                        tv_phonenumber_dircto.setText(data_obj.getString("user_phone"));
-                        tv_shortdicription_dircto.setText(data_obj.getString("user_description"));
-                        tv_site_dircto.setText(data_obj.getString("user_website"));*/
+
+                       // Navigation_activity.Check_String_NULL_Value(tv_site_dircto,data_obj.getString("user_website"));
+                        //Navigation_activity.Check_String_NULL_Value(tv_shortdicription_dircto,data_obj.getString("user_description"));
 
                         RequestOptions requestOptions = new RequestOptions();
                         requestOptions.placeholder(R.drawable.my_profile);
                         requestOptions.error(R.drawable.my_profile);
                         Glide.with(getActivity()).setDefaultRequestOptions(requestOptions).load(data_obj.getString("user_avatar_url")).into(iv_lawyer_profile);
+
+
+                        if (data_obj.getString("user_description") != null && !data_obj.getString("user_description").isEmpty()
+                                && !data_obj.getString("user_description").equals("null")) {
+
+                            tv_shortdicription_dircto.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_shortdicription_dircto,data_obj.getString("user_description"));
+                        } else {
+                            Log.e("nulllll", "");
+                            tv_shortdicription_dircto.setVisibility(View.GONE);
+                        }
+
+                        if (data_obj.getString("user_phone") != null && !data_obj.getString("user_phone").isEmpty()
+                                && !data_obj.getString("user_phone").equals("null")) {
+
+                            lv_phone_lawyer.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_phonenumber_dircto,data_obj.getString("user_phone"));
+
+                        } else {
+                            Log.e("nulllll", "");
+                            lv_phone_lawyer.setVisibility(View.GONE);
+                        }
+                        if (data_obj.getString("user_email") != null && !data_obj.getString("user_email").isEmpty()
+                                && !data_obj.getString("user_email").equals("null")) {
+
+                            lv_email_lawyer.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_email_direct,data_obj.getString("user_email"));
+                        } else {
+                            Log.e("nulllll", "");
+                            lv_email_lawyer.setVisibility(View.GONE);
+                        }
+                        if (data_obj.getString("user_address") != null && !data_obj.getString("user_address").isEmpty()
+                                && !data_obj.getString("user_address").equals("null")) {
+
+                            lv_add_lawyer.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_address_dircto,data_obj.getString("user_address"));
+
+                        } else {
+                            Log.e("nulllll", "");
+                            lv_add_lawyer.setVisibility(View.GONE);
+                        }
+                        if (data_obj.getString("user_website") != null && !data_obj.getString("user_website").isEmpty()
+                                && !data_obj.getString("user_website").equals("null")) {
+
+                            lv_site_lawyer.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_address_dircto,data_obj.getString("user_website"));
+
+                        } else {
+                            Log.e("nulllll", "");
+                            lv_site_lawyer.setVisibility(View.GONE);
+                        }
 
 
                     }else if (status.equalsIgnoreCase("error")){
@@ -142,6 +185,7 @@ public class Directory_of_lawyers_freg extends Fragment {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                progressBar_user_detail.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -156,6 +200,10 @@ public class Directory_of_lawyers_freg extends Fragment {
         tv_site_dircto=(TextView)v.findViewById(R.id.tv_site_dircto);
         iv_lawyer_profile=(CircleImageView) v.findViewById(R.id.iv_lawyer_profile);
 
+        lv_site_lawyer=(LinearLayout) v.findViewById(R.id.lv_site_lawyer);
+        lv_email_lawyer=(LinearLayout) v.findViewById(R.id.lv_email_lawyer);
+        lv_add_lawyer=(LinearLayout) v.findViewById(R.id.lv_add_lawyer);
+        lv_phone_lawyer=(LinearLayout) v.findViewById(R.id.lv_phone_lawyer);
         lv_user_detail=(LinearLayout) v.findViewById(R.id.lv_user_detail);
         progressBar_user_detail=(ProgressBar) v.findViewById(R.id.progressBar_user_detail);
         phone=(TextView)v.findViewById(R.id.tv_phone);

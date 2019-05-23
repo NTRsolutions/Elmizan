@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +39,13 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import com.sismatix.Elmizan.Activity.Navigation_activity;
+import com.sismatix.Elmizan.Adapter.Articles_Adapter;
+import com.sismatix.Elmizan.Adapter.Comment_adapter;
 import com.sismatix.Elmizan.CheckNetwork;
 import com.sismatix.Elmizan.Configgg;
+import com.sismatix.Elmizan.Model.Article_model;
+import com.sismatix.Elmizan.Model.Comment_Model;
+import com.sismatix.Elmizan.Model.News_Model;
 import com.sismatix.Elmizan.Preference.Login_preference;
 import com.sismatix.Elmizan.Preference.My_Preference;
 import com.sismatix.Elmizan.R;
@@ -45,6 +55,8 @@ import com.sismatix.Elmizan.Retrofit.ApiInterface;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,11 +74,11 @@ import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
 public class News_Detail_freg extends Fragment implements View.OnClickListener {
     View view;
     String news_id, article_id;
-    TextView tv_detail_news_title, tv_send_news, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
+    TextView tv_detail_news_title,tv_tot_likes,tv_comment_nodata, tv_detail_comment,tv_send_news, tv_news_detail_date, tv_news_detail_description, tv_detail_news_add_comment, tv_posted_by, tv_posted;
     ImageView iv_news_detail_like, iv_news_detail_bookmark, iv_news_detail_share, iv_news_detail_image;
     EditText edt_news_detail_comment;
     RelativeLayout lv_news_parent;
-    LinearLayout lv_news_detail_send, lv_news_detail;
+    LinearLayout lv_news_detail_send, lv_news_detail,lv_postedby;
     ProgressBar progressBar_newsdetail;
     public static String login_flag;
     FloatingActionMenu fab_menu_article;
@@ -76,8 +88,21 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
     JSONArray video_array;
     LinearLayout lv_image_details, lv_video_details;
 
+
+    RecyclerView recycler_comment;
+    Comment_adapter comment_adapter;
+    private List<Comment_Model> comment_model = new ArrayList<Comment_Model>();
     public static YouTubePlayer YPlayer;
     String video, image, video_idd, video_id, spl;
+    LinearLayoutManager layoutManager;
+    int page_no=1,page;
+
+    NestedScrollView scroll_news;
+    boolean isLoading = true;
+    int pastvisibleitem, visibleitemcount, totalitemcount, previous_total = 0;
+    ProgressBar progressBar_bottom_recv_comment;
+
+
 
     public News_Detail_freg() {
         // Required empty public constructor
@@ -96,6 +121,10 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         Allocate_Memory(view);
         setupUI(lv_news_parent);
 
+        scroll_news.scrollTo(0,0);
+        scroll_news.setSmoothScrollingEnabled(true);
+
+
         Log.e("videooooo", "" + video);
 
         Bundle bundle = this.getArguments();
@@ -109,6 +138,15 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
             Log.e("article_id_79", "" + article_id);
         }
 
+
+        comment_adapter = new Comment_adapter(getActivity(), comment_model);
+        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        layoutManager=new LinearLayoutManager(getActivity());
+        recycler_comment.setLayoutManager(layoutManager);
+        recycler_comment.setAdapter(comment_adapter);
+
+
+
         if (CheckNetwork.isNetworkAvailable(getActivity())) {
 
             if (news_id == "" || news_id == null || news_id == "null" || news_id.equalsIgnoreCase(null)
@@ -117,12 +155,15 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                 Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.articles));
 
                 CALL_ARTICLE_DETAIL_API();
+                CALL_GET_article_COMMENT_API(article_id, String.valueOf(page_no));
+
                 fab_btn_click_listner();
 
             } else {
                 Navigation_activity.tv_nav_title.setText(getResources().getString(R.string.single_news_page));
 
                 CALL_News_Detail_API();
+                CALL_GET_News_COMMENT_API(news_id, String.valueOf(page_no));
             }
 
         } else {
@@ -132,9 +173,384 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         lv_news_detail_send.setOnClickListener(this);
         iv_news_detail_like.setOnClickListener(this);
 
+
+
         return view;
 
     }
+
+
+    public void CALL_GET_News_COMMENT_API(String id ,String page_no) {
+
+      /*  if(page_no.equals("1"))
+        {
+          // comment_model.clear();
+
+        }else {
+            progressBar_bottom_recv_comment.setSystemUiVisibility(View.GONE);
+        }*/
+
+        // progressBar_home.setVisibility(View.VISIBLE);
+        comment_model.clear();
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> News_list = api.get_news_comment(id,page_no,ApiClient.PER_PAGE,ApiClient.user_status);
+
+        page= Integer.parseInt(page_no);
+
+        Log.e("pageno_108",""+page);
+        Log.e("nmewsid",""+id);
+        News_list.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("res_article_comm", "" + response.body().toString());
+                //       progressBar_home.setVisibility(View.GONE);
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_prod_cat",""+status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message",""+message);
+                    if (status.equalsIgnoreCase("success")){
+                        JSONArray data_array=jsonObject.getJSONArray("data");
+
+                        //  Toast.makeText(getActivity(), "page_loade="+page, Toast.LENGTH_SHORT).show();
+
+                        for (int i = 0; i < data_array.length(); i++) {
+
+                            try {
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                comment_model.add(new Comment_Model(news_object.getString("user_fullname"),
+                                        news_object.getString("news_comment_id"),
+                                        news_object.getString("time"),
+                                        news_object.getString("news_comment_content")));
+
+                            } catch (Exception e) {
+                                Log.e("Exception", "" + e);
+                            } finally {
+                                comment_adapter.notifyItemChanged(i);
+                            }
+
+                        }
+                        if (comment_model.size() == 0) {
+                            tv_comment_nodata.setVisibility(View.VISIBLE);
+                            tv_comment_nodata.setTypeface(Navigation_activity.typeface);
+
+                        } else {
+                            tv_comment_nodata.setVisibility(View.GONE);
+                            progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                        }
+
+                    }else if (status.equalsIgnoreCase("error")){
+                        tv_comment_nodata.setVisibility(View.VISIBLE);
+                        tv_comment_nodata.setTypeface(Navigation_activity.typeface);
+                        //             progressBar_home.setVisibility(View.GONE);
+                        recycler_comment.setVisibility(View.GONE);
+                        progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                    }
+
+                }catch (Exception e){
+                    Log.e("",""+e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+            }
+        });
+
+        scroll_news.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (v.getChildAt(v.getChildCount() - 1) != null) {
+                    if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                            scrollY > oldScrollY) {
+
+                        visibleitemcount = layoutManager.getChildCount();
+                        totalitemcount = layoutManager.getItemCount();
+                        pastvisibleitem = layoutManager.findFirstVisibleItemPosition();
+
+                        if (isLoading) {
+
+                            if ((visibleitemcount + pastvisibleitem) >= totalitemcount) {
+                                page++;
+                                Log.e("isloading", "loadscroll" + page);
+                                progressBar_bottom_recv_comment.setVisibility(View.VISIBLE);
+
+                                PerformPagination_news(news_id, String.valueOf(page));
+                                //CALL_GET_News_COMMENT_API(news_id, String.valueOf(page));
+                                //  isLoading=true;
+//                        Load Your Data
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void PerformPagination_news(String news_id,String page_no) {
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> News_list = api.get_news_comment(news_id,page_no,ApiClient.PER_PAGE,ApiClient.user_status);
+
+        page= Integer.parseInt(page_no);
+        progressBar_bottom_recv_comment.setVisibility(View.VISIBLE);
+
+        Log.e("pageno_108",""+page);
+        Log.e("nmewsid",""+news_id);
+        News_list.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("res_article_comm", "" + response.body().toString());
+                //       progressBar_home.setVisibility(View.GONE);
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_prod_cat",""+status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message",""+message);
+                    if (status.equalsIgnoreCase("success")){
+                        JSONArray data_array=jsonObject.getJSONArray("data");
+
+                        //  Toast.makeText(getActivity(), "page_loade="+page, Toast.LENGTH_SHORT).show();
+
+                        for (int i = 0; i < data_array.length(); i++) {
+
+                            try {
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                comment_model.add(new Comment_Model(news_object.getString("user_fullname"),
+                                        news_object.getString("news_comment_id"),
+                                        news_object.getString("time"),
+                                        news_object.getString("news_comment_content")));
+
+                            } catch (Exception e) {
+                                Log.e("Exception", "" + e);
+                            } finally {
+                                comment_adapter.notifyItemChanged(i);
+                            }
+
+                        }
+                        if (comment_model.size() == 0) {
+                            tv_comment_nodata.setTypeface(Navigation_activity.typeface);
+
+                            tv_comment_nodata.setVisibility(View.VISIBLE);
+                        } else {
+                            tv_comment_nodata.setVisibility(View.GONE);
+                            progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                        }
+
+                    }else if (status.equalsIgnoreCase("error")){
+                       // tv_comment_nodata.setVisibility(View.VISIBLE);
+                        //             progressBar_home.setVisibility(View.GONE);
+                       // recycler_comment.setVisibility(View.GONE);
+                        progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                    }
+
+                }catch (Exception e){
+                    Log.e("",""+e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+            }
+        });
+    }
+
+
+    public void CALL_GET_article_COMMENT_API(String id ,String page_no) {
+
+           comment_model.clear();
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> News_list = api.get_article_comment(id,page_no,ApiClient.PER_PAGE,ApiClient.user_status);
+
+        page= Integer.parseInt(page_no);
+
+        Log.e("pageno_108",""+page);
+        Log.e("articleid",""+id);
+        News_list.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("res_article_comm", "" + response.body().toString());
+         //       progressBar_home.setVisibility(View.GONE);
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_prod_cat",""+status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message",""+message);
+                    if (status.equalsIgnoreCase("success")){
+                        JSONArray data_array=jsonObject.getJSONArray("data");
+
+                        //  Toast.makeText(getActivity(), "page_loade="+page, Toast.LENGTH_SHORT).show();
+
+                        for (int i = 0; i < data_array.length(); i++) {
+
+                            try {
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                comment_model.add(new Comment_Model(news_object.getString("user_fullname"),
+                                        news_object.getString("article_comment_id"),
+                                        news_object.getString("time"),
+                                        news_object.getString("article_comment_content")));
+
+                            } catch (Exception e) {
+                                Log.e("Exception", "" + e);
+                            } finally {
+                                comment_adapter.notifyItemChanged(i);
+                            }
+
+                        }
+                        if (comment_model.size() == 0) {
+                            tv_comment_nodata.setVisibility(View.VISIBLE);
+                            tv_comment_nodata.setTypeface(Navigation_activity.typeface);
+
+                        } else {
+                            tv_comment_nodata.setVisibility(View.GONE);
+                        }
+
+                    }else if (status.equalsIgnoreCase("error")){
+                        tv_comment_nodata.setVisibility(View.VISIBLE);
+                        tv_comment_nodata.setTypeface(Navigation_activity.typeface);
+
+                        //             progressBar_home.setVisibility(View.GONE);
+                        recycler_comment.setVisibility(View.GONE);
+
+                    }
+
+                }catch (Exception e){
+                    Log.e("",""+e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        scroll_news.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (v.getChildAt(v.getChildCount() - 1) != null) {
+                    if ((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+                            scrollY > oldScrollY) {
+
+                        visibleitemcount = layoutManager.getChildCount();
+                        totalitemcount = layoutManager.getItemCount();
+                        pastvisibleitem = layoutManager.findFirstVisibleItemPosition();
+
+                        if (isLoading) {
+
+                            if ((visibleitemcount + pastvisibleitem) >= totalitemcount) {
+                                page++;
+                                Log.e("isloading", "loadscroll" + page);
+                              //  progressBar_bottom_recv_comment.setVisibility(View.VISIBLE);
+
+                                PerformPagination_article(article_id, String.valueOf(page));
+                              //  CALL_GET_COMMENT_API(article_id, String.valueOf(page));
+                                //  isLoading=true;
+//                        Load Your Data
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void PerformPagination_article(String article_id, String page_no) {
+        progressBar_bottom_recv_comment.setVisibility(View.VISIBLE);
+
+        ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+        Call<ResponseBody> News_list = api.get_article_comment(article_id,page_no,ApiClient.PER_PAGE,ApiClient.user_status);
+
+        page= Integer.parseInt(page_no);
+
+        Log.e("pageno_444",""+page);
+        Log.e("articleid",""+article_id);
+        News_list.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("res_article_comm", "" + response.body().toString());
+                //       progressBar_home.setVisibility(View.GONE);
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.body().string());
+                    String status = jsonObject.getString("status");
+                    Log.e("status_prod_cat",""+status);
+                    String message = jsonObject.getString("msg");
+                    Log.e("message",""+message);
+                    if (status.equalsIgnoreCase("success")){
+                        JSONArray data_array=jsonObject.getJSONArray("data");
+
+                        //  Toast.makeText(getActivity(), "page_loade="+page, Toast.LENGTH_SHORT).show();
+
+                        for (int i = 0; i < data_array.length(); i++) {
+
+                            try {
+                                JSONObject news_object = data_array.getJSONObject(i);
+                                comment_model.add(new Comment_Model(news_object.getString("user_fullname"),
+                                        news_object.getString("article_comment_id"),
+                                        news_object.getString("time"),
+                                        news_object.getString("article_comment_content")));
+
+                            } catch (Exception e) {
+                                Log.e("Exception", "" + e);
+                            } finally {
+                                comment_adapter.notifyItemChanged(i);
+                            }
+
+                        }
+                        if (comment_model.size() == 0) {
+                            tv_comment_nodata.setVisibility(View.VISIBLE);
+                            tv_comment_nodata.setTypeface(Navigation_activity.typeface);
+
+                            progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                        } else {
+                            tv_comment_nodata.setVisibility(View.GONE);
+                            progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                        }
+
+                    }else if (status.equalsIgnoreCase("error")){
+                        progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+                        // tv_comment_nodata.setVisibility(View.VISIBLE);
+                        //             progressBar_home.setVisibility(View.GONE);
+                      //  recycler_comment.setVisibility(View.GONE);
+
+                    }
+
+                }catch (Exception e){
+                    Log.e("",""+e);
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                progressBar_bottom_recv_comment.setVisibility(View.GONE);
+
+            }
+        });
+
+    }
+
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
@@ -434,6 +850,18 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("article_created_by"));
 
+
+                        if (data_obj.getString("article_created_by") != null && !data_obj.getString("article_created_by").isEmpty()
+                                && !data_obj.getString("article_created_by").equals("null")) {
+
+                            lv_postedby.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("article_created_by"));
+
+                        } else {
+                            Log.e("nulllll", "");
+                            lv_postedby.setVisibility(View.GONE);
+                        }
+
                         String check_if_article_liked = data_obj.getString("check_if_article_liked");
                         if (check_if_article_liked.equalsIgnoreCase("true") == true) {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumb_up_black_36dp));
@@ -529,6 +957,9 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                             }
 
                         }
+                        String article_likes = data_obj.getString("article_likes");
+                        Log.e("article_likes",""+article_likes);
+                        tv_tot_likes.setText(article_likes);
 
                     } else if (status.equalsIgnoreCase("error")) {
                     }
@@ -629,7 +1060,16 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         Navigation_activity.Check_String_NULL_Value(tv_news_detail_description, String.valueOf(Html.fromHtml(data_obj.getString("news_description"))));
                        // Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
 
+                        if (data_obj.getString("news_created_by") != null && !data_obj.getString("news_created_by").isEmpty()
+                                && !data_obj.getString("news_created_by").equals("null")) {
 
+                            lv_postedby.setVisibility(View.VISIBLE);
+                            Navigation_activity.Check_String_NULL_Value(tv_posted_by, data_obj.getString("news_created_by"));
+
+                        } else {
+                            Log.e("nulllll", "");
+                            lv_postedby.setVisibility(View.GONE);
+                        }
                         String check_if_news_liked = data_obj.getString("check_if_news_liked");
                         if (check_if_news_liked.equalsIgnoreCase("true") == true) {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumb_up_black_36dp));
@@ -722,6 +1162,10 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                                     .load(image).into(iv_news_detail_image);
                                                 }
 
+                        String news_likes = data_obj.getString("news_likes");
+                        Log.e("news_likes",""+news_likes);
+                        tv_tot_likes.setText(news_likes);
+
                     } else if (status.equalsIgnoreCase("error")) {
                     }
 
@@ -739,16 +1183,22 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
     private void Allocate_Memory(View view) {
 
+        scroll_news = (NestedScrollView) view.findViewById(R.id.scroll_news);
         lv_news_parent = (RelativeLayout) view.findViewById(R.id.lv_news_parent);
         lv_image_details = (LinearLayout) view.findViewById(R.id.lv_image_details);
         lv_video_details = (LinearLayout) view.findViewById(R.id.lv_video_details);
+        lv_postedby = (LinearLayout) view.findViewById(R.id.lv_postedby);
         iv_news_detail_image = (ImageView) view.findViewById(R.id.iv_news_detail_image);
 
         shadowView_article = (View) view.findViewById(R.id.shadowView_article);
         fab_menu_article = (FloatingActionMenu) view.findViewById(R.id.fab_menu_article);
         fab_edit_article = (FloatingActionButton) view.findViewById(R.id.fab_edit_article);
         fab_delete_article = (FloatingActionButton) view.findViewById(R.id.fab_delete_article);
+        recycler_comment = (RecyclerView) view.findViewById(R.id.recycler_comment);
 
+        tv_tot_likes = (TextView) view.findViewById(R.id.tv_tot_likes);
+        tv_comment_nodata = (TextView) view.findViewById(R.id.tv_comment_nodata);
+        tv_detail_comment = (TextView) view.findViewById(R.id.tv_detail_comment);
         tv_posted = (TextView) view.findViewById(R.id.tv_posted);
         tv_posted_by = (TextView) view.findViewById(R.id.tv_posted_by);
         tv_detail_news_title = (TextView) view.findViewById(R.id.tv_detail_news_title);
@@ -767,8 +1217,10 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
         lv_news_detail_send = view.findViewById(R.id.lv_news_detail_send);
         lv_news_detail = view.findViewById(R.id.lv_news_detail);
         progressBar_newsdetail = view.findViewById(R.id.progressBar_newsdetail);
+        progressBar_bottom_recv_comment = view.findViewById(R.id.progressBar_bottom_recv_comment);
 
 
+        tv_detail_comment.setTypeface(Navigation_activity.typeface);
         tv_posted.setTypeface(Navigation_activity.typeface);
         tv_posted_by.setTypeface(Navigation_activity.typeface);
         tv_detail_news_title.setTypeface(Navigation_activity.typeface);
@@ -893,11 +1345,29 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
 
                         String checked_value = jsonObject.getString("check_if_article_liked");
                         Log.e("checked_value_article", "" + checked_value);
+
+
                         if (checked_value.equalsIgnoreCase("true") == true) {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumb_up_black_36dp));
                         } else {
                             iv_news_detail_like.setImageDrawable(getResources().getDrawable(R.drawable.like));
                         }
+
+
+                        Bundle b = new Bundle();
+                        b.putString("article_id", article_id);
+                        b.putString("news_id",news_id);
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft = manager.beginTransaction();
+                        ft.setCustomAnimations(R.anim.fade_in,
+                                0, 0, R.anim.fade_out);
+                        Fragment newFragment = new News_Detail_freg();
+                        newFragment.setArguments(b);
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack("Newsdetail").commit();
+// Start the animated transition.
+                        ft.commit();
+
                         String message = jsonObject.getString("msg");
                         Log.e("msg", "" + message);
                         //  Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
@@ -958,6 +1428,20 @@ public class News_Detail_freg extends Fragment implements View.OnClickListener {
                         }
                         String message = jsonObject.getString("msg");
                         Log.e("msg", "" + message);
+
+                        Bundle b = new Bundle();
+                        b.putString("article_id", article_id);
+                        b.putString("news_id",news_id);
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        FragmentManager manager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft = manager.beginTransaction();
+                        ft.setCustomAnimations(R.anim.fade_in,
+                                0, 0, R.anim.fade_out);
+                        Fragment newFragment = new News_Detail_freg();
+                        newFragment.setArguments(b);
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_fram_layout, newFragment).addToBackStack("Newsdetail").commit();
+// Start the animated transition.
+                        ft.commit();
                         //  Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                     }
 

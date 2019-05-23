@@ -81,6 +81,7 @@ public class Country_Adapter extends RecyclerView.Adapter<Country_Adapter.MyView
         requestOptions.error(R.drawable.app_icon);
 
         Glide.with(context)
+                .setDefaultRequestOptions(requestOptions)
                 .load(rmd.getCountry_image_url()).into(holder.ivflag);
 
         //Glide.with(context).load(rmd.getCountry_image_url()).into(holder.ivflag);

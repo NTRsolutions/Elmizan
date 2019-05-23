@@ -264,10 +264,10 @@ public class Article_freg extends Fragment {
         final Call<ResponseBody> article_list;
         if (bundle==null) {
             Log.e("user_id_97", "" +user_idd);
-            article_list = api.get_article_list(String.valueOf(page_no), ApiClient.PER_PAGE, ApiClient.user_status, "");
+            article_list = api.get_article_list(String.valueOf(page_no), ApiClient.PER_PAGE, ApiClient.user_status,"1" ,"");
         } else {
             Log.e("user_id_101", "" + user_idd);
-            article_list = api.get_article_list(String.valueOf(page_no), ApiClient.PER_PAGE, ApiClient.user_status, user_idd);
+            article_list = api.get_article_list(String.valueOf(page_no), ApiClient.PER_PAGE, ApiClient.user_status, "0",user_idd);
         }
         page=page_no;
 
@@ -411,10 +411,10 @@ public class Article_freg extends Fragment {
         final Call<ResponseBody> article_list;
         if (bundle==null) {
             Log.e("user_id_97", "" +user_idd);
-            article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, "");
+            article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, "1","");
         } else {
             Log.e("user_id_101", "" + user_idd);
-            article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, user_idd);
+            article_list = api.get_article_list(String.valueOf(page), ApiClient.PER_PAGE, ApiClient.user_status, "0",user_idd);
         }
 
 

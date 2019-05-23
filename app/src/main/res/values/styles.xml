@@ -21,7 +21,10 @@
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/edittextline</item>
     </style>
-
+    <style name="AppTheme.CustomTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
     //Edittext underline color
 
     <style name="MyEditTextStyle2" parent="Widget.AppCompat.EditText">

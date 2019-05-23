@@ -581,19 +581,19 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 length = length / (1024 * 1024);
                 Log.e("length_570",""+length);
 
-                if (length <= 5) {
-                        path = String.valueOf(finalFile);
+                /*if (length <= 5) {
+                */        path = String.valueOf(finalFile);
 
                         Log.e("length_580",""+path);
                         filename = path.substring(path.lastIndexOf("/") + 1);
                         iv_upload_image.setImageBitmap(bitmap);
 
 
-                } else {
+              /*  } else {
                     Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
 
                 }
-
+*/
 
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
@@ -614,10 +614,10 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
                 length = length / (1024 * 1024);
                 Log.e("length_610",""+length);
 
-
+/*
                 if (length <= 5) {
 
-                        path = String.valueOf(imagefile);
+               */         path = String.valueOf(imagefile);
                         Log.e("pathhhhhhh_profilepic", "" + path);
                         filename = path.substring(path.lastIndexOf("/") + 1);
                         Log.e("pat_gallery_filenm", "" + filename);
@@ -625,10 +625,10 @@ public class Add_Article_Freg extends Fragment implements View.OnClickListener {
 
                     BitmapDrawable d = new BitmapDrawable(getResources(), imagefile.getAbsolutePath());
                     iv_upload_image.setImageDrawable(d);
-                } else {
+               /* } else {
                     Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
 
-                }
+                }*/
 
 
 

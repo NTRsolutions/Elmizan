@@ -176,4 +176,12 @@
     <string name="Cancel">Cancel</string>
     <string name="directory_of_lawyer"></string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="change_password">Change Password</string>
+    <string name="Comments">Comments</string>
+    <string name="submit">SUBMIT</string>
+    <string name="enter_conf_pw">Enter Confirm Password</string>
+    <string name="enter_new_pw">Enter New Password</string>
+    <string name="enter_old_pw">Enter Old Password</string>
+
 </resources>

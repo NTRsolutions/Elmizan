@@ -96,10 +96,11 @@
                 android:textColor="@color/light_grey" />
 
             <LinearLayout
+                android:id="@+id/lv_phone_lawyer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center|top"
                 android:orientation="horizontal">
 
@@ -123,6 +124,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lv_add_lawyer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|top"
@@ -148,6 +150,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lv_email_lawyer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|top"
@@ -173,6 +176,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lv_site_lawyer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|top"

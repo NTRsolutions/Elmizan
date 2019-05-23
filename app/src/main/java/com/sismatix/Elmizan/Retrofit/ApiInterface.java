@@ -62,6 +62,7 @@ public interface ApiInterface {
     @GET("article_list.php")
     Call<ResponseBody> get_article_list(@Query("page") String page,
                                         @Query("per_page") String per_page,
+                                        @Query("article_status[]") String article_status1,
                                         @Query("article_status[]") String article_status,
                                         @Query("inserted_by") String inserted_by);
 
@@ -72,12 +73,33 @@ public interface ApiInterface {
     Call<ResponseBody> get_article_detail(@Field("article_id") String Article_id,
                                           @Field("user_id") String user_id);
 
+
+    //get article comment
+    //https://elmizan.demoproject.info/api/article_comment_list.php
+    @POST("article_comment_list.php")
+    @FormUrlEncoded
+    Call<ResponseBody> get_article_comment(@Field("article_id") String Article_id,
+                                           @Field("page") String page,
+                                           @Field("per_page") String per_page,
+                                           @Field("article_comment_status[]") String article_status);
+
+
+    //get news comment
+    //https://elmizan.demoproject.info/api/news_comment_list.php
+    @POST("news_comment_list.php")
+    @FormUrlEncoded
+    Call<ResponseBody> get_news_comment(@Field("news_id") String Article_id,
+                                        @Field("page") String page,
+                                        @Field("per_page") String per_page,
+                                        @Field("article_comment_status[]") String article_status);
+
+
     //article delete api
     //https://elmizan.demoproject.info/api/article_delete.php
     @POST("article_delete.php")
     @FormUrlEncoded
     Call<ResponseBody> article_delete(@Field("article_id") String Article_id,
-                                          @Field("user_id") String user_id);
+                                      @Field("user_id") String user_id);
 
     //Article add comment
     //https://elmizan.demoproject.info/api/article_comment_add.php
@@ -123,7 +145,6 @@ public interface ApiInterface {
                                     @Field("user_country_id") String user_country_id);
 
 
-
     @Multipart
     @POST("user_registration.php")
     Call<ResponseBody> CALL_User_registration_image(
@@ -135,7 +156,7 @@ public interface ApiInterface {
             @Part("agree_terms") RequestBody agree_terms,
             @Part("register_as_lawyer") RequestBody register_as_lawyer,
             @Part("user_country_id") RequestBody user_country_id,
-             @Part MultipartBody.Part file
+            @Part MultipartBody.Part file
     );
 
 
@@ -148,6 +169,7 @@ public interface ApiInterface {
                                      @Query("user_status[]") String user_status,
                                      @Query("search") String search,
                                      @Query("country") String country);
+
     //Get User Detail
     //https://elmizan.demoproject.info/api/user_details.php
     @POST("user_details.php")
@@ -158,6 +180,17 @@ public interface ApiInterface {
     //https://elmizan.demoproject.info/api/country_list.php
     @GET("country_list.php")
     Call<ResponseBody> get_country_list(@Query("country_status[]") String country_status);
+
+    //Edit basic lawyer profile
+    //user_update.php
+
+    @POST("user_update.php")
+    @FormUrlEncoded
+    Call<ResponseBody> update_basic_lawyer_profile(@Field("user_id") String user_id,
+                                                   @Field("user_fullname") String user_fullname,
+                                                   @Field("user_email") String user_email,
+                                                   @Field("user_password") String user_password);
+
 
     //Add article
     //article_update.php
@@ -186,7 +219,7 @@ public interface ApiInterface {
             @Part("article_status") RequestBody article_status,
             @Part("media_type") RequestBody mediatype,
             @Part("article_images[]") RequestBody article_images
-          );
+    );
 
     //Add article
     //article_update.php
@@ -223,7 +256,7 @@ public interface ApiInterface {
             @Part("user_facebook") RequestBody user_facebook,
             @Part("old_user_images") RequestBody old_user_images,
             @Part MultipartBody.Part file
-            );
+    );
     //update  premium lawyer profile blank
     //user_update.php
 
@@ -293,7 +326,6 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<ResponseBody> getMedia(@Field("user_id") String user_id);
 
-
     //Get Device token
     //{{api_url}}firebase_token_update.php
     @POST("firebase_token_update.php")
@@ -308,6 +340,11 @@ public interface ApiInterface {
     @FormUrlEncoded
     Call<ResponseBody> Logout(@Field("user_id") String user_id);
 
-
+    @POST("reset_password.php")
+    @FormUrlEncoded
+    Call<ResponseBody> ChangePW(@Field("user_id") String user_id,
+                                @Field("old_password") String old_pw,
+                                @Field("new_password") String new_pw,
+                                @Field("confirm_new_password") String confirm_pw);
 
 }

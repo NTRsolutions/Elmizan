@@ -318,9 +318,9 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                                 length = length / (1024 * 1024);
                                 Log.e("length_320",""+length);
 
-
+/*
                                 if (length <= 5) {
-                                    if (!TextUtils.isEmpty(path)) {
+                               */     if (!TextUtils.isEmpty(path)) {
                                         arrayList.add(imageUri);
                                         Image_adapter mAdapter = new Image_adapter(getActivity(), arrayList);
                                         LinearLayoutManager layoutManager=new GridLayoutManager(getActivity(),3);
@@ -328,10 +328,10 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                                         recycler_image.setAdapter(mAdapter);
 
                                     }
-                                } else {
+                               /* } else {
                                     Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
 
-                                }
+                                }*/
 
                             } catch (Exception e) {
                                 Log.e(TAG, "File select error", e);
@@ -355,7 +355,7 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                             Log.e("length_320",""+length);
 
 
-                            if (length <= 5) {
+                            /*if (length <= 5) {*/
                                 if (!TextUtils.isEmpty(path)) {
                                     arrayList.add(uri);/*
                                     mAdapter = new MyAdapter(getActivity(), arrayList);
@@ -368,10 +368,10 @@ public class UPload_Media_freg extends Fragment implements View.OnClickListener 
                                     recycler_image.setLayoutManager(layoutManager);
                                     recycler_image.setAdapter(mAdapter);
                                 }
-                            } else {
+                            /*} else {
                                 Toast.makeText(getActivity(), "Please upload image smaller then 5 MB.", Toast.LENGTH_SHORT).show();
 
-                            }
+                            }*/
 
 
 
